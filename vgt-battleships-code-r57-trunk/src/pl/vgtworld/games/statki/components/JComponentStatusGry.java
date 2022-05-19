@@ -13,8 +13,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import pl.vgtworld.games.statki.StatekIterator;
-import pl.vgtworld.games.statki.StatusGry;
+import pl.vgtworld.games.ship.ShipIterator;
+import pl.vgtworld.games.ship.GameStatus;
 
 /**
  * Komponent wyswietlajacy aktualne statystyki rozgrywki pod planszami.
@@ -31,9 +31,9 @@ public class JComponentStatusGry
 	private static final Color KOLOR_NEUTRALNY = Color.white;
 	private static final Color KOLOR_POZYTYWNY = Color.GREEN;
 	private static final Color KOLOR_NEGATYWNY = Color.RED;
-	private StatusGry oStatusGry;
-	private StatekIterator oStatkiGracz;
-	private StatekIterator oStatkiKomputer;
+	private GameStatus oStatusGry;
+	private ShipIterator oStatkiGracz;
+	private ShipIterator oStatkiKomputer;
 	private JComponentStatusGryStatki oListaStatkowGracz;
 	private JComponentStatusGryStatki oListaStatkowKomputer;
 	private JLabel oPunktyGracz;
@@ -44,7 +44,7 @@ public class JComponentStatusGry
 	 * 
 	 * @param oStatusGry Obiekt zawierajacy informacje na temat aktualnego statusu gry.
 	 */
-	public JComponentStatusGry(StatusGry oStatusGry)
+	public JComponentStatusGry(GameStatus oStatusGry)
 		{
 		super();
 		this.oStatusGry = oStatusGry;
@@ -70,23 +70,23 @@ public class JComponentStatusGry
 		else
 			oImgTlo = null;
 		//etykiety
-		oPunktyGracz = new JLabel("" + oStatusGry.getPunktyGracz(), JLabel.CENTER);
-		oPunktyKomputer = new JLabel("" + oStatusGry.getPunktyGracz(), JLabel.CENTER);
-		JLabel oEtykietaGracz = new JLabel(JFrameOknoGry.LANG.getProperty("gameStatus.Player"), JLabel.CENTER);
-		JLabel oEtykietaKomputer = new JLabel(JFrameOknoGry.LANG.getProperty("gameStatus.AI"), JLabel.CENTER);
-		JLabel oEtykietaPunktacja = new JLabel(JFrameOknoGry.LANG.getProperty("gameStatus.points"), JLabel.CENTER);
-		JLabel oEtykietaFlota = new JLabel(JFrameOknoGry.LANG.getProperty("gameStatus.fleet"), JLabel.LEFT);
+		oPunktyGracz = new JLabel("" + oStatusGry.getPlayerPoints(), JLabel.CENTER);
+		oPunktyKomputer = new JLabel("" + oStatusGry.getPlayerPoints(), JLabel.CENTER);
+		JLabel oEtykietaGracz = new JLabel(JFrameGameWindowSettings.LANG.getProperty("gameStatus.Player"), JLabel.CENTER);
+		JLabel oEtykietaKomputer = new JLabel(JFrameGameWindowSettings.LANG.getProperty("gameStatus.AI"), JLabel.CENTER);
+		JLabel oEtykietaPunktacja = new JLabel(JFrameGameWindowSettings.LANG.getProperty("gameStatus.points"), JLabel.CENTER);
+		JLabel oEtykietaFlota = new JLabel(JFrameGameWindowSettings.LANG.getProperty("gameStatus.fleet"), JLabel.LEFT);
 		//kolory
 		oEtykietaGracz.setForeground(KOLOR_INFO);
 		oEtykietaKomputer.setForeground(KOLOR_INFO);
 		oEtykietaPunktacja.setForeground(KOLOR_INFO);
 		oEtykietaFlota.setForeground(KOLOR_INFO);
-		if (oStatusGry.getPunktyGracz() == oStatusGry.getPunktyKomputer())
+		if (oStatusGry.getPlayerPoints() == oStatusGry.getComputerPoints())
 			{
 			oPunktyGracz.setForeground(KOLOR_NEUTRALNY);
 			oPunktyKomputer.setForeground(KOLOR_NEUTRALNY);
 			}
-                else if (oStatusGry.getPunktyGracz() > oStatusGry.getPunktyKomputer())
+                else if (oStatusGry.getPlayerPoints() > oStatusGry.getComputerPoints())
 			{
 			oPunktyGracz.setForeground(KOLOR_POZYTYWNY);
 			oPunktyKomputer.setForeground(KOLOR_NEGATYWNY);
@@ -138,7 +138,7 @@ public class JComponentStatusGry
 	 * 
 	 * @param oStatki Kontener statkow gracza.
 	 */
-	public void setStatkiGracz(StatekIterator oStatki)
+	public void setStatkiGracz(ShipIterator oStatki)
 		{
 		oStatkiGracz = oStatki;
 		oListaStatkowGracz.setStatki(oStatki);
@@ -148,7 +148,7 @@ public class JComponentStatusGry
 	 * 
 	 * @param oStatki Kontener statkow komputera.
 	 */
-	public void setStatkiKomputer(StatekIterator oStatki)
+	public void setStatkiKomputer(ShipIterator oStatki)
 		{
 		oStatkiKomputer = oStatki;
 		oListaStatkowKomputer.setStatki(oStatki);
@@ -158,14 +158,14 @@ public class JComponentStatusGry
 	 */
 	public void aktualizujDane()
 		{
-		oPunktyGracz.setText("" + oStatusGry.getPunktyGracz());
-		oPunktyKomputer.setText("" + oStatusGry.getPunktyKomputer());
-		if (oStatusGry.getPunktyGracz() == oStatusGry.getPunktyKomputer())
+		oPunktyGracz.setText("" + oStatusGry.getPlayerPoints());
+		oPunktyKomputer.setText("" + oStatusGry.getComputerPoints());
+		if (oStatusGry.getPlayerPoints() == oStatusGry.getComputerPoints())
 			{
 			oPunktyGracz.setForeground(KOLOR_NEUTRALNY);
 			oPunktyKomputer.setForeground(KOLOR_NEUTRALNY);
 			}
-		else if (oStatusGry.getPunktyGracz() > oStatusGry.getPunktyKomputer())
+		else if (oStatusGry.getPlayerPoints() > oStatusGry.getComputerPoints())
 			{
 			oPunktyGracz.setForeground(KOLOR_POZYTYWNY);
 			oPunktyKomputer.setForeground(KOLOR_NEGATYWNY);

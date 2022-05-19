@@ -3,7 +3,7 @@ package pl.vgtworld.games.statki.components;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
-import pl.vgtworld.exceptions.ParametrException;
+import pl.vgtworld.exceptions.ParameterException;
 
 /**
  * Obiekt listy wykorzystany w oknie ustawien do prezentacji listy zdefiniowanych statkow.
@@ -56,12 +56,12 @@ public class JListUstawieniaListaStatkow
 	 * Dodaje do listy statek o podanym rozmiarze.
 	 * 
 	 * @param iRozmiar Rozmiar dodawanego statku.
-	 * @throws ParametrException Wyrzuca wyjatek, jesli podany rozmiar jest mniejszy od 1.
+	 * @throws ParameterException Wyrzuca wyjatek, jesli podany rozmiar jest mniejszy od 1.
 	 */
-	public void listaDodaj(int iRozmiar) throws ParametrException
+	public void listaDodaj(int iRozmiar) throws ParameterException
 		{
 		if (iRozmiar < 1)
-			throw new ParametrException("iRozmiar = " + iRozmiar);
+			throw new ParameterException("iRozmiar = " + iRozmiar);
 		oListaInt.add(iRozmiar);
 		oJListLista.addElement(JListUstawieniaListaStatkow.statekNazwa(iRozmiar));
 		}
@@ -70,14 +70,14 @@ public class JListUstawieniaListaStatkow
 	 * 
 	 * @param iIndex Index statku na liscie (liczony od 0).
 	 * @param iRozmiar Nowy rozmiar statku.
-	 * @throws ParametrException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow, lub rozmiar jest mniejszy od 1.
+	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow, lub rozmiar jest mniejszy od 1.
 	 */
-	public void listaZmien(int iIndex, int iRozmiar) throws ParametrException
+	public void listaZmien(int iIndex, int iRozmiar) throws ParameterException
 		{
 		if (iIndex < 0 || iIndex >= oListaInt.size())
-			throw new ParametrException("iIndex = " + iIndex);
+			throw new ParameterException("iIndex = " + iIndex);
 		if (iRozmiar < 1)
-			throw new ParametrException("iRozmiar = " + iRozmiar);
+			throw new ParameterException("iRozmiar = " + iRozmiar);
 		oListaInt.set(iIndex, iRozmiar);
 		oJListLista.set(iIndex, JListUstawieniaListaStatkow.statekNazwa(iRozmiar));
 		}
@@ -85,12 +85,12 @@ public class JListUstawieniaListaStatkow
 	 * Powieksza o 1 rozmiar statku o podanym indexie.
 	 * 
 	 * @param iIndex Index statku na liscie (liczone od 0).
-	 * @throws ParametrException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
+	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
 	 */
-	public void listaPowieksz(int iIndex) throws ParametrException
+	public void listaPowieksz(int iIndex) throws ParameterException
 		{
 		if (iIndex < 0 || iIndex >= oListaInt.size())
-			throw new ParametrException("iIndex = " + iIndex);
+			throw new ParameterException("iIndex = " + iIndex);
 		oListaInt.set(iIndex, oListaInt.get(iIndex) + 1);
 		oJListLista.set(iIndex, JListUstawieniaListaStatkow.statekNazwa(oListaInt.get(iIndex)));
 		}
@@ -98,12 +98,12 @@ public class JListUstawieniaListaStatkow
 	 * Pomniejsza o 1 rozmiar statku o podanym indexie.
 	 * 
 	 * @param iIndex Index statku na liscie (liczone od 0).
-	 * @throws ParametrException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
+	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
 	 */
-	public void listaPomniejsz(int iIndex) throws ParametrException
+	public void listaPomniejsz(int iIndex) throws ParameterException
 		{
 		if (iIndex < 0 || iIndex >= oListaInt.size())
-			throw new ParametrException("iIndex = " + iIndex);
+			throw new ParameterException("iIndex = " + iIndex);
 		if (oListaInt.get(iIndex) > 1)
 			{
 			oListaInt.set(iIndex, oListaInt.get(iIndex) - 1);
@@ -114,12 +114,12 @@ public class JListUstawieniaListaStatkow
 	 * Usuwa z listy statek o podanym indexie.
 	 * 
 	 * @param iIndex Index statku na liscie (liczone od 0).
-	 * @throws ParametrException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
+	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
 	 */
-	public void listaUsun(int iIndex) throws ParametrException
+	public void listaUsun(int iIndex) throws ParameterException
 		{
 		if (iIndex < 0 || iIndex >= oListaInt.size())
-			throw new ParametrException("iIndex = " + iIndex);
+			throw new ParameterException("iIndex = " + iIndex);
 		oListaInt.remove(iIndex);
 		oJListLista.remove(iIndex);
 		}
@@ -137,11 +137,11 @@ public class JListUstawieniaListaStatkow
 	 * @param iRozmiar Rozmiar statku.
 	 * @return Nazwa statku.
 	 */
-	private static String statekNazwa(int iRozmiar) throws ParametrException
+	private static String statekNazwa(int iRozmiar) throws ParameterException
 		{
 		if (iRozmiar < 1)
-			throw new ParametrException("iRozmiar = " + iRozmiar);
+			throw new ParameterException("iRozmiar = " + iRozmiar);
 		int iKlasaStatku = iRozmiar > 5 ? 5 : iRozmiar;
-		return JFrameOknoGry.LANG.getProperty("shipName.size" + iKlasaStatku) + " ( " + iRozmiar + " )";
+		return JFrameGameWindowSettings.LANG.getProperty("shipName.size" + iKlasaStatku) + " ( " + iRozmiar + " )";
 		}
 	}

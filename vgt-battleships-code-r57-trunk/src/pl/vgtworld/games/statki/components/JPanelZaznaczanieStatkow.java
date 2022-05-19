@@ -11,16 +11,16 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import pl.vgtworld.exceptions.ParametrException;
-import pl.vgtworld.exceptions.ProgramistaException;
-import pl.vgtworld.games.statki.Plansza;
-import pl.vgtworld.games.statki.PlanszaTypPola;
-import pl.vgtworld.games.statki.PlanszaWspolrzedneRysowania;
-import pl.vgtworld.games.statki.StatekIterator;
-import pl.vgtworld.games.statki.StatkiGenerator;
-import pl.vgtworld.games.statki.StatkiPozycjoner;
-import pl.vgtworld.games.statki.Ustawienia;
-import pl.vgtworld.tools.Pozycja;
+import pl.vgtworld.exceptions.ParameterException;
+import pl.vgtworld.exceptions.DeveloperException;
+import pl.vgtworld.games.ship.Board;
+import pl.vgtworld.games.ship.FieldTypeBoard;
+import pl.vgtworld.games.ship.DrawingCoordinatesOnBoard;
+import pl.vgtworld.games.ship.ShipIterator;
+import pl.vgtworld.games.ship.ShipGenerator;
+import pl.vgtworld.games.ship.ShipPositioner;
+import pl.vgtworld.games.ship.Settings;
+import pl.vgtworld.tools.Position;
 
 /**
  * Panel wykorzystywany do obslugi rozmieszczenia statkow na planszy przez gracza.
@@ -34,19 +34,19 @@ public class JPanelZaznaczanieStatkow
 	/**
 	 * Obiekt ustawien rozgrywki.
 	 */
-	private Ustawienia oUstawienia;
+	private Settings oUstawienia;
 	/**
-	 * Plansza, na ktorej gracz zaznacza statki.
+	 * Board, na ktorej gracz zaznacza statki.
 	 */
-	private Plansza oPlansza;
+	private Board oPlansza;
 	/**
 	 * Kontener statkow tworzony dla gracza po zakonczeniu rozmieszczania statkow.
 	 */
-	private StatekIterator oStatki;
+	private ShipIterator oStatki;
 	/**
 	 * Referencja do glownego okna gry.
 	 */
-	private JFrameOknoGry oOkno;
+	private JFrameGameWindowSettings oOkno;
 	/**
 	 * Komponent, na ktorym wyswietlana jest plansza.
 	 */
@@ -72,12 +72,12 @@ public class JPanelZaznaczanieStatkow
 		{
 		public ActionZatwierdzStatki()
 			{
-			putValue(Action.NAME, JFrameOknoGry.LANG.getProperty("action.shipPlacement.accept"));
-			putValue(Action.SHORT_DESCRIPTION, JFrameOknoGry.LANG.getProperty("action.shipPlacement.accept.desc"));
+			putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.shipPlacement.accept"));
+			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.shipPlacement.accept.desc"));
 			}
 		@Override public void actionPerformed(ActionEvent event)
 			{
-			StatkiGenerator oGenerator = new StatkiGenerator(oPlansza);
+			ShipGenerator oGenerator = new ShipGenerator(oPlansza);
 			oStatki = oGenerator.generujStatki();
 			boolean bOK = true;
 			//sprawdzenie, kolejnych warunkow rozmieszczenia statkow
@@ -91,7 +91,7 @@ public class JPanelZaznaczanieStatkow
 			//commit
 			if (bOK == false)
 				{
-				JOptionPane.showMessageDialog(JPanelZaznaczanieStatkow.this, JFrameOknoGry.LANG.getProperty("errorMsg.shipPlacement.invalidShipPlacement"));
+				JOptionPane.showMessageDialog(JPanelZaznaczanieStatkow.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.shipPlacement.invalidShipPlacement"));
 				oStatki = null;
 				}
 			else
@@ -106,22 +106,22 @@ public class JPanelZaznaczanieStatkow
 		{
 		public ActionWyczysc()
 			{
-			putValue(Action.NAME, JFrameOknoGry.LANG.getProperty("action.shipPlacement.clear"));
-			putValue(Action.SHORT_DESCRIPTION, JFrameOknoGry.LANG.getProperty("action.shipPlacement.clear.desc"));
+			putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.shipPlacement.clear"));
+			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.shipPlacement.clear.desc"));
 			}
 		@Override public void actionPerformed(ActionEvent event)
 			{
 			try
 				{
-				for (int i = 0; i < oPlansza.getSzerokosc(); ++i)
-					for (int j = 0; j < oPlansza.getWysokosc(); ++j)
-						if (oPlansza.getPole(i, j) == PlanszaTypPola.PLANSZA_STATEK)
-							oPlansza.setPole(i, j, PlanszaTypPola.PLANSZA_POLE_PUSTE);
+				for (int i = 0; i < oPlansza.getWidth(); ++i)
+					for (int j = 0; j < oPlansza.getHeight(); ++j)
+						if (oPlansza.getPole(i, j) == FieldTypeBoard.SHIP_BOARD)
+							oPlansza.setPole(i, j, FieldTypeBoard.BOARD_FIELD_EMPTY);
 				repaint();
 				}
-			catch (ParametrException e)
+			catch (ParameterException e)
 				{
-				throw new ProgramistaException(e);
+				throw new DeveloperException(e);
 				}
 			}
 		}
@@ -133,28 +133,28 @@ public class JPanelZaznaczanieStatkow
 		{
 		public ActionRozmiescLosowoStatkiGracza()
 			{
-			putValue(Action.NAME, JFrameOknoGry.LANG.getProperty("action.shipPlacement.random"));
-			putValue(Action.SHORT_DESCRIPTION, JFrameOknoGry.LANG.getProperty("action.shipPlacement.random.desc"));
+			putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.shipPlacement.random"));
+			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.shipPlacement.random.desc"));
 			}
 		@Override public void actionPerformed(ActionEvent event)
 			{
 			try
 				{
-				for (int i = 0; i < oPlansza.getSzerokosc(); ++i)
-					for (int j = 0; j < oPlansza.getWysokosc(); ++j)
-						if (oPlansza.getPole(i, j) == PlanszaTypPola.PLANSZA_STATEK)
-							oPlansza.setPole(i, j, PlanszaTypPola.PLANSZA_POLE_PUSTE);
-				StatekIterator oKontener = new StatekIterator(oPlansza);
+				for (int i = 0; i < oPlansza.getWidth(); ++i)
+					for (int j = 0; j < oPlansza.getHeight(); ++j)
+						if (oPlansza.getPole(i, j) == FieldTypeBoard.SHIP_BOARD)
+							oPlansza.setPole(i, j, FieldTypeBoard.BOARD_FIELD_EMPTY);
+				ShipIterator oKontener = new ShipIterator(oPlansza);
 				int[] aStatki = oUstawienia.getStatki();
 				for (int iRozmiar: aStatki)
 					oKontener.dodajStatek(iRozmiar);
-				StatkiPozycjoner oPozycjoner = new StatkiPozycjoner();
+				ShipPositioner oPozycjoner = new ShipPositioner();
 				if (oPozycjoner.rozmiescStatki(oKontener, oUstawienia.getProsteLinie()) == false)
-					JOptionPane.showMessageDialog(JPanelZaznaczanieStatkow.this, JFrameOknoGry.LANG.getProperty("errorMsg.shipPlacement.randomShipPlacementFail"));
+					JOptionPane.showMessageDialog(JPanelZaznaczanieStatkow.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.shipPlacement.randomShipPlacementFail"));
 				}
-			catch (ParametrException e)
+			catch (ParameterException e)
 				{
-				throw new ProgramistaException(e);
+				throw new DeveloperException(e);
 				}
 			repaint();
 			}
@@ -170,40 +170,40 @@ public class JPanelZaznaczanieStatkow
 			}
 		@Override public void mousePressed(MouseEvent event)
 			{
-			int iPlanszaSzerokosc = oPlansza.getSzerokosc();
-			int iPlanszaWysokosc = oPlansza.getWysokosc();
+			int iPlanszaSzerokosc = oPlansza.getWidth();
+			int iPlanszaWysokosc = oPlansza.getHeight();
 			int iKomponentSzerokosc = oComponentPlansza.getWidth();
 			int iKomponentWysokosc = oComponentPlansza.getHeight();
 			int iClickX = event.getX();
 			int iClickY = event.getY();
-			Pozycja oKliknietePole;
-			oKliknietePole = PlanszaWspolrzedneRysowania.pixToField(iKomponentSzerokosc, iKomponentWysokosc, iPlanszaSzerokosc, iPlanszaWysokosc, iClickX, iClickY);
+			Position oKliknietePole;
+			oKliknietePole = DrawingCoordinatesOnBoard.pixToField(iKomponentSzerokosc, iKomponentWysokosc, iPlanszaSzerokosc, iPlanszaWysokosc, iClickX, iClickY);
 			try
 				{
 				if (oKliknietePole.getX() >= 0 && oKliknietePole.getX() < iPlanszaSzerokosc
 					&& oKliknietePole.getY() >= 0 && oKliknietePole.getY() < iPlanszaWysokosc
 					)
 					{
-					if (oPlansza.getPole(oKliknietePole.getX(), oKliknietePole.getY()) == PlanszaTypPola.PLANSZA_POLE_PUSTE)
+					if (oPlansza.getPole(oKliknietePole.getX(), oKliknietePole.getY()) == FieldTypeBoard.BOARD_FIELD_EMPTY)
 						{
-						oPlansza.setPole(oKliknietePole.getX(), oKliknietePole.getY(), PlanszaTypPola.PLANSZA_STATEK);
+						oPlansza.setPole(oKliknietePole.getX(), oKliknietePole.getY(), FieldTypeBoard.SHIP_BOARD);
 //						oComponentPlansza.aktywujWyroznienie(oKliknietePole.getX(), oKliknietePole.getY());
 						}
-					else if (oPlansza.getPole(oKliknietePole.getX(), oKliknietePole.getY()) == PlanszaTypPola.PLANSZA_STATEK)
+					else if (oPlansza.getPole(oKliknietePole.getX(), oKliknietePole.getY()) == FieldTypeBoard.SHIP_BOARD)
 						{
-						oPlansza.setPole(oKliknietePole.getX(), oKliknietePole.getY(), PlanszaTypPola.PLANSZA_POLE_PUSTE);
+						oPlansza.setPole(oKliknietePole.getX(), oKliknietePole.getY(), FieldTypeBoard.BOARD_FIELD_EMPTY);
 //						oComponentPlansza.aktywujWyroznienie(oKliknietePole.getX(), oKliknietePole.getY());
 						}
-					Pozycja oWspTopLeft;
-					Pozycja oWspBottomRight;
-					oWspTopLeft = PlanszaWspolrzedneRysowania.fieldToPixTopLeft(iKomponentSzerokosc, iKomponentWysokosc, iPlanszaSzerokosc, iPlanszaWysokosc, oKliknietePole.getX(), oKliknietePole.getY());
-					oWspBottomRight = PlanszaWspolrzedneRysowania.fieldToPixBottomRight(iKomponentSzerokosc, iKomponentWysokosc, iPlanszaSzerokosc, iPlanszaWysokosc, oKliknietePole.getX(), oKliknietePole.getY());
+					Position oWspTopLeft;
+					Position oWspBottomRight;
+					oWspTopLeft = DrawingCoordinatesOnBoard.fieldToPixTopLeft(iKomponentSzerokosc, iKomponentWysokosc, iPlanszaSzerokosc, iPlanszaWysokosc, oKliknietePole.getX(), oKliknietePole.getY());
+					oWspBottomRight = DrawingCoordinatesOnBoard.fieldToPixBottomRight(iKomponentSzerokosc, iKomponentWysokosc, iPlanszaSzerokosc, iPlanszaWysokosc, oKliknietePole.getX(), oKliknietePole.getY());
 					oComponentPlansza.repaint(oWspTopLeft.getX(), oWspTopLeft.getY(), oWspBottomRight.getX()-oWspTopLeft.getX(), oWspBottomRight.getY() - oWspTopLeft.getY());
 					}
 				}
-			catch (ParametrException e)
+			catch (ParameterException e)
 				{
-				throw new ProgramistaException(e);
+				throw new DeveloperException(e);
 				}
 			}
 		}
@@ -213,12 +213,12 @@ public class JPanelZaznaczanieStatkow
 	 * @param oUstawienia Glowne ustawienia gry.
 	 * @param oOkno Glowne okno gry.
 	 */
-	public JPanelZaznaczanieStatkow(Ustawienia oUstawienia, JFrameOknoGry oOkno)
+	public JPanelZaznaczanieStatkow(Settings oUstawienia, JFrameGameWindowSettings oOkno)
 		{
 		setLayout(new GridLayout(1, 2));
 		this.oUstawienia = oUstawienia;
 		this.oOkno = oOkno;
-		oPlansza = new Plansza(oUstawienia.getPlanszaSzerokosc(), oUstawienia.getPlanszaWysokosc());
+		oPlansza = new Board(oUstawienia.getPlanszaSzerokosc(), oUstawienia.getPlanszaWysokosc());
 		oStatki = null;
 		oComponentPlansza = new JComponentPlansza(oPlansza);
 		oMouseListener = new ZaznaczanieStatkowMouseListener();
@@ -251,9 +251,9 @@ public class JPanelZaznaczanieStatkow
 	/**
 	 * Metoda zwraca plansze, na ktorej zaznaczane sa statki.
 	 * 
-	 * @return Plansza z zaznaczonymi statkami.
+	 * @return Board z zaznaczonymi statkami.
 	 */
-	public Plansza getPlansza()
+	public Board getPlansza()
 		{
 		return oPlansza;
 		}
@@ -264,7 +264,7 @@ public class JPanelZaznaczanieStatkow
 	 * 
 	 * @return Kontener statkow gracza.
 	 */
-	public StatekIterator getStatki()
+	public ShipIterator getStatki()
 		{
 		return oStatki;
 		}
@@ -273,7 +273,7 @@ public class JPanelZaznaczanieStatkow
 	 */
 	public void wyczyscPlansze()
 		{
-		oPlansza.wyczysc();
+		oPlansza.clean();
 		}
 	/**
 	 * Metoda zmienia rozmiar planszy na podstawie aktualnego stanu obiektu ustawien.<br />
@@ -282,15 +282,15 @@ public class JPanelZaznaczanieStatkow
 	 */
 	public void resetujPlansze()
 		{
-		//oPlansza = new Plansza(oUstawienia.getPlanszaSzerokosc(), oUstawienia.getPlanszaWysokosc());
+		//oPlansza = new Board(oUstawienia.getPlanszaSzerokosc(), oUstawienia.getPlanszaWysokosc());
 		try
 			{
-			if (oUstawienia.getPlanszaSzerokosc() != oPlansza.getSzerokosc() || oUstawienia.getPlanszaWysokosc() != oPlansza.getWysokosc())
+			if (oUstawienia.getPlanszaSzerokosc() != oPlansza.getWidth() || oUstawienia.getPlanszaWysokosc() != oPlansza.getHeight())
 				oPlansza.zmienRozmiar(oUstawienia.getPlanszaSzerokosc(), oUstawienia.getPlanszaWysokosc());
 			}
-		catch (ParametrException e)
+		catch (ParameterException e)
 			{
-			throw new ProgramistaException(e);
+			throw new DeveloperException(e);
 			}
 		}
 	/**

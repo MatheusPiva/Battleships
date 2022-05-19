@@ -8,8 +8,8 @@ import java.net.URI;
 import javax.swing.JComponent;
 
 /**
- * Implementacja interface'u nasluchujacego zdarzen zwiazanych z mysza
- * realizujaca funkcjonalnosc linka html'owego do adresu e-mail.
+ * Implementation of interface that listens for mouse events
+ * implementing the functionality of the html link to the e-mail address.
  * 
  * @author VGT
  */
@@ -22,44 +22,44 @@ public class MouseListenerMail
 	private Color oHoverColor;
 	private Color oDefaultColor;
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 * 
-	 * @param oComponent Referencja do kompomentu, dla ktorego wykorzystany bedzie listener.
-	 * @param sEmailAddress Adres E-Mail, do ktorego ma byc tworzona wiadomosc po kliknieciu na komponent.
+	 * @param oComponent Reference to the component for which the listener will be used.
+	 * @param sEmailAddress E-Mail address to which the message is to be created after clicking on the component.
 	 */
 	public MouseListenerMail(JComponent oComponent, String sEmailAddress)
 		{
 		this(oComponent, sEmailAddress, null, Color.RED);
 		}
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 * 
-	 * @param oComponent Referencja do komponentu, dla ktorego wykorzystany bedzie listener.
-	 * @param sEmailAddress Adres E-Mail, do ktorego ma byc tworzona wiadomosc po kliknieciu na komponent.
-	 * @param sName Imie / nazwisko / nazwa adresata.
+	 * @param oComponent Reference to the component for which the listener will be used.
+	 * @param sEmailAddress E-Mail address to which the message is to be created after clicking on the component.
+	 * @param sName Name / surname / name of the addressee.
 	 */
 	public MouseListenerMail(JComponent oComponent, String sEmailAddress, String sName)
 		{
 		this(oComponent, sEmailAddress, sName, Color.RED);
 		}
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 * 
-	 * @param oComponent Referencja do komponentu, dla ktorego wykorzystany bedzie listener.
-	 * @param sEmailAddress Adres E-Mail, do ktorego ma byc tworzona wiadomosc po kliknieciu na komponent.
-	 * @param oHoverColor Kolor foreground dla komponentu realizujacy efekt hover.
+	 * @param oComponent Reference to the component for which the listener will be used.
+	 * @param sEmailAddress E-Mail address to which the message is to be created after clicking on the component.
+	 * @param oHoverColor The foreground color for the component executing the hover effect.
 	 */
 	public MouseListenerMail(JComponent oComponent, String sEmailAddress, Color oHoverColor)
 		{
 		this(oComponent, sEmailAddress, null, oHoverColor);
 		}
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 * 
-	 * @param oComponent Referencja do komponenty, dla ktorego wykorzystany bedzie listener.
-	 * @param sEmailAddress Adres E-Mail, do ktorego ma byc tworzona wiadomosc po kliknieciu na komponent.
-	 * @param sName Imie / nazwisko / nazwa adresata.
-	 * @param oHoverColor Kolor foreground dla komponentu realizujacy efekt hover.
+	 * @param oComponent Reference to the component for which the listener will be used.
+	 * @param sEmailAddress E-Mail address to which the message is to be created after clicking on the component.
+	 * @param sName Name / surname / name of the addressee.
+	 * @param oHoverColor The foreground color for the component executing the hover effect.
 	 */
 	public MouseListenerMail(JComponent oComponent, String sEmailAddress, String sName, Color oHoverColor)
 		{
@@ -76,21 +76,21 @@ public class MouseListenerMail
 		{
 		}
 	/**
-	 * Zmienia kolor foreground komponentu.
+	 * Changes the color of a component's foreground.
 	 */
 	public void mouseEntered(MouseEvent arg0)
 		{
 		oComponent.setForeground(oHoverColor);
 		}
 	/**
-	 * Zmienia kolor foreground komponentu.
+	 * Changes the color of a component's foreground.
 	 */
 	public void mouseExited(MouseEvent arg0)
 		{
 		oComponent.setForeground(oDefaultColor);
 		}
 	/**
-	 * Otwarcie okna tworzenia nowej wiadomosci w domyslnym kliencie poczty.
+	 * Open the window for composing a new message in the default e-mail client.
 	 */
 	public void mousePressed(MouseEvent arg0)
 		{

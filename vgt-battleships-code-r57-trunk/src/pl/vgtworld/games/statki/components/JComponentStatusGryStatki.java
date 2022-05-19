@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
-import pl.vgtworld.games.statki.StatekIterator;
+import pl.vgtworld.games.ship.ShipIterator;
 
 /**
  * @author VGT
@@ -16,10 +16,10 @@ public class JComponentStatusGryStatki
 	extends JComponent
 	{
 	private static final int MARGINES = 5;
-	private StatekIterator oStatki;
+	private ShipIterator oStatki;
 	private Image oImgStatekNieuszkodzony;
 	private Image oImgStatekUszkodzony;
-	public JComponentStatusGryStatki(StatekIterator oKontener) throws IOException
+	public JComponentStatusGryStatki(ShipIterator oKontener) throws IOException
 		{
 		oStatki = oKontener;
 		URL oImgUrlStatekNieuszkodzony = getClass().getResource("/pl/vgtworld/games/statki/img/ship-0.png");
@@ -35,7 +35,7 @@ public class JComponentStatusGryStatki
 			oImgStatekUszkodzony = null;
 			}
 		}
-	public void setStatki(StatekIterator oStatki)
+	public void setStatki(ShipIterator oStatki)
 		{
 		this.oStatki = oStatki;
 		}

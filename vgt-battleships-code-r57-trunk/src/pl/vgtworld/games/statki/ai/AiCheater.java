@@ -1,6 +1,6 @@
 package pl.vgtworld.games.statki.ai;
 
-import pl.vgtworld.games.statki.StatekIterator;
+import pl.vgtworld.games.ship.ShipIterator;
 
 /**
  * Oszukujaca implmentacja interface'u AI.<br />
@@ -25,14 +25,14 @@ public class AiCheater
 	 * 
 	 * @param oStatki Kontener statkow nalezacych do gracza sterowanego przez dany obiekt Ai.
 	 */
-	public AiCheater(StatekIterator oStatki)
+	public AiCheater(ShipIterator oStatki)
 		{
 		super(oStatki);
 		}
 	/**
 	 * Implementacja metody interface'u Ai.
 	 */
-	public boolean strzal(StatekIterator oStatkiPrzeciwnika)
+	public boolean strzal(ShipIterator oStatkiPrzeciwnika)
 		{
 		if (oUzyteczneTrafienia.size() > 0)
 			{

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import pl.vgtworld.games.statki.Ustawienia;
+import pl.vgtworld.games.ship.Settings;
 
 /**
  * Panel wyswietlajacy informacje na temat ilosci wymaganych statkow w poszczegolnych rozmiarach.
@@ -19,7 +19,7 @@ public class JPanelZaznaczanieStatkowLista
 	/**
 	 * Obiekt ustawien, z ktorego sa wczytywane informacje na temat wymaganych statkow.
 	 */
-	private Ustawienia oUstawienia;
+	private Settings oUstawienia;
 	/**
 	 * Kontener etykiet.
 	 */
@@ -33,7 +33,7 @@ public class JPanelZaznaczanieStatkowLista
 	 * 
 	 * @param oUstawienia Obiekt ustawien glownych gry.
 	 */
-	public JPanelZaznaczanieStatkowLista(Ustawienia oUstawienia)
+	public JPanelZaznaczanieStatkowLista(Settings oUstawienia)
 		{
 		setBackground(Color.BLACK);
 		oTextColor = new Color(230, 230, 230);
@@ -52,7 +52,7 @@ public class JPanelZaznaczanieStatkowLista
 		//utworzenie etykiet
 		if (oEtykiety.size() == 0)
 			{
-			JLabel oEtykieta = new JLabel(JFrameOknoGry.LANG.getProperty("shipPlacement.list.header"));
+			JLabel oEtykieta = new JLabel(JFrameGameWindowSettings.LANG.getProperty("shipPlacement.list.header"));
 			oEtykieta.setForeground(oTextColor);
 			oEtykieta.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 			oEtykiety.add(oEtykieta);
@@ -68,9 +68,9 @@ public class JPanelZaznaczanieStatkowLista
 				{
 				int iKlasaStatku = i > 5 ? 5 : i;
 				if (i == 1)
-					sText = JFrameOknoGry.LANG.getProperty("shipPlacement.list.prefix") + " " + JFrameOknoGry.LANG.getProperty("shipName.size1.plural") + " (" + JFrameOknoGry.LANG.getProperty("shipPlacement.list.size") +" 1): ";
+					sText = JFrameGameWindowSettings.LANG.getProperty("shipPlacement.list.prefix") + " " + JFrameGameWindowSettings.LANG.getProperty("shipName.size1.plural") + " (" + JFrameGameWindowSettings.LANG.getProperty("shipPlacement.list.size") +" 1): ";
 				else
-					sText = JFrameOknoGry.LANG.getProperty("shipPlacement.list.prefix") + " " + JFrameOknoGry.LANG.getProperty("shipName.size" + iKlasaStatku + ".plural") + " (" + JFrameOknoGry.LANG.getProperty("shipPlacement.list.size") + " " + i + "): ";
+					sText = JFrameGameWindowSettings.LANG.getProperty("shipPlacement.list.prefix") + " " + JFrameGameWindowSettings.LANG.getProperty("shipName.size" + iKlasaStatku + ".plural") + " (" + JFrameGameWindowSettings.LANG.getProperty("shipPlacement.list.size") + " " + i + "): ";
 				++iLinieTekstu;
 				if (oEtykiety.size() < iLinieTekstu)
 					{

@@ -16,9 +16,9 @@ import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import pl.vgtworld.exceptions.ParametrException;
-import pl.vgtworld.exceptions.ProgramistaException;
-import pl.vgtworld.games.statki.Ustawienia;
+import pl.vgtworld.exceptions.ParameterException;
+import pl.vgtworld.exceptions.DeveloperException;
+import pl.vgtworld.games.ship.Settings;
 
 /**
  * Okno ustawien gry.
@@ -40,11 +40,11 @@ public class JDialogUstawienia
 	/**
 	 * Referencja do glownego okna gry.
 	 */
-	private JFrameOknoGry oOknoGlowne;
+	private JFrameGameWindowSettings oOknoGlowne;
 	/**
 	 * Obiekt przechowujacy ustawienia rozgrywki.
 	 */
-	private Ustawienia oUstawienia;
+	private Settings oUstawienia;
 	/**
 	 * Slider pozwalajacy ustawic szerokosc planszy.
 	 */
@@ -117,8 +117,8 @@ public class JDialogUstawienia
 		{
 		public ActionAnuluj()
 			{
-			putValue(Action.NAME, JFrameOknoGry.LANG.getProperty("action.settings.cancel"));
-			putValue(Action.SHORT_DESCRIPTION, JFrameOknoGry.LANG.getProperty("action.settings.cancel.desc"));
+			putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.settings.cancel"));
+			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.cancel.desc"));
 			}
 		public void actionPerformed(ActionEvent oEvent)
 			{
@@ -133,8 +133,8 @@ public class JDialogUstawienia
 		{
 		public ActionZapisz()
 			{
-			putValue(Action.NAME, JFrameOknoGry.LANG.getProperty("action.settings.save"));
-			putValue(Action.SHORT_DESCRIPTION, JFrameOknoGry.LANG.getProperty("action.settings.save.desc"));
+			putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.settings.save"));
+			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.save.desc"));
 			}
 		public void actionPerformed(ActionEvent oEvent)
 			{
@@ -150,17 +150,17 @@ public class JDialogUstawienia
 					}
 				catch (NumberFormatException e)
 					{
-					JOptionPane.showMessageDialog(JDialogUstawienia.this, JFrameOknoGry.LANG.getProperty("errorMsg.settings.invalidBoardSize"));
+					JOptionPane.showMessageDialog(JDialogUstawienia.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.settings.invalidBoardSize"));
 					return;
 					}
 				if (iPlanszaSzerokosc < 1 || iPlanszaWysokosc < 1)
 					{
-					JOptionPane.showMessageDialog(JDialogUstawienia.this, JFrameOknoGry.LANG.getProperty("errorMsg.settings.invalidBoardSize"));
+					JOptionPane.showMessageDialog(JDialogUstawienia.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.settings.invalidBoardSize"));
 					return;
 					}
 				if (oListaStatkow.getListaStatkow().getIloscStatkow() == 0)
 					{
-					JOptionPane.showMessageDialog(JDialogUstawienia.this, JFrameOknoGry.LANG.getProperty("errorMsg.settings.noShip"));
+					JOptionPane.showMessageDialog(JDialogUstawienia.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.settings.noShip"));
 					return;
 					}
 				//zapisanie ustawien
@@ -181,9 +181,9 @@ public class JDialogUstawienia
 				if (oZapiszUstawienia.isSelected())
 					oUstawienia.zapiszUstawieniaDomyslne();
 				}
-			catch (ParametrException e)
+			catch (ParameterException e)
 				{
-				throw new ProgramistaException(e);
+				throw new DeveloperException(e);
 				}
 			setVisible(false);
 			}
@@ -191,31 +191,31 @@ public class JDialogUstawienia
 	/**
 	 * Konstruktor.
 	 */
-	public JDialogUstawienia(JFrameOknoGry oOknoGlowne, Ustawienia oUstawienia)
+	public JDialogUstawienia(JFrameGameWindowSettings oOknoGlowne, Settings oUstawienia)
 		{
 		super(oOknoGlowne, true);
 		this.oOknoGlowne = oOknoGlowne;
 		this.oUstawienia = oUstawienia;
 		//szerokosc planszy
-		JLabel oPlanszaSzerokoscLabel = new JLabel(JFrameOknoGry.LANG.getProperty("settings.boardWidth"), JLabel.CENTER);
+		JLabel oPlanszaSzerokoscLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardWidth"), JLabel.CENTER);
 		oPlanszaSzerokoscSlider = new JSlider(5, 25, oUstawienia.getPlanszaSzerokosc());
 		oPlanszaSzerokoscSlider.addChangeListener(new ActionSzerokoscSlider());
 		oPlanszaSzerokosc = new JTextField(5);
 		oPlanszaSzerokosc.setHorizontalAlignment(JTextField.RIGHT);
 		oPlanszaSzerokosc.setText(String.valueOf(oPlanszaSzerokoscSlider.getValue()));
 		//wysokosc planszy
-		JLabel oPlanszaWysokoscLabel = new JLabel(JFrameOknoGry.LANG.getProperty("settings.boardHeight"), JLabel.CENTER);
+		JLabel oPlanszaWysokoscLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardHeight"), JLabel.CENTER);
 		oPlanszaWysokoscSlider = new JSlider(5, 25, oUstawienia.getPlanszaWysokosc());
 		oPlanszaWysokoscSlider.addChangeListener(new ActionWysokoscSlider());
 		oPlanszaWysokosc = new JTextField(5);
 		oPlanszaWysokosc.setHorizontalAlignment(JTextField.RIGHT);
 		oPlanszaWysokosc.setText(String.valueOf(oPlanszaWysokoscSlider.getValue()));
 		//poziom trudnosci
-		JLabel oPoziomTrudnosciLabel = new JLabel(JFrameOknoGry.LANG.getProperty("settings.difficulty"), JLabel.CENTER);
+		JLabel oPoziomTrudnosciLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.difficulty"), JLabel.CENTER);
 		oPoziomTrudnosci = new JSlider(1, 100, oUstawienia.getPoziomTrudnosci());
 		//ksztalkt statkow
-		JLabel oStatkiProsteLinieLabel = new JLabel(JFrameOknoGry.LANG.getProperty("settings.shipsShape"), JLabel.CENTER);
-		oStatkiProsteLinie = new JCheckBox(JFrameOknoGry.LANG.getProperty("settings.shipsShapeCheckbox"));
+		JLabel oStatkiProsteLinieLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.shipsShape"), JLabel.CENTER);
+		oStatkiProsteLinie = new JCheckBox(JFrameGameWindowSettings.LANG.getProperty("settings.shipsShapeCheckbox"));
 		if (oUstawienia.getProsteLinie() == true)
 			oStatkiProsteLinie.setSelected(true);
 		//lista statkow
@@ -226,9 +226,9 @@ public class JDialogUstawienia
 			for (int iRozmiar: aStatki)
 				oListaStatkow.getListaStatkow().listaDodaj(iRozmiar);
 			}
-		catch (ParametrException e)
+		catch (ParameterException e)
 			{
-			throw new ProgramistaException(e);
+			throw new DeveloperException(e);
 			}
 		
 		//wstawienie elementow do frame'a
@@ -295,7 +295,7 @@ public class JDialogUstawienia
 		oButtony.add(oButtonAnuluj);
 		
 		JPanel oPanelZapiszUstawienia = new JPanel();
-		oZapiszUstawienia = new JCheckBox(JFrameOknoGry.LANG.getProperty("settings.saveAsDefault"));
+		oZapiszUstawienia = new JCheckBox(JFrameGameWindowSettings.LANG.getProperty("settings.saveAsDefault"));
 		oPanelZapiszUstawienia.add(oZapiszUstawienia);
 		
 		JPanel oPanelOpcjeDolne = new JPanel();
@@ -308,7 +308,7 @@ public class JDialogUstawienia
 		
 		//pozostale ustawienia
 		setMinimumSize(new Dimension(SZEROKOSC, WYSOKOSC));
-		setTitle(JFrameOknoGry.LANG.getProperty("settingsWindow.title"));
+		setTitle(JFrameGameWindowSettings.LANG.getProperty("settingsWindow.title"));
 		setLocationRelativeTo(null);
 		setResizable(true);
 		}
@@ -338,9 +338,9 @@ public class JDialogUstawienia
 			for (int iRozmiar: aStatki)
 				oListaStatkow.getListaStatkow().listaDodaj(iRozmiar);
 			}
-		catch (ParametrException e)
+		catch (ParameterException e)
 			{
-			throw new ProgramistaException(e);
+			throw new DeveloperException(e);
 			}
 		}
 	}

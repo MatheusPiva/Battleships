@@ -1,6 +1,6 @@
 package pl.vgtworld.games.statki.ai;
 
-import pl.vgtworld.games.statki.StatekIterator;
+import pl.vgtworld.games.ship.ShipIterator;
 
 /**
  * Interface zawierajacy metody wymagane dla klas AI.
@@ -16,5 +16,5 @@ public interface Ai
 	 * @param oStatkiPrzeciwnika Kontener statkow przeciwnika.
 	 * @return Zwraca TRUE w przypadku trafenia statku, lub FALSE, jesli strzal byl niecelny.
 	 */
-	public boolean strzal(StatekIterator oStatkiPrzeciwnika);
+	public boolean strzal(ShipIterator oStatkiPrzeciwnika);
 	}

@@ -1,6 +1,6 @@
 package pl.vgtworld.games.statki.ai;
 
-import pl.vgtworld.games.statki.StatekIterator;
+import pl.vgtworld.games.ship.ShipIterator;
 
 /**
  * Fabryka obiektow AI.
@@ -19,7 +19,7 @@ abstract public class AiFactory
 	 * @param oStatki Kontener statkow nalezacy do generowanego gracza komputerowego.
 	 * @return Zwraca obiekt Ai zawierajacy sztuczna inteligencje gracza komputerowego.
 	 */
-	public static Ai getAi(int iPoziomTrudnosci, boolean bProsteLinie, StatekIterator oStatki)
+	public static Ai getAi(int iPoziomTrudnosci, boolean bProsteLinie, ShipIterator oStatki)
 		{
 		Ai oAi;
 		if (iPoziomTrudnosci > 66)

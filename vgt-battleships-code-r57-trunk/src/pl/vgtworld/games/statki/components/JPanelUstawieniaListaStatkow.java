@@ -14,8 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import pl.vgtworld.exceptions.ParametrException;
-import pl.vgtworld.exceptions.ProgramistaException;
+import pl.vgtworld.exceptions.ParameterException;
+import pl.vgtworld.exceptions.DeveloperException;
 
 
 /**
@@ -39,10 +39,10 @@ public class JPanelUstawieniaListaStatkow
 		{
 		public ActionDodaj()
 			{
-			putValue(Action.SHORT_DESCRIPTION, JFrameOknoGry.LANG.getProperty("action.settings.shipList.add.desc"));
+			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.add.desc"));
 			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/statki/img/button-add.png");
 			if (oImgUrl == null)
-				putValue(Action.NAME, JFrameOknoGry.LANG.getProperty("action.settings.shipList.add"));
+				putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.add"));
 			else
 				{
 				Image oImg = Toolkit.getDefaultToolkit().getImage(oImgUrl);
@@ -55,9 +55,9 @@ public class JPanelUstawieniaListaStatkow
 				{
 				oListaStatkow.listaDodaj(1);
 				}
-			catch (ParametrException e)
+			catch (ParameterException e)
 				{
-				throw new ProgramistaException(e);
+				throw new DeveloperException(e);
 				}
 			}
 		}
@@ -69,10 +69,10 @@ public class JPanelUstawieniaListaStatkow
 		{
 		public ActionUsun()
 			{
-			putValue(Action.SHORT_DESCRIPTION, JFrameOknoGry.LANG.getProperty("action.settings.shipList.delete.desc"));
+			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.delete.desc"));
 			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/statki/img/button-delete.png");
 			if (oImgUrl == null)
-				putValue(Action.NAME, JFrameOknoGry.LANG.getProperty("action.settings.shipList.delete"));
+				putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.delete"));
 			else
 				{
 				Image oImg = Toolkit.getDefaultToolkit().getImage(oImgUrl);
@@ -83,15 +83,15 @@ public class JPanelUstawieniaListaStatkow
 			{
 			int[] aZaznaczone = oListaStatkow.getSelectedIndices();
 			if (aZaznaczone.length == 0)
-				JOptionPane.showMessageDialog(JPanelUstawieniaListaStatkow.this, JFrameOknoGry.LANG.getProperty("errorMsg.settings.shipList.noShipSelected"));
+				JOptionPane.showMessageDialog(JPanelUstawieniaListaStatkow.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.settings.shipList.noShipSelected"));
 			try
 				{
 				for (int i = aZaznaczone.length - 1; i >= 0; --i)
 					oListaStatkow.listaUsun(aZaznaczone[i]);
 				}
-			catch (ParametrException e)
+			catch (ParameterException e)
 				{
-				throw new ProgramistaException(e);
+				throw new DeveloperException(e);
 				}
 			}
 		}
@@ -103,10 +103,10 @@ public class JPanelUstawieniaListaStatkow
 		{
 		public ActionPowieksz()
 			{
-			putValue(Action.SHORT_DESCRIPTION, JFrameOknoGry.LANG.getProperty("action.settings.shipList.increase.desc"));
+			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.increase.desc"));
 			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/statki/img/button-up.png");
 			if (oImgUrl == null)
-				putValue(Action.NAME, JFrameOknoGry.LANG.getProperty("action.settings.shipList.increase"));
+				putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.increase"));
 			else
 				{
 				Image oImg = Toolkit.getDefaultToolkit().getImage(oImgUrl);
@@ -117,15 +117,15 @@ public class JPanelUstawieniaListaStatkow
 			{
 			int[] aZaznaczone = oListaStatkow.getSelectedIndices();
 			if (aZaznaczone.length == 0)
-				JOptionPane.showMessageDialog(JPanelUstawieniaListaStatkow.this, JFrameOknoGry.LANG.getProperty("errorMsg.settings.shipList.noShipSelected"));
+				JOptionPane.showMessageDialog(JPanelUstawieniaListaStatkow.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.settings.shipList.noShipSelected"));
 			try
 				{
 				for (int iZaznaczony: aZaznaczone)
 					oListaStatkow.listaPowieksz(iZaznaczony);
 				}
-			catch (ParametrException e)
+			catch (ParameterException e)
 				{
-				throw new ProgramistaException(e);
+				throw new DeveloperException(e);
 				}
 			}
 		}
@@ -138,10 +138,10 @@ public class JPanelUstawieniaListaStatkow
 		public ActionPomniejsz()
 			{
 			//putValue(Action.NAME, "Pomniejsz zaznaczone");
-			putValue(Action.SHORT_DESCRIPTION, JFrameOknoGry.LANG.getProperty("action.settings.shipList.decrease.desc"));
+			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.decrease.desc"));
 			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/statki/img/button-down.png");
 			if (oImgUrl == null)
-				putValue(Action.NAME, JFrameOknoGry.LANG.getProperty("action.settings.shipList.decrease"));
+				putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.decrease"));
 			else
 				{
 				Image oImg = Toolkit.getDefaultToolkit().getImage(oImgUrl);
@@ -152,15 +152,15 @@ public class JPanelUstawieniaListaStatkow
 			{
 			int[] aZaznaczone = oListaStatkow.getSelectedIndices();
 			if (aZaznaczone.length == 0)
-				JOptionPane.showMessageDialog(JPanelUstawieniaListaStatkow.this, JFrameOknoGry.LANG.getProperty("errorMsg.settings.shipList.noShipSelected"));
+				JOptionPane.showMessageDialog(JPanelUstawieniaListaStatkow.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.settings.shipList.noShipSelected"));
 			try
 				{
 				for (int iZaznaczony: aZaznaczone)
 					oListaStatkow.listaPomniejsz(iZaznaczony);
 				}
-			catch (ParametrException e)
+			catch (ParameterException e)
 				{
-				throw new ProgramistaException(e);
+				throw new DeveloperException(e);
 				}
 			}
 		}
@@ -171,7 +171,7 @@ public class JPanelUstawieniaListaStatkow
 		{
 		setLayout(new BorderLayout());
 		
-		JLabel oListaStatkowLabel = new JLabel(JFrameOknoGry.LANG.getProperty("settings.shipList.title"), JLabel.CENTER);
+		JLabel oListaStatkowLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.shipList.title"), JLabel.CENTER);
 		oListaStatkow = new JListUstawieniaListaStatkow();
 		JScrollPane oListaStatkowScroll = new JScrollPane(oListaStatkow);
 		//panel przyciskow

@@ -93,7 +93,6 @@ This are the tech stack and tools utilized to develop this project:
 
 ---
 
----
 
 <!-- Tools used on this project development -->
 <h2 id="technologies">

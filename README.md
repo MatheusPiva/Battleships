@@ -100,15 +100,12 @@ This are the tech stack and tools utilized to develop this project:
     📜 Code documentation
 </h2>
 
-This are the impotant classes and its funcionalities
+This are the main classes and its funcionalities to the project
 
-ships - consiste grarnde parte funcional do codigo
+</br>
+ships - Consists in the mai functional side od the project
 
-stakti.ai - consiste na inteligencia artificial do oponente
-
-- [Java](https://www.java.com).
-- [Git](https://git-scm.com/).
-- [NetBeans](https://netbeans.apache.org/download/index.html).
+stakti.ai - This is the class that cares about the oponnents AI
 
 ---
 

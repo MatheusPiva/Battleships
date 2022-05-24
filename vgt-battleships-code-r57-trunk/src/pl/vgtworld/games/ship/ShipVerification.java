@@ -43,7 +43,7 @@ public class ShipVerification
 	public void importujStatek(Ship oStatek)
 		{
 		this.oStatek = oStatek;
-		oPlansza = oStatek.getPlansza();
+		oPlansza = oStatek.getBoard();
 		}
 	/**
 	 * Metoda sprawdza, czy wszystkie pola statku znajduja sie na planszy.

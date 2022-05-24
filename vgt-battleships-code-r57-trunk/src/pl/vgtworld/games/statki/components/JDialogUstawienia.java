@@ -164,22 +164,22 @@ public class JDialogUstawienia
 					return;
 					}
 				//zapisanie ustawien
-				oUstawienia.setPlanszaSzerokosc(iPlanszaSzerokosc);
-				oUstawienia.setPlanszaWysokosc(iPlanszaWysokosc);
-				oUstawienia.setPoziomTrudnosci(oPoziomTrudnosci.getValue());
+				oUstawienia.setBoardWidth(iPlanszaSzerokosc);
+				oUstawienia.setBoardHeight(iPlanszaWysokosc);
+				oUstawienia.setDifficultyLevel(oPoziomTrudnosci.getValue());
 				if (oStatkiProsteLinie.isSelected() == true)
-					oUstawienia.setProsteLinie(true);
+					oUstawienia.setStraightLines(true);
 				else
-					oUstawienia.setProsteLinie(false);
-				oUstawienia.usunStatki();
+					oUstawienia.setStraightLines(false);
+				oUstawienia.removeAllShips();
 				int[] aLista = oListaStatkow.getListaStatkow().getListaStatkow();
 				for (int iRozmiar: aLista)
-					oUstawienia.dodajStatek(iRozmiar);
+					oUstawienia.addShip(iRozmiar);
 				
 				oOknoGlowne.zmianaUstawien();
 				
 				if (oZapiszUstawienia.isSelected())
-					oUstawienia.zapiszUstawieniaDomyslne();
+					oUstawienia.saveDefaultSettings();
 				}
 			catch (ParameterException e)
 				{
@@ -198,29 +198,29 @@ public class JDialogUstawienia
 		this.oUstawienia = oUstawienia;
 		//szerokosc planszy
 		JLabel oPlanszaSzerokoscLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardWidth"), JLabel.CENTER);
-		oPlanszaSzerokoscSlider = new JSlider(5, 25, oUstawienia.getPlanszaSzerokosc());
+		oPlanszaSzerokoscSlider = new JSlider(5, 25, oUstawienia.getBoardWidth());
 		oPlanszaSzerokoscSlider.addChangeListener(new ActionSzerokoscSlider());
 		oPlanszaSzerokosc = new JTextField(5);
 		oPlanszaSzerokosc.setHorizontalAlignment(JTextField.RIGHT);
 		oPlanszaSzerokosc.setText(String.valueOf(oPlanszaSzerokoscSlider.getValue()));
 		//wysokosc planszy
 		JLabel oPlanszaWysokoscLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardHeight"), JLabel.CENTER);
-		oPlanszaWysokoscSlider = new JSlider(5, 25, oUstawienia.getPlanszaWysokosc());
+		oPlanszaWysokoscSlider = new JSlider(5, 25, oUstawienia.getBoardHeight());
 		oPlanszaWysokoscSlider.addChangeListener(new ActionWysokoscSlider());
 		oPlanszaWysokosc = new JTextField(5);
 		oPlanszaWysokosc.setHorizontalAlignment(JTextField.RIGHT);
 		oPlanszaWysokosc.setText(String.valueOf(oPlanszaWysokoscSlider.getValue()));
 		//poziom trudnosci
 		JLabel oPoziomTrudnosciLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.difficulty"), JLabel.CENTER);
-		oPoziomTrudnosci = new JSlider(1, 100, oUstawienia.getPoziomTrudnosci());
+		oPoziomTrudnosci = new JSlider(1, 100, oUstawienia.getDifficultyLevel());
 		//ksztalkt statkow
 		JLabel oStatkiProsteLinieLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.shipsShape"), JLabel.CENTER);
 		oStatkiProsteLinie = new JCheckBox(JFrameGameWindowSettings.LANG.getProperty("settings.shipsShapeCheckbox"));
-		if (oUstawienia.getProsteLinie() == true)
+		if (oUstawienia.getStraightLines() == true)
 			oStatkiProsteLinie.setSelected(true);
 		//lista statkow
 		oListaStatkow = new JPanelUstawieniaListaStatkow();
-		int[] aStatki = oUstawienia.getStatki();
+		int[] aStatki = oUstawienia.getShips();
 		try
 			{
 			for (int iRozmiar: aStatki)
@@ -322,17 +322,17 @@ public class JDialogUstawienia
 		int iPozycjaY = oOknoGlowne.getY() + (oOknoGlowne.getHeight() - WYSOKOSC) / 2;
 		setBounds(iPozycjaX, iPozycjaY, SZEROKOSC, WYSOKOSC);
 		//reset ustawien
-		oPlanszaSzerokosc.setText(String.valueOf(oUstawienia.getPlanszaSzerokosc()));
-		oPlanszaSzerokoscSlider.setValue(oUstawienia.getPlanszaSzerokosc());
-		oPlanszaWysokosc.setText(String.valueOf(oUstawienia.getPlanszaWysokosc()));
-		oPlanszaWysokoscSlider.setValue(oUstawienia.getPlanszaWysokosc());
-		oPoziomTrudnosci.setValue(oUstawienia.getPoziomTrudnosci());
-		if (oUstawienia.getProsteLinie() == true)
+		oPlanszaSzerokosc.setText(String.valueOf(oUstawienia.getBoardWidth()));
+		oPlanszaSzerokoscSlider.setValue(oUstawienia.getBoardWidth());
+		oPlanszaWysokosc.setText(String.valueOf(oUstawienia.getBoardHeight()));
+		oPlanszaWysokoscSlider.setValue(oUstawienia.getBoardHeight());
+		oPoziomTrudnosci.setValue(oUstawienia.getDifficultyLevel());
+		if (oUstawienia.getStraightLines() == true)
 			oStatkiProsteLinie.setSelected(true);
 		else
 			oStatkiProsteLinie.setSelected(false);
 		oListaStatkow.getListaStatkow().listaWyczysc();
-		int[] aStatki = oUstawienia.getStatki();
+		int[] aStatki = oUstawienia.getShips();
 		try
 			{
 			for (int iRozmiar: aStatki)

@@ -44,8 +44,8 @@ import pl.vgtworld.games.ship.Settings;
 import pl.vgtworld.games.statki.ai.Ai;
 import pl.vgtworld.games.statki.ai.AiFactory;
 import pl.vgtworld.tools.Position;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
+//import sun.audio.AudioPlayer;
+//import sun.audio.AudioStream;
 
 /**
  * Glowne okno gry.
@@ -281,8 +281,8 @@ public class JFrameGameWindowSettings
                                                     try {
                                                         
                                                         in = new FileInputStream(new File ("src\\pl\\vgtworld\\games\\statki\\components\\explosao.mp3"));
-                                                        AudioStream ad = new AudioStream(in);
-                                                        AudioPlayer.player.start(ad);
+//                                                        AudioStream ad = new AudioStream(in);
+//                                                        AudioPlayer.player.start(ad);
                                                   
                                                     } catch (Exception e) {
                                                     }
@@ -524,7 +524,7 @@ public class JFrameGameWindowSettings
 		oComponentStatusGry.setStatkiGracz(oStatkiGracz);
 		oComponentStatusGry.setStatkiKomputer(oStatkiKomputer);
 		oComponentStatusGry.aktualizujDane();
-		oAi = AiFactory.getAi(oUstawienia.getPoziomTrudnosci(), oUstawienia.getProsteLinie(), oStatkiKomputer);
+		oAi = AiFactory.getAi(oUstawienia.getDifficultyLevel(), oUstawienia.getStraightLines(), oStatkiKomputer);
 		ShipPositioner oPozycjoner = new ShipPositioner();
 		boolean bUdaneRozmieszczenie = false;
 		boolean bContinue = true;
@@ -532,7 +532,7 @@ public class JFrameGameWindowSettings
 			{
 			while (bUdaneRozmieszczenie == false && bContinue == true)
 				{
-				bUdaneRozmieszczenie = oPozycjoner.rozmiescStatki(oStatkiKomputer, oUstawienia.getProsteLinie());
+				bUdaneRozmieszczenie = oPozycjoner.rozmiescStatki(oStatkiKomputer, oUstawienia.getStraightLines());
 				if (bUdaneRozmieszczenie == false)
 					{
 					if (JOptionPane.showConfirmDialog(this, LANG.getProperty("errorMsg.shipPlacement.computerShipPlacementError"), LANG.getProperty("errorMsg.windowTitle"), JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION)
@@ -592,9 +592,9 @@ public class JFrameGameWindowSettings
 	 */
 	public static ShipIterator generujGracza(Settings oUstawienia)
 		{
-		Board oPlansza = new Board(oUstawienia.getPlanszaSzerokosc(), oUstawienia.getPlanszaWysokosc());
+		Board oPlansza = new Board(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
 		ShipIterator oStatki = new ShipIterator(oPlansza);
-		int[] aListaStatkow = oUstawienia.getStatki();
+		int[] aListaStatkow = oUstawienia.getShips();
 		for (int iRozmiar: aListaStatkow)
 			oStatki.dodajStatek(iRozmiar);
 		return oStatki;

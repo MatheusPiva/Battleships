@@ -81,12 +81,12 @@ public class JPanelZaznaczanieStatkow
 			oStatki = oGenerator.generujStatki();
 			boolean bOK = true;
 			//sprawdzenie, kolejnych warunkow rozmieszczenia statkow
-			if (oStatki.getIloscStatkow() != oUstawienia.getIloscStatkow())
+			if (oStatki.getIloscStatkow() != oUstawienia.getNumbeOfShips())
 				bOK = false;
 			for (int i = oStatki.getMaxRozmiarStatku(); i >= 1; --i)
 				if (oStatki.getIloscStatkow(i) != oUstawienia.getIloscStatkow(i))
 					bOK = false;
-			if (oStatki.weryfikujRozmieszczenie(oUstawienia.getProsteLinie()) == false)
+			if (oStatki.weryfikujRozmieszczenie(oUstawienia.getStraightLines()) == false)
 				bOK = false;
 			//commit
 			if (bOK == false)
@@ -145,11 +145,11 @@ public class JPanelZaznaczanieStatkow
 						if (oPlansza.getPole(i, j) == FieldTypeBoard.SHIP_BOARD)
 							oPlansza.setPole(i, j, FieldTypeBoard.BOARD_FIELD_EMPTY);
 				ShipIterator oKontener = new ShipIterator(oPlansza);
-				int[] aStatki = oUstawienia.getStatki();
+				int[] aStatki = oUstawienia.getShips();
 				for (int iRozmiar: aStatki)
 					oKontener.dodajStatek(iRozmiar);
 				ShipPositioner oPozycjoner = new ShipPositioner();
-				if (oPozycjoner.rozmiescStatki(oKontener, oUstawienia.getProsteLinie()) == false)
+				if (oPozycjoner.rozmiescStatki(oKontener, oUstawienia.getStraightLines()) == false)
 					JOptionPane.showMessageDialog(JPanelZaznaczanieStatkow.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.shipPlacement.randomShipPlacementFail"));
 				}
 			catch (ParameterException e)
@@ -218,7 +218,7 @@ public class JPanelZaznaczanieStatkow
 		setLayout(new GridLayout(1, 2));
 		this.oUstawienia = oUstawienia;
 		this.oOkno = oOkno;
-		oPlansza = new Board(oUstawienia.getPlanszaSzerokosc(), oUstawienia.getPlanszaWysokosc());
+		oPlansza = new Board(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
 		oStatki = null;
 		oComponentPlansza = new JComponentPlansza(oPlansza);
 		oMouseListener = new ZaznaczanieStatkowMouseListener();
@@ -282,11 +282,11 @@ public class JPanelZaznaczanieStatkow
 	 */
 	public void resetujPlansze()
 		{
-		//oPlansza = new Board(oUstawienia.getPlanszaSzerokosc(), oUstawienia.getPlanszaWysokosc());
+		//oPlansza = new Board(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
 		try
 			{
-			if (oUstawienia.getPlanszaSzerokosc() != oPlansza.getWidth() || oUstawienia.getPlanszaWysokosc() != oPlansza.getHeight())
-				oPlansza.zmienRozmiar(oUstawienia.getPlanszaSzerokosc(), oUstawienia.getPlanszaWysokosc());
+			if (oUstawienia.getBoardWidth() != oPlansza.getWidth() || oUstawienia.getBoardHeight() != oPlansza.getHeight())
+				oPlansza.zmienRozmiar(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
 			}
 		catch (ParameterException e)
 			{

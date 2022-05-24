@@ -57,7 +57,7 @@ public class JPanelZaznaczanieStatkowLista
 			oEtykieta.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 			oEtykiety.add(oEtykieta);
 			}
-		int iMaxRozmiar = oUstawienia.getMaxRozmiarStatku();
+		int iMaxRozmiar = oUstawienia.getMaxShipSize();
 		int iLinieTekstu = 1;
 		int iIlosc;
 		String sText;

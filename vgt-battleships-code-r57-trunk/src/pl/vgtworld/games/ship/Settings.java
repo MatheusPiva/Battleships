@@ -10,7 +10,7 @@ import pl.vgtworld.exceptions.ParameterException;
 import pl.vgtworld.games.statki.components.JFrameGameWindowSettings;
 
 /**
- * Klasa przechowujaca glowne ustawienia rozgrywki.
+ * The class that stores the main game settings..
  * 
  * @author VGT
  * @version 1.1
@@ -18,262 +18,262 @@ import pl.vgtworld.games.statki.components.JFrameGameWindowSettings;
 public class Settings
 	{
 	/**
-	 * Przechowuje nazwe pliku, w ktorym przechowywane sa ustawienia domyslne.
+	 * It stores the name of the file where the default settings are stored.
 	 */
-	public static final String USTAWIENIA_DOMYSLNE = "settings.xml";
+	public static final String DEFAULT_SETTINGS = "settings.xml";
 	/**
-	 * Szerokosc planszy gry.
+	 * Game board width.
 	 */
-	private int iPlanszaSzerokosc;
+	private int iBoardWidth;
 	/**
-	 * Wysokosc planszy gry.
+	 * The height of the game board.
 	 */
-	private int iPlanszaWysokosc;
+	private int iBoardHeight;
 	/**
-	 * Poziom trudnosci AI.
+	 * AI difficulty level.
 	 */
-	private int iPoziomTrudnosci;
+	private int iDifficultyLevel;
 	/**
-	 * Ksztalt statkow limitowany do pionowych/poziomych linii.
+	 * Ship shape limited to vertical / horizontal lines.
 	 * 
 	 * @since 1.1
 	 */
-	private boolean bProsteLinie;
+	private boolean bStraightLines;
 	/**
-	 * Kontener przechowujacy rozmiar poszczegolnych statkow.
+	 * A container that stores the size of individual ships.
 	 */
-	private ArrayList<Integer> aStatki;
+	private ArrayList<Integer> aShips;
 	/**
-	 * Konstruktor domyslny.
+	 * Default constructor.
 	 */
 	public Settings()
 		{
 		try
 			{
-			//konfiguracja domyslna z pliku xml
-			FileInputStream oStream = new FileInputStream(System.getProperty("user.dir") + System.getProperty("file.separator") + USTAWIENIA_DOMYSLNE);
-			Properties oDomyslne = new Properties();
-			oDomyslne.loadFromXML(oStream);
-			iPlanszaSzerokosc = Integer.parseInt(oDomyslne.getProperty("plansza_szerokosc"));
-			iPlanszaWysokosc = Integer.parseInt(oDomyslne.getProperty("plansza_wysokosc"));
-			iPoziomTrudnosci = Integer.parseInt(oDomyslne.getProperty("poziom_trudnosci"));
-			if ("tak".equals(oDomyslne.getProperty("proste_linie")))
-				bProsteLinie = true;
+			// default configuration from xml file
+			FileInputStream oStream = new FileInputStream(System.getProperty("user.dir") + System.getProperty("file.separator") + DEFAULT_SETTINGS);
+			Properties oDefault = new Properties();
+			oDefault.loadFromXML(oStream);
+			iBoardWidth = Integer.parseInt(oDefault.getProperty("plansza_szerokosc"));
+			iBoardHeight = Integer.parseInt(oDefault.getProperty("plansza_wysokosc"));
+			iDifficultyLevel = Integer.parseInt(oDefault.getProperty("poziom_trudnosci"));
+			if ("tak".equals(oDefault.getProperty("proste_linie")))
+				bStraightLines = true;
 			else
-				bProsteLinie = true;
-			aStatki = new ArrayList<Integer>();
-			int iIloscStatkow = Integer.parseInt(oDomyslne.getProperty("ilosc_statkow"));
-			for (int i = 1; i <= iIloscStatkow; ++i)
-				aStatki.add(Integer.parseInt(oDomyslne.getProperty("statek"+i)));
+				bStraightLines = true;
+			aShips = new ArrayList<Integer>();
+			int iNumberOfShips = Integer.parseInt(oDefault.getProperty("ilosc_statkow"));
+			for (int i = 1; i <= iNumberOfShips; ++i)
+				aShips.add(Integer.parseInt(oDefault.getProperty("statek"+i)));
 			}
 		catch(IOException e)
 			{
-			//konfiguracja domyslna
-			iPlanszaSzerokosc = 10;
-			iPlanszaWysokosc = 10;
-			iPoziomTrudnosci = 50;
-			bProsteLinie = true;
-			aStatki = new ArrayList<Integer>(10);
-			aStatki.add(1);
-			aStatki.add(1);
-			aStatki.add(1);
-			aStatki.add(1);
-			aStatki.add(2);
-			aStatki.add(2);
-			aStatki.add(2);
-			aStatki.add(3);
-			aStatki.add(3);
-			aStatki.add(4);
+			//Default configuration
+			iBoardWidth = 10;
+			iBoardHeight = 10;
+			iDifficultyLevel = 50;
+			bStraightLines = true;
+			aShips = new ArrayList<Integer>(10);
+			aShips.add(1);
+			aShips.add(1);
+			aShips.add(1);
+			aShips.add(1);
+			aShips.add(2);
+			aShips.add(2);
+			aShips.add(2);
+			aShips.add(3);
+			aShips.add(3);
+			aShips.add(4);
 			}
 		}
 	/**
-	 * Metoda zwraca szerokosc planszy.
+	 * The method returns the width of the board.
 	 * 
-	 * @return Zwraca ilosc pol bedacych szerokoscia planszy.
+	 * @return Returns the number of fields that are the width of the board.
 	 */
-	public int getPlanszaSzerokosc()
+	public int getBoardWidth()
 		{
-		return iPlanszaSzerokosc;
+		return iBoardWidth;
 		}
 	/**
-	 * Metoda zwraca wysokosc planszy.
+	 * The method returns the height of the board.
 	 * 
-	 * @return Zwraca ilosc pol bedacych wysokoscia planszy.
+	 * @return Returns the number of fields that are the height of the board.
 	 */
-	public int getPlanszaWysokosc()
+	public int getBoardHeight()
 		{
-		return iPlanszaWysokosc;
+		return iBoardHeight;
 		}
 	/**
-	 * Metoda zwraca poziom trudnosci AI.
+	 * The method returns the AI difficulty level.
 	 * 
-	 * @return Zwraca liczbe z zakresu 1-100 bedaca poziomem trudnosci AI.
+	 * @return Returns a number between 1-100 that is the AI difficulty level.
 	 */
-	public int getPoziomTrudnosci()
+	public int getDifficultyLevel()
 		{
-		return iPoziomTrudnosci;
+		return iDifficultyLevel;
 		}
 	/**
-	 * Zwraca informacje, czy statki moga byc tylko pionowymi/poziomymi liniami.
+	 * Returns information if the ships can only be vertical / horizontal lines.
 	 * 
-	 * @return Zwraca TRUE, jesli statki moga byc tylko liniami, lub FALSE w przeciwnym wypadku.
+	 * @return Returns TRUE if the ships can only be lines, FALSE otherwise.
 	 * @since 1.1
 	 */
-	public boolean getProsteLinie()
+	public boolean getStraightLines()
 		{
-		return bProsteLinie;
+		return bStraightLines;
 		}
 	/**
-	 * Zwraca tablice zawierajaca rozmiar poszczegolnych statkow.
+	 * Returns an array containing the size of the individual ships.
 	 * 
-	 * @return Tablica int zawierajaca rozmiar poszczegolnych statkow.
+	 * @return An int table containing the size of each ship.
 	 */
-	public int[] getStatki()
+	public int[] getShips()
 		{
-		int[] aDane = new int[ aStatki.size() ];
-		for (int i = 0; i < aStatki.size(); ++i)
-			aDane[i] = aStatki.get(i);
-		return aDane;
+		int[] aData = new int[ aShips.size() ];
+		for (int i = 0; i < aShips.size(); ++i)
+			aData[i] = aShips.get(i);
+		return aData;
 		}
 	/**
-	 * Zwraca laczna ilosc statkow.
+	 * Returns the total number of ships.
 	 * 
-	 * @return Laczna ilosc statkow.
+	 * @return Total number of ships.
 	 */
-	public int getIloscStatkow()
+	public int getNumbeOfShips()
 		{
-		return (int)aStatki.size();
+		return (int)aShips.size();
 		}
 	/**
-	 * Zwraca ilosc statkow o podanym w parametrze rozmiarze.
+	 * Returns the number of ships of the given size.
 	 * 
-	 * @param iRozmiar Rozmiar statkow, ktore maja byc policzone.
-	 * @return Ilosc statkow o podanym rozmiarze.
+	 * @param iSize Size of the ships to be counted.
+	 * @return Number of ships of the given size.
 	 */
-	public int getIloscStatkow(int iRozmiar)
+	public int getIloscStatkow(int iSize)
 		{
-		int iIlosc = 0;
-		for (int iStatek: aStatki)
-			if (iStatek == iRozmiar)
-				++iIlosc;
-		return iIlosc;
+		int iQuantity = 0;
+		for (int iShip: aShips)
+			if (iShip == iSize)
+				++iQuantity;
+		return iQuantity;
 		}
 	/**
-	 * Zwraca rozmiar najwiekszego statku.
+	 * Returns the size of the largest ship.
 	 * 
-	 * @return Rozmiar najwiekszego statku.
+	 * @return The size of the largest ship.
 	 */
-	public int getMaxRozmiarStatku()
+	public int getMaxShipSize()
 		{
 		int iMax = 0;
-		for (int iStatek: aStatki)
-			if (iStatek > iMax)
-				iMax = iStatek;
+		for (int iShip: aShips)
+			if (iShip > iMax)
+				iMax = iShip;
 		return iMax;
 		}
 	/**
-	 * Pozwala ustawic nowy rozmiar planszy gry.
+	 * Lets you set a new size for the game board.
 	 * 
-	 * @param iSzerokosc Nowa szerokosc planszy.
-	 * @param iWysokosc Nowa wysokosc planszy.
+	 * @param iWidth New board width.
+	 * @param iHeight New board height.
 	 */
-	public void setPlanszaRozmiar(int iSzerokosc, int iWysokosc)
+	public void setBoardSize(int iWidth, int iHeight)
 		{
-		iPlanszaSzerokosc = iSzerokosc;
-		iPlanszaWysokosc = iWysokosc;
+		iBoardWidth = iWidth;
+		iBoardHeight = iHeight;
 		}
 	/**
-	 * Pozwala ustawic nowa szerokosc planszy.
+	 * It allows you to set a new board width.
 	 * 
-	 * @param iSzerokosc Nowa szerokosc planszy.
+	 * @param iWidth New board width.
 	 */
-	public void setPlanszaSzerokosc(int iSzerokosc)
+	public void setBoardWidth(int iWidth)
 		{
-		iPlanszaSzerokosc = iSzerokosc;
+		iBoardWidth = iWidth;
 		}
 	/**
-	 * Pozwala ustawic nowa wysokosc planszy.
+	 * It allows you to set a new height of the board.
 	 * 
-	 * @param iWysokosc Nowa wysokosc planszy.
+	 * @param iHeight New board height.
 	 */
-	public void setPlanszaWysokosc(int iWysokosc)
+	public void setBoardHeight(int iHeight)
 		{
-		iPlanszaWysokosc = iWysokosc;
+		iBoardHeight = iHeight;
 		}
 	/**
-	 * Pozwala ustawic wlasciwosc okreslajaca dozwolony ksztalt statkow.
+	 * Lets you set a property that determines the shape of ships allowed.
 	 * 
-	 * @param bProsteLinie Wartosc TRUE oznacza, ze statki moga byc tylko pionowymi/poziomymi liniami.
+	 * @param bStaightLines TRUE means that ships can only be vertical / horizontal lines.
 	 * @since 1.1
 	 */
-	public void setProsteLinie(boolean bProsteLinie)
+	public void setStraightLines(boolean bStaightLines)
 		{
-		this.bProsteLinie = bProsteLinie;
+		this.bStraightLines = bStaightLines;
 		}
 	/**
-	 * Pozwala ustawic nowy poziom trudnosci.
+	 * Allows you to set a new difficulty level.
 	 * 
-	 * @param iPoziomTrudnosci Poziom trudnosci AI.
-	 * @throws ParameterException Wyrzuca wyjatek, jesli ustawiany poziom trudnosci nie miesci sie w zakresie 1-100
+	 * @param iDifficultyLevel AI difficulty level.
+	 * @throws ParameterException Throws an exception if the set severity level is not in the range 1-100
 	 */
-	public void setPoziomTrudnosci(int iPoziomTrudnosci) throws ParameterException
+	public void setDifficultyLevel(int iDifficultyLevel) throws ParameterException
 		{
-		if (iPoziomTrudnosci < 1 || iPoziomTrudnosci > 100)
-			throw new ParameterException("iPoziomTrudnosci = " + iPoziomTrudnosci);
-		this.iPoziomTrudnosci = iPoziomTrudnosci;
+		if (iDifficultyLevel < 1 || iDifficultyLevel > 100)
+			throw new ParameterException("iDifficultyLevel = " + iDifficultyLevel);
+		this.iDifficultyLevel = iDifficultyLevel;
 		}
 	/**
-	 * Dodaje do listy statkow kolejny statek o podanym rozmiarze.
+	 * Adds another ship of the specified size to the ship list.
 	 * 
-	 * @param iRozmiar Rozmiar statku do dodania.
-	 * @throws ParameterException Wyrzuca wyjatek, jesli podany rozmiar jest mniejszy od 1.
+	 * @param iSize Ship size to add.
+	 * @throws ParameterException Throws an exception if the given size is less than 1.
 	 */
-	public void dodajStatek(int iRozmiar) throws ParameterException
+	public void addShip(int iSize) throws ParameterException
 		{
-		if (iRozmiar < 1)
-			throw new ParameterException("iRozmiar = " + iRozmiar);
-		aStatki.add(iRozmiar);
+		if (iSize < 1)
+			throw new ParameterException("iSize = " + iSize);
+		aShips.add(iSize);
 		}
 	/**
-	 * Usuwa statek o podanym indexie z kontenera.
+	 * Removes a ship with the given index from a container.
 	 * 
-	 * @param iIndex Index statku do usuniecia (liczone od 0).
-	 * @throws ParameterException Wyrzuca wyjatek, jesli statek o podanym indexie nie istnieje.
+	 * @param iIndex Index ship to be removed (counted from 0).
+	 * @throws ParameterException Throws an exception if the ship with the given index does not exist.
 	 */
-	public void usunStatek(int iIndex) throws ParameterException
+	public void removeShip(int iIndex) throws ParameterException
 		{
-		if (iIndex >= aStatki.size() || iIndex < 0)
+		if (iIndex >= aShips.size() || iIndex < 0)
 			throw new ParameterException("iIndex = " + iIndex);
-		aStatki.remove(iIndex);
+		aShips.remove(iIndex);
 		}
 	/**
-	 * Usuwa wszystkie statki z tablicy.
+	 * Removes all ships from the table.
 	 */
-	public void usunStatki()
+	public void removeAllShips()
 		{
-		aStatki.clear();
+		aShips.clear();
 		}
 	/**
-	 * zapisuje aktualne ustawienia do pliku, w ktorym przechowywane sa ustawienia domyslne wczytywane podczas tworzenia obiektu
+	 * saves the current settings to a file where the default settings loaded when creating the object are stored
 	 */
-	public void zapiszUstawieniaDomyslne()
+	public void saveDefaultSettings()
 		{
 		try
 			{
-			Properties oDomyslne = new Properties();
-			oDomyslne.setProperty("plansza_szerokosc", String.valueOf(iPlanszaSzerokosc));
-			oDomyslne.setProperty("plansza_wysokosc", String.valueOf(iPlanszaWysokosc));
-			oDomyslne.setProperty("poziom_trudnosci", String.valueOf(iPoziomTrudnosci));
-			if (bProsteLinie == true)
-				oDomyslne.setProperty("proste_linie", "tak");
+			Properties oDefault = new Properties();
+			oDefault.setProperty("plansza_szerokosc", String.valueOf(iBoardWidth));
+			oDefault.setProperty("plansza_wysokosc", String.valueOf(iBoardHeight));
+			oDefault.setProperty("poziom_trudnosci", String.valueOf(iDifficultyLevel));
+			if (bStraightLines == true)
+				oDefault.setProperty("proste_linie", "tak");
 			else
-				oDomyslne.setProperty("proste_linie", "nie");
-			int[] aStatki = getStatki();
-			oDomyslne.setProperty("ilosc_statkow", String.valueOf(aStatki.length));
-			for (int i = 0; i < aStatki.length; ++i)
-				oDomyslne.setProperty("statek"+(i+1), String.valueOf(aStatki[i]));
-			FileOutputStream oStream = new FileOutputStream(System.getProperty("user.dir") + System.getProperty("file.separator") + USTAWIENIA_DOMYSLNE);
-			oDomyslne.storeToXML(oStream, null);
+				oDefault.setProperty("proste_linie", "nie");
+			int[] aShip = getShips();
+			oDefault.setProperty("ilosc_statkow", String.valueOf(aShip.length));
+			for (int i = 0; i < aShip.length; ++i)
+				oDefault.setProperty("statek"+(i+1), String.valueOf(aShip[i]));
+			FileOutputStream oStream = new FileOutputStream(System.getProperty("user.dir") + System.getProperty("file.separator") + DEFAULT_SETTINGS);
+			oDefault.storeToXML(oStream, null);
 			}
 		catch (IOException e)
 			{

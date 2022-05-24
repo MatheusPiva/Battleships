@@ -166,7 +166,7 @@ public class Ship
 	 * 
 	 * @return Board, na ktorej umieszczony jest statek.
 	 */
-	public Board getPlansza()
+	public Board getBoard()
 		{
 		return oPlansza;
 		}

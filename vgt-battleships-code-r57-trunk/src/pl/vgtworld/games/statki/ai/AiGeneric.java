@@ -136,15 +136,16 @@ public abstract class AiGeneric
 							&& (i + j == -1 || i + j == 1)
 							)
 							{
-							if (oStatkiPrzeciwnika.getPlansza().getPole(oWybranePole.getX() + i, oWybranePole.getY() + j) == FieldTypeBoard.BOARD_FIELD_EMPTY
-								|| oStatkiPrzeciwnika.getPlansza().getPole(oWybranePole.getX() + i, oWybranePole.getY() + j) == FieldTypeBoard.SHIP_BOARD
+							if (oStatkiPrzeciwnika.getPlansza().getPole(oWybranePole.getX() + i, oWybranePole.getY() + j) != FieldTypeBoard.BOARD_FIELD_EMPTY
+								&& oStatkiPrzeciwnika.getPlansza().getPole(oWybranePole.getX() + i, oWybranePole.getY() + j) != FieldTypeBoard.SHIP_BOARD
 								)
 								{
-								Position oPrawidlowe = new Position(2);
-								oPrawidlowe.setX(oWybranePole.getX() + i);
-								oPrawidlowe.setY(oWybranePole.getY() + j);
-								oSasiedniePola.add(oPrawidlowe);
-								}
+								} else {
+                                                            Position oPrawidlowe = new Position(2);
+                                                            oPrawidlowe.setX(oWybranePole.getX() + i);
+                                                            oPrawidlowe.setY(oWybranePole.getY() + j);
+                                                            oSasiedniePola.add(oPrawidlowe);
+                                    }
 							}
 				
 				if (bProsteLinie == true)

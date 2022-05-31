@@ -184,7 +184,7 @@ public abstract class AiGeneric
 						}
 					}
 				
-				if (oSasiedniePola.size() > 0)
+				if (!oSasiedniePola.isEmpty())
 					{
 					//sa pola prawidlowe do oddania kolejnego strzalu
 					int iWylosowanySasiad = oRand.nextInt(oSasiedniePola.size());

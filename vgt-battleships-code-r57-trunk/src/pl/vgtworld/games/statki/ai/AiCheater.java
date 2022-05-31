@@ -47,7 +47,8 @@ public class AiCheater
 			if (iDifference > 0)
 				{
 				//komputer przegrywa
-				int iIloscDozwolonychProb = 1 + (oStatkiPrzeciwnika.getIloscNieuszkodzonychStatkow() - oStatki.getIloscNieuszkodzonychStatkow());
+				int iIloscDozwolonychProb;
+                                iIloscDozwolonychProb = (1 + (oStatkiPrzeciwnika.getIloscNieuszkodzonychStatkow() - oStatki.getIloscNieuszkodzonychStatkow()));
 				return strzalWielokrotny(oStatkiPrzeciwnika, iIloscDozwolonychProb);
 				}
 			else

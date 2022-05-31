@@ -41,8 +41,10 @@ public class AiCheater
 		else
 			{
 			//ustalenie, czy komputer przegrywa
-			int iRoznica = oStatki.getIloscTrafionychStatkow() + oStatki.getIloscZatopionychStatkow() - oStatkiPrzeciwnika.getIloscTrafionychStatkow() - oStatkiPrzeciwnika.getIloscZatopionychStatkow();
-			if (iRoznica > 0)
+                        int iAiTotal = oStatki.getIloscTrafionychStatkow() + oStatki.getIloscZatopionychStatkow();
+                        int iEnemyTotal = oStatkiPrzeciwnika.getIloscTrafionychStatkow() - oStatkiPrzeciwnika.getIloscZatopionychStatkow();
+			int iDifference = iAiTotal - iEnemyTotal;
+			if (iDifference > 0)
 				{
 				//komputer przegrywa
 				int iIloscDozwolonychProb = 1 + (oStatkiPrzeciwnika.getIloscNieuszkodzonychStatkow() - oStatki.getIloscNieuszkodzonychStatkow());

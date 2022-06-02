@@ -18,37 +18,37 @@ import javax.swing.SwingConstants;
  */
 public class Splash {
     
-    private final int larguraImg = 1000;
-    private final int alturaImg = 900;
-    private final int tempoSplash = 6000;
-    private final String caminhoImg = "/pl/vgtworld/games/statki/img/splash.png";
+    private final int imgWidth = 1000;
+    private final int imgHeight = 900;
+    private final int splashTime = 6000;
+    private final String imgPath = "/pl/vgtworld/games/statki/img/splash.png";
     
     public Splash(){
         
-        JWindow janelaSplash = new JWindow();
+        JWindow windowSplash = new JWindow();
         
-        janelaSplash.getContentPane().add(
+        windowSplash.getContentPane().add(
             new JLabel(
-                    "", new ImageIcon(getClass().getResource(caminhoImg)),
+                    "", new ImageIcon(getClass().getResource(imgPath)),
                     SwingConstants.CENTER)
         );
         
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension dimension = toolkit.getScreenSize();
         
-        janelaSplash.setBounds(
-                (dimension.width - larguraImg) / 2, 
-                (dimension.height - alturaImg) / 2, 
-                larguraImg,
-                alturaImg);
+        windowSplash.setBounds(
+                (dimension.width - imgWidth) / 2, 
+                (dimension.height - imgHeight) / 2, 
+                imgWidth,
+                imgHeight);
         
-        janelaSplash.setVisible(true);
+        windowSplash.setVisible(true);
         
         try{
-            Thread.sleep(tempoSplash);
+            Thread.sleep(splashTime);
         }catch(InterruptedException e){}
         
-        janelaSplash.dispose(); 
+        windowSplash.dispose(); 
         
     }
         

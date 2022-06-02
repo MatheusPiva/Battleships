@@ -96,7 +96,7 @@ public class JPanelUstawieniaListaStatkow
 			}
 		}
 	/**
-	 * Klasa prywatna realizujaca akcje powiekszenia rozmiaru zaznaczonych statkow.
+	 * Klasa prywatna realizujaca akcje powiekszenia Sizeu zaznaczonych statkow.
 	 */
 	private class ActionPowieksz
 		extends AbstractAction
@@ -130,7 +130,7 @@ public class JPanelUstawieniaListaStatkow
 			}
 		}
 	/**
-	 * Klasa prywatna realizujaca akcje pomniejszenia rozmiaru zaznaczonych statkow.
+	 * Klasa prywatna realizujaca akcje pomniejszenia Sizeu zaznaczonych statkow.
 	 */
 	private class ActionPomniejsz
 		extends AbstractAction

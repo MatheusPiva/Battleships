@@ -28,13 +28,13 @@ public class AiExtended
 	/**
 	 * Implementacja metody interface'u Ai.
 	 */
-	public boolean strzal(ShipIterator oStatkiPrzeciwnika)
+	public boolean shot(ShipIterator oStatkiPrzeciwnika)
 		{
 		if (oUzyteczneTrafienia.size() > 0)
 			{
-			return strzalSasiadujacy(oStatkiPrzeciwnika);
+			return shotSasiadujacy(oStatkiPrzeciwnika);
 			}
 		else
-			return strzalLosowy(oStatkiPrzeciwnika);
+			return shotLosowy(oStatkiPrzeciwnika);
 		}
 	}

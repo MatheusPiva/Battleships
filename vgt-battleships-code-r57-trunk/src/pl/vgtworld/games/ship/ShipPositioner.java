@@ -12,7 +12,7 @@ import pl.vgtworld.tools.Position;
  * <p>
  * aktualizacje:<br />
  * 1.1<br />
- * - dodanie parametru bProsteLinie do metody {@link #rozmiescStatki(StatekIterator, boolean)}.<br />
+ * - dodanie parametru bStraightLines do metody {@link #rozmiescStatki(StatekIterator, boolean)}.<br />
  * </p>
  * 
  * @author VGT
@@ -27,7 +27,7 @@ public class ShipPositioner
 	/**
 	 * Board nalezaca do danego kontenera statkow.
 	 */
-	private Board oPlansza;
+	private Board oBoard;
 	/**
 	 * Generator liczb losowych.
 	 */
@@ -38,7 +38,7 @@ public class ShipPositioner
 	public ShipPositioner()
 		{
 		oStatki = null;
-		oPlansza = null;
+		oBoard = null;
 		oRand = new Random();
 		}
 	/**
@@ -55,7 +55,7 @@ public class ShipPositioner
 	 * na blad podczas rozmieszczenie statkow. Jesli rozmieszczenie statkow jest niemozliwe do zrealizowania, metoda zwraca wartosc FALSE
 	 * i wszelkie czesciowe rozmieszczenie statkow jest zerowane.<br />
 	 * 
-	 * Dla standardowej gry (plansza 10x10 i 10 statkow o rozmiarach od 1 do 4)
+	 * Dla standardowej gry (plansza 10x10 i 10 statkow o Sizeach od 1 do 4)
 	 * aktualna skutecznosc rozmieszczenia statkow jest na poziomie 99,93%.<br />
 	 * 
 	 * aktualizacje:<br />
@@ -63,28 +63,28 @@ public class ShipPositioner
 	 * 1.1 - dodanie drugiego parametru.
 	 * 
 	 * @param oStatki Kontener z utworzonymi statkami, ktore maja byc rozmieszczone na planszy.
-	 * @param bProsteLinie Okresla, czy statki maja byc tylko pionowymi / poziomymi liniami.
+	 * @param bStraightLines Okresla, czy statki maja byc tylko pionowymi / poziomymi liniami.
 	 * @return Zwraca TRUE, jesli statki zostaly prawidlowo rozmieszczone, lub FALSE jesli wystapil blad.
 	 * @throws ParameterException Wyrzuca wyjatek, jesli kontener nie zawiera zadnych statkow.
 	 */
-	public boolean rozmiescStatki(ShipIterator oStatki, boolean bProsteLinie) throws ParameterException
+	public boolean rozmiescStatki(ShipIterator oStatki, boolean bStraightLines) throws ParameterException
 		{
-		if (oStatki.getIloscStatkow() == 0)
-			throw new ParameterException("oStatki.iIloscStatkow = 0");
+		if (oStatki.getNumberOfShips() == 0)
+			throw new ParameterException("oStatki.iNumberOfShips = 0");
 		try
 			{
 			importujStatki(oStatki);
-			this.oStatki.resetujPola();
-			//ustalenie rozmiaru najwieszego statku
-			int iMaxRozmiar = 0;
-			for (int i = 1; i <= this.oStatki.getIloscStatkow(); ++i)
-				if (oStatki.getStatek(i).getRozmiar() > iMaxRozmiar)
-					iMaxRozmiar = this.oStatki.getStatek(i).getRozmiar();
+			this.oStatki.resetFields();
+			//ustalenie Sizeu najwieszego statku
+			int iMaxSize = 0;
+			for (int i = 1; i <= this.oStatki.getNumberOfShips(); ++i)
+				if (oStatki.getShip(i).getSize() > iMaxSize)
+					iMaxSize = this.oStatki.getShip(i).getSize();
 			//rozmieszczenie statkow rozpoczynajac od najwiekszych
-			while (iMaxRozmiar > 0)
+			while (iMaxSize > 0)
 				{
-				for (int i = 1; i <= this.oStatki.getIloscStatkow(); ++i)
-					if (oStatki.getStatek(i).getRozmiar() == iMaxRozmiar)
+				for (int i = 1; i <= this.oStatki.getNumberOfShips(); ++i)
+					if (oStatki.getShip(i).getSize() == iMaxSize)
 						{
 						int iPodejscie = 1; // ktora proba umieszczenia statku na planszy
 						boolean bUmieszczony = false;
@@ -92,7 +92,7 @@ public class ShipPositioner
 							{
 							try
 								{
-								umiescStatekNaPlanszy(oStatki.getStatek(i), bProsteLinie);
+								umiescStatekNaPlanszy(oStatki.getShip(i), bStraightLines);
 								bUmieszczony = true;
 								}
 							catch (StatkiPozycjonerException e)
@@ -100,16 +100,16 @@ public class ShipPositioner
 								if (iPodejscie >= 3)
 									throw new StatkiPozycjonerException();
 								++iPodejscie;
-								oStatki.getStatek(i).resetujPola();
+								oStatki.getShip(i).resetFields();
 								}
 							}
 						}
-				--iMaxRozmiar;
+				--iMaxSize;
 				}
 			}
 		catch (StatkiPozycjonerException e)
 			{
-			oStatki.resetujPola();
+			oStatki.resetFields();
 			return false;
 			}
 		return true;
@@ -122,25 +122,25 @@ public class ShipPositioner
 	private void importujStatki(ShipIterator oStatki)
 		{
 		this.oStatki = oStatki;
-		this.oPlansza = oStatki.getPlansza();
+		this.oBoard = oStatki.getBoard();
 		}
 	/**
 	 * Losowo umieszcza pola przekazanego w obiekcie statku na planszy.
 	 * 
-	 * @param oStatek Ship, ktorego pola nalezy umiescic na planszy.
+	 * @param oShip Ship, ktorego pola nalezy umiescic na planszy.
 	 * @throws StatkiPozycjonerException Wyrzuca wyjatek, jesli umieszczenie statku na planszy zakonczylo sie niepowodzeniem.
 	 */
-	private void umiescStatekNaPlanszy(Ship oStatek, boolean bProsteLinie) throws StatkiPozycjonerException
+	private void umiescStatekNaPlanszy(Ship oShip, boolean bStraightLines) throws StatkiPozycjonerException
 		{
 		try
 			{
-			for (int i = 1; i <= oStatek.getRozmiar(); ++i)
+			for (int i = 1; i <= oShip.getSize(); ++i)
 				{
 				if (i == 1)
 					{
 					//pierwsze pole
 					Position oPustePole = wylosujPustePole();
-					oStatek.setPole(i, oPustePole.getX(), oPustePole.getY());
+					oShip.setField(i, oPustePole.getX(), oPustePole.getY());
 					}
 				else
 					{
@@ -150,19 +150,19 @@ public class ShipPositioner
 					ArrayList<Position> oKandydaci = new ArrayList<Position>();
 					for (int j = 1; j < i; ++j)
 						{
-						Position oPole = oStatek.getPole(j);
+						Position oPole = oShip.getField(j);
 						for (int k = -1; k <= 1; ++k)
 							for (int l = -1; l <= 1; ++l)
 								if (k + l == -1 || k + l == 1)
-									if (oPole.getX() + k >= 0 && oPole.getX() + k < oPlansza.getWidth()
-										&& oPole.getY() + l >= 0 && oPole.getY() + l < oPlansza.getHeight()
-										&& oPlansza.getPole(oPole.getX() + k, oPole.getY() + l) == FieldTypeBoard.BOARD_FIELD_EMPTY
+									if (oPole.getX() + k >= 0 && oPole.getX() + k < oBoard.getWidth()
+										&& oPole.getY() + l >= 0 && oPole.getY() + l < oBoard.getHeight()
+										&& oBoard.getField(oPole.getX() + k, oPole.getY() + l) == FieldTypeBoard.BOARD_FIELD_EMPTY
 										)
 										{
 										Position oKandydat = new Position(2);
 										oKandydat.setX(oPole.getX() + k);
 										oKandydat.setY(oPole.getY() + l);
-										if (weryfikujKandydata(oKandydat, oStatek))
+										if (weryfikujKandydata(oKandydat, oShip))
 											{
 											++iIloscKandydatow;
 											oKandydaci.add(oKandydat);
@@ -171,24 +171,24 @@ public class ShipPositioner
 										
 						}
 					//jesli statki maja byc liniami, odrzucenie pol niepasujacych
-					if (bProsteLinie == true && i > 2)
+					if (bStraightLines == true && i > 2)
 						{
 						//sprawdzenie, czy statek jest pionowy, czy poziomy i odrzucenie pol niepasujacych
-						if (oStatek.getPole(1).getX() == oStatek.getPole(2).getX())
+						if (oShip.getField(1).getX() == oShip.getField(2).getX())
 							{
 							//wspolrzedne X musza byc takie same
 							for (int j = oKandydaci.size() - 1; j >= 0; --j)
-								if (oStatek.getPole(1).getX() != oKandydaci.get(j).getX())
+								if (oShip.getField(1).getX() != oKandydaci.get(j).getX())
 									{
 									--iIloscKandydatow;
 									oKandydaci.remove(j);
 									}
 							}
-						else if (oStatek.getPole(1).getY() == oStatek.getPole(2).getY())
+						else if (oShip.getField(1).getY() == oShip.getField(2).getY())
 							{
 							//wspolrzedne Y musza byc takie same
 							for (int j = oKandydaci.size() - 1; j >= 0; --j)
-								if (oStatek.getPole(1).getY() != oKandydaci.get(j).getY())
+								if (oShip.getField(1).getY() != oKandydaci.get(j).getY())
 									{
 									--iIloscKandydatow;
 									oKandydaci.remove(j);
@@ -202,7 +202,7 @@ public class ShipPositioner
 					//wylosowanie kandydata
 					int iLos = oRand.nextInt(iIloscKandydatow);
 					//ustawienie pola statku na wylosowanym kandydacie
-					oStatek.setPole(i, oKandydaci.get(iLos).getX(), oKandydaci.get(iLos).getY());
+					oShip.setField(i, oKandydaci.get(iLos).getX(), oKandydaci.get(iLos).getY());
 					}
 				}
 			}
@@ -224,9 +224,9 @@ public class ShipPositioner
 			Position oWspolrzedne = new Position(2);
 			//policzenie pustych pol na planszy
 			int iIloscPustych = 0;
-			for (int i = 0; i < oPlansza.getWidth(); ++i)
-				for (int j = 0; j < oPlansza.getHeight(); ++j)
-					if (oPlansza.getPole(i, j) == FieldTypeBoard.BOARD_FIELD_EMPTY)
+			for (int i = 0; i < oBoard.getWidth(); ++i)
+				for (int j = 0; j < oBoard.getHeight(); ++j)
+					if (oBoard.getField(i, j) == FieldTypeBoard.BOARD_FIELD_EMPTY)
 						{
 						Position oKandydat = new Position(2);
 						oKandydat.setX(i);
@@ -239,9 +239,9 @@ public class ShipPositioner
 				throw new StatkiPozycjonerException();
 			int iWylosowanePole = oRand.nextInt(iIloscPustych) + 1;
 			//ponowne przejscie po planszy i zwrocenie pustego pola o wylosowanym numerze
-			for (int i = 0; i < oPlansza.getWidth(); ++i)
-				for (int j = 0; j < oPlansza.getHeight(); ++j)
-					if (oPlansza.getPole(i, j) == FieldTypeBoard.BOARD_FIELD_EMPTY)
+			for (int i = 0; i < oBoard.getWidth(); ++i)
+				for (int j = 0; j < oBoard.getHeight(); ++j)
+					if (oBoard.getField(i, j) == FieldTypeBoard.BOARD_FIELD_EMPTY)
 						{
 						Position oKandydat = new Position();
 						oKandydat.setX(i);
@@ -266,24 +266,24 @@ public class ShipPositioner
 	 * Metoda sprawdza, czy pole o podanych wspolrzednych nie posiada w sasiedztwie zadnych statkow.
 	 * 
 	 * @param oPole Wspolrzedne pola do sprawdzenia.
-	 * @param oStatek Jesli jest porzekazany obiekt statku, jest to informacja,
+	 * @param oShip Jesli jest porzekazany obiekt statku, jest to informacja,
 	 * ze moga wystepowac pola tego statku i kandydat jest nadal prawidlowy.
 	 * @return Zwraca TRUE, jesli pole nie ma niechcianych sasiadow, lub false w przeciwnym wypadku.
 	 */
-	private boolean weryfikujKandydata(Position oPole, Ship oStatek)
+	private boolean weryfikujKandydata(Position oPole, Ship oShip)
 		{
 		try
 			{
 			for (int i = -1; i <= 1; ++i)
 				for (int j = -1; j <= 1; ++j)
-					if (oPole.getX() + i >= 0 && oPole.getX() + i < oPlansza.getWidth()
-						&& oPole.getY() + j >= 0 && oPole.getY() + j < oPlansza.getHeight()
-						&& oPlansza.getPole(oPole.getX() + i, oPole.getY() + j) == FieldTypeBoard.SHIP_BOARD
+					if (oPole.getX() + i >= 0 && oPole.getX() + i < oBoard.getWidth()
+						&& oPole.getY() + j >= 0 && oPole.getY() + j < oBoard.getHeight()
+						&& oBoard.getField(oPole.getX() + i, oPole.getY() + j) == FieldTypeBoard.SHIP_BOARD
 						)
 						{
-						if (oStatek == null)
+						if (oShip == null)
 							return false;
-						else if(oStatek.getNumerPola(oPole.getX() + i, oPole.getY() + j) == 0)
+						else if(oShip.getNumerPola(oPole.getX() + i, oPole.getY() + j) == 0)
 							return false;
 						}
 			return true;

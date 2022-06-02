@@ -30,7 +30,7 @@ public class JComponentPlansza
 	/**
 	 * Board, ktora ma wyswietlic panel.
 	 */
-	private Board oPlansza;
+	private Board oBoard;
 	/**
 	 * Wlasciwosc przechowujaca informacje, czy na planszy maja byc takze wyswietlane nietrafione pola statkow.
 	 */
@@ -40,13 +40,13 @@ public class JComponentPlansza
 	 */
 	private Color oKolorStatek;
 	/**
-	 * Kolor pola po strzale niecelnym.
+	 * Kolor pola po shote niecelnym.
 	 */
-	private Color oKolorStrzalCelny;
+	private Color oKolorshotCelny;
 	/**
-	 * Kolor pola po strzale celnym.
+	 * Kolor pola po shote celnym.
 	 */
-	private Color oKolorStrzalNiecelny;
+	private Color oKolorshotNiecelny;
 	/**
 	 * Kolor linii siatki rozdzielajacej pola.
 	 */
@@ -56,17 +56,17 @@ public class JComponentPlansza
 	 */
 	private Color oKolorTla;
 	/**
-	 * Tablica przechowujaca kolejne kolory animacji strzalu na pole ze statkiem.
+	 * Tablica przechowujaca kolejne kolory animacji shotu na pole ze statkiem.
 	 */
 	private Color[] aKoloryWyroznieniaStatkow;
 	/**
-	 * Tablica przechowujaca kolejne kolory animacji strzalu na pole puste.
+	 * Tablica przechowujaca kolejne kolory animacji shotu na pole puste.
 	 */
 	private Color[] aKoloryWyroznieniaPolPustych;
 	/**
 	 * Index aktualnie wyswietlanego koloru wyroznienia.
 	 */
-	private int iNumerKoloruWyroznienia;
+	private int iNumberKoloruWyroznienia;
 	/**
 	 * Wspolrzedne pola wyswietlanego, jako wyroznione.
 	 */
@@ -86,15 +86,15 @@ public class JComponentPlansza
 	/**
 	 * Konstruktor.
 	 * 
-	 * @param oPlansza Board, ktora ma byc wyswietlona na panelu.
+	 * @param oBoard Board, ktora ma byc wyswietlona na panelu.
 	 */
-	public JComponentPlansza(Board oPlansza)
+	public JComponentPlansza(Board oBoard)
 		{
-		this.oPlansza = oPlansza;
+		this.oBoard = oBoard;
 		bWyswietlStatki = true;
 		oKolorStatek = new Color(0, 0, 255, 127);
-		oKolorStrzalCelny = new Color(0, 0, 0);
-		oKolorStrzalNiecelny = new Color(150, 150, 50, 192);
+		oKolorshotCelny = new Color(0, 0, 0);
+		oKolorshotNiecelny = new Color(150, 150, 50, 192);
 		oKolorSiatka = new Color(0, 0, 0, 96);
 		aKoloryWyroznieniaStatkow = new Color[100];
 		aKoloryWyroznieniaPolPustych = new Color[100];
@@ -103,7 +103,7 @@ public class JComponentPlansza
 			aKoloryWyroznieniaStatkow[i] = new Color(255, 0, 0, (int)(((double)i / 100) * 255));
 			aKoloryWyroznieniaPolPustych[i] = new Color(0, 255, 0, (int)(((double)i / 100) * 255));
 			}
-		iNumerKoloruWyroznienia = 0;
+		iNumberKoloruWyroznienia = 0;
 		oWyroznionePole = new Position(2);
 		oWyroznionePole.setX(-1);
 		oWyroznionePole.setY(-1);
@@ -125,7 +125,7 @@ public class JComponentPlansza
 			if (oImgUrl == null || JComponentPlansza.oImgTlo == null)
 				{
 				JComponentPlansza.oImgTlo = null;
-				oKolorStrzalNiecelny = new Color(255, 255, 255, 127);
+				oKolorshotNiecelny = new Color(255, 255, 255, 127);
 				oKolorTla = new Color(190, 160, 110);
 				}
 			}
@@ -153,16 +153,16 @@ public class JComponentPlansza
 			oTimer.stop();
 		oWyroznionePole.setX(iX);
 		oWyroznionePole.setY(iY);
-		iNumerKoloruWyroznienia = 99;
+		iNumberKoloruWyroznienia = 99;
 		oTimer.start();
 		repaint();
 		}
 	public void actionPerformed(ActionEvent oEvent)
 		{
-		iNumerKoloruWyroznienia-= 100;
-		if (iNumerKoloruWyroznienia < 0)
+		iNumberKoloruWyroznienia-= 100;
+		if (iNumberKoloruWyroznienia < 0)
 			{
-			iNumerKoloruWyroznienia = 0;
+			iNumberKoloruWyroznienia = 0;
 			//oTimer.stop();
 			}
 		repaint();
@@ -178,10 +178,10 @@ public class JComponentPlansza
 		//background
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, iSzerokosc - 1, iWysokosc - 1);
-		int iPlanszaXStart = fieldToPixTopLeft(iSzerokosc, iWysokosc, oPlansza.getWidth(), oPlansza.getHeight(), 0, 0).getX();
-		int iPlanszaYStart = fieldToPixTopLeft(iSzerokosc, iWysokosc, oPlansza.getWidth(), oPlansza.getHeight(), 0, 0).getY();
-		int iPlanszaXSzerokosc = fieldToPixTopLeft(iSzerokosc, iWysokosc, oPlansza.getWidth(), oPlansza.getHeight(), oPlansza.getWidth(), oPlansza.getHeight()).getX() - iPlanszaXStart + 1;
-		int iPlanszaYSzerokosc = fieldToPixTopLeft(iSzerokosc, iWysokosc, oPlansza.getWidth(), oPlansza.getHeight(), oPlansza.getWidth(), oPlansza.getHeight()).getY() - iPlanszaYStart + 1;
+		int iPlanszaXStart = fieldToPixTopLeft(iSzerokosc, iWysokosc, oBoard.getWidth(), oBoard.getHeight(), 0, 0).getX();
+		int iPlanszaYStart = fieldToPixTopLeft(iSzerokosc, iWysokosc, oBoard.getWidth(), oBoard.getHeight(), 0, 0).getY();
+		int iPlanszaXSzerokosc = fieldToPixTopLeft(iSzerokosc, iWysokosc, oBoard.getWidth(), oBoard.getHeight(), oBoard.getWidth(), oBoard.getHeight()).getX() - iPlanszaXStart + 1;
+		int iPlanszaYSzerokosc = fieldToPixTopLeft(iSzerokosc, iWysokosc, oBoard.getWidth(), oBoard.getHeight(), oBoard.getWidth(), oBoard.getHeight()).getY() - iPlanszaYStart + 1;
 		if (JComponentPlansza.oImgTlo != null)
 			{
 			g.drawImage(JComponentPlansza.oImgTlo, 0, 0, iSzerokosc, iWysokosc, null);
@@ -200,12 +200,12 @@ public class JComponentPlansza
 		int iPoleWysokosc = 0;
 		int iCrossWielkosc = 0;
 		boolean bRysuj = false;
-		for (int i = 0; i < oPlansza.getWidth(); ++i)
-			for (int j = 0; j < oPlansza.getHeight(); ++j)
+		for (int i = 0; i < oBoard.getWidth(); ++i)
+			for (int j = 0; j < oBoard.getHeight(); ++j)
 				{
 				//obliczenie niezbednych danych
-				oKrzyzowka = fieldToPixTopLeft(iSzerokosc, iWysokosc, oPlansza.getWidth(), oPlansza.getHeight(), i, j);
-				oKrzyzowka2 = fieldToPixBottomRight(iSzerokosc, iWysokosc, oPlansza.getWidth(), oPlansza.getHeight(), i, j);
+				oKrzyzowka = fieldToPixTopLeft(iSzerokosc, iWysokosc, oBoard.getWidth(), oBoard.getHeight(), i, j);
+				oKrzyzowka2 = fieldToPixBottomRight(iSzerokosc, iWysokosc, oBoard.getWidth(), oBoard.getHeight(), i, j);
 				iPoleX = oKrzyzowka.getX() + 1;
 				iPoleY = oKrzyzowka.getY() + 1;
 				iPoleSzerokosc = oKrzyzowka2.getX() - iPoleX;
@@ -220,17 +220,17 @@ public class JComponentPlansza
 				g.setColor(oKolorSiatka);
 				g.drawLine(oKrzyzowka.getX() - iCrossWielkosc, oKrzyzowka.getY(), oKrzyzowka.getX() + iCrossWielkosc, oKrzyzowka.getY());
 				g.drawLine(oKrzyzowka.getX(), oKrzyzowka.getY() - iCrossWielkosc, oKrzyzowka.getX(), oKrzyzowka.getY() + iCrossWielkosc);
-				if (i + 1 == oPlansza.getWidth())
+				if (i + 1 == oBoard.getWidth())
 					{
 					g.drawLine(oKrzyzowka2.getX() - iCrossWielkosc, oKrzyzowka.getY(), oKrzyzowka2.getX() + iCrossWielkosc, oKrzyzowka.getY());
 					g.drawLine(oKrzyzowka2.getX(), oKrzyzowka.getY() - iCrossWielkosc, oKrzyzowka2.getX(), oKrzyzowka.getY() + iCrossWielkosc);
 					}
-				if (j + 1 == oPlansza.getHeight())
+				if (j + 1 == oBoard.getHeight())
 					{
 					g.drawLine(oKrzyzowka.getX() - iCrossWielkosc, oKrzyzowka2.getY(), oKrzyzowka.getX() + iCrossWielkosc, oKrzyzowka2.getY());
 					g.drawLine(oKrzyzowka.getX(), oKrzyzowka2.getY() - iCrossWielkosc, oKrzyzowka.getX(), oKrzyzowka2.getY() + iCrossWielkosc);
 					}
-				if (i + 1 == oPlansza.getWidth() && j + 1 == oPlansza.getHeight())
+				if (i + 1 == oBoard.getWidth() && j + 1 == oBoard.getHeight())
 					{
 					g.drawLine(oKrzyzowka2.getX() - iCrossWielkosc, oKrzyzowka2.getY(), oKrzyzowka2.getX() + iCrossWielkosc, oKrzyzowka2.getY());
 					g.drawLine(oKrzyzowka2.getX(), oKrzyzowka2.getY() - iCrossWielkosc, oKrzyzowka2.getX(), oKrzyzowka2.getY() + iCrossWielkosc);
@@ -238,7 +238,7 @@ public class JComponentPlansza
 				//zawartosc pola
 				try
 					{
-					FieldTypeBoard eTyp = oPlansza.getPole(i, j);
+					FieldTypeBoard eTyp = oBoard.getField(i, j);
 					bRysuj = false;
 					switch (eTyp)
 						{
@@ -248,12 +248,12 @@ public class JComponentPlansza
 								bRysuj = true;
 							break;
 						case CUSTOMS_SHOT_BOARD:
-							g.setColor(oKolorStrzalCelny);
+							g.setColor(oKolorshotCelny);
 							bRysuj = true;
 							break;
 						case BOARD_FIELD_UNAVAILABLE:
 						case BOARD_SHOT_FALSE:
-							g.setColor(oKolorStrzalNiecelny);
+							g.setColor(oKolorshotNiecelny);
 							bRysuj = true;
 							break;
 						}
@@ -262,12 +262,12 @@ public class JComponentPlansza
 						g.fillRect(iPoleX, iPoleY, iPoleSzerokosc, iPoleWysokosc);
 						}
 					//wyroznienie pola
-					if (iNumerKoloruWyroznienia > 0 && oWyroznionePole.getX() == i && oWyroznionePole.getY() == j)
+					if (iNumberKoloruWyroznienia > 0 && oWyroznionePole.getX() == i && oWyroznionePole.getY() == j)
 						{
-						if (oPlansza.getPole(i, j) == FieldTypeBoard.SHIP_BOARD || oPlansza.getPole(i, j) == FieldTypeBoard.CUSTOMS_SHOT_BOARD)
-							g.setColor(aKoloryWyroznieniaStatkow[iNumerKoloruWyroznienia]);
+						if (oBoard.getField(i, j) == FieldTypeBoard.SHIP_BOARD || oBoard.getField(i, j) == FieldTypeBoard.CUSTOMS_SHOT_BOARD)
+							g.setColor(aKoloryWyroznieniaStatkow[iNumberKoloruWyroznienia]);
 						else
-							g.setColor(aKoloryWyroznieniaPolPustych[iNumerKoloruWyroznienia]);
+							g.setColor(aKoloryWyroznieniaPolPustych[iNumberKoloruWyroznienia]);
 						g.fillRect(iPoleX, iPoleY, iPoleSzerokosc, iPoleWysokosc);
 						}
 					}

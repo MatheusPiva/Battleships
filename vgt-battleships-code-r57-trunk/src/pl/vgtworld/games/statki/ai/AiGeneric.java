@@ -29,22 +29,22 @@ public abstract class AiGeneric
 	 */
 	protected ShipIterator oStatki;
 	/**
-	 * Przechowuje wspolrzedne ostatniego celnego strzalu.<br />
+	 * Przechowuje wspolrzedne ostatniego celnego shotu.<br />
 	 * 
-	 * Wartosc tego pola nalezy uzupelniac we wszystkich metodach oddajacych strzal na plansze przeciwnika.
+	 * Wartosc tego pola nalezy uzupelniac we wszystkich metodach oddajacych shot na plansze przeciwnika.
 	 */
 	protected Position oOstatnieTrafienie;
 	/**
 	 * Kontener wykorzystywany do przechowywania wspolrzednych dla udanych trafien w poprzednich rundach.
 	 * 
-	 * Na jego podstawie mozliwe jest szukanie kolejnych pol trafionego statku w celu jego dalszego ostrzalu.
+	 * Na jego podstawie mozliwe jest szukanie kolejnych pol trafionego statku w celu jego dalszego oshotu.
 	 */
 	protected ArrayList<Position> oUzyteczneTrafienia;
 	/**
 	 * Wlasciwosc okresla, czy statki na planszy moga byc tylko pionowymi/poziomymi liniami (TRUE),
 	 * czy tez moga miec dowolne ksztalty (FALSE, domyslnie).
 	 */
-	protected boolean bProsteLinie;
+	protected boolean bStraightLines;
 	/**
 	 * Generator liczb losowych.
 	 */
@@ -57,7 +57,7 @@ public abstract class AiGeneric
 	public AiGeneric(ShipIterator oStatki)
 		{
 		this.oStatki = oStatki;
-		bProsteLinie = false;
+		bStraightLines = false;
 		oRand = new Random();
 		oOstatnieTrafienie = new Position(2);
 		oOstatnieTrafienie.setX(-1);
@@ -72,27 +72,27 @@ public abstract class AiGeneric
 	 */
 	public void setProsteLinie(boolean bWartosc)
 		{
-		bProsteLinie = bWartosc;
+		bStraightLines = bWartosc;
 		}
 	/**
-	 * Najprostrza mozliwa implementacja wyboru pola do ostrzelania. Metoda wyszukuje wszystkie pola, na ktore mozna oddac strzal
+	 * Najprostrza mozliwa implementacja wyboru pola do ostrzelania. Metoda wyszukuje wszystkie pola, na ktore mozna oddac shot
 	 * i losowo wybiera jedno z nich.<br />
 	 * 
-	 * Informacje na temat wspolrzednych oddanego strzalu sa przekazywane do metody strzal() kontenera
-	 * statkow przekazanego w parametrze i tam jest zrealizowana pelna obsluga strzalu.
+	 * Informacje na temat wspolrzednych oddanego shotu sa przekazywane do metody shot() kontenera
+	 * statkow przekazanego w parametrze i tam jest zrealizowana pelna obsluga shotu.
 	 * 
 	 * @param oStatkiPrzeciwnika Kontener statkow przeciwnika, ktory ma byc ostrzelany.
-	 * @return Zwraca TRUE w przypadku trafienia ktoregos ze statkow, lub FALSE, jesli strzal byl niecelny.
+	 * @return Zwraca TRUE w przypadku trafienia ktoregos ze statkow, lub FALSE, jesli shot byl niecelny.
 	 */
-	protected boolean strzalLosowy(ShipIterator oStatkiPrzeciwnika)
+	protected boolean shotLosowy(ShipIterator oStatkiPrzeciwnika)
 		{
 		try
 			{
-			Position oWylosowanePole = losujPole(oStatkiPrzeciwnika.getPlansza());
-			boolean bTrafienie = oStatkiPrzeciwnika.strzal(oWylosowanePole.getX(), oWylosowanePole.getY());
+			Position oWylosowanePole = losujPole(oStatkiPrzeciwnika.getBoard());
+			boolean bTrafienie = oStatkiPrzeciwnika.shot(oWylosowanePole.getX(), oWylosowanePole.getY());
 			if (bTrafienie == true)
 				{
-				//zapisanie celnego strzalu w tablicy trafien
+				//zapisanie celnego shotu w tablicy trafien
 				Position oTrafienie = new Position(2);
 				oTrafienie.setX(oWylosowanePole.getX());
 				oTrafienie.setY(oWylosowanePole.getY());
@@ -109,16 +109,16 @@ public abstract class AiGeneric
 	 * Metoda wybiera losowo jedno z zapisanych wczesniejszych trafien i sprawdza, czy mozna ostrzelac ktores z sasiadujacych pol.<br />
 	 * 
 	 * Jesli tak, wybiera jedno z pol do ostrzelania. Jesli nie, usuwa pole z listy, wybiera losowo kolejne zapisane trafienie
-	 * i powtarza proces. Jesli wyczerpane zostana zapisane trafienia, wywolywana jest metoda strzalLosowy()
+	 * i powtarza proces. Jesli wyczerpane zostana zapisane trafienia, wywolywana jest metoda shotLosowy()
 	 * 
 	 * @param oStatkiPrzeciwnika Kontener statkow przeciwnika.
-	 * @return Zwraca TRUE, w przypadku trafienia statku, lub FALSE, jesli strzal byl niecelny.
+	 * @return Zwraca TRUE, w przypadku trafienia statku, lub FALSE, jesli shot byl niecelny.
 	 */
-	protected boolean strzalSasiadujacy(ShipIterator oStatkiPrzeciwnika)
+	protected boolean shotSasiadujacy(ShipIterator oStatkiPrzeciwnika)
 		{
-		//przygotowanie kontenera przechowujacego do 4 sasiednich pol, ktore nadaja sie do kolejnego strzalu
+		//przygotowanie kontenera przechowujacego do 4 sasiednich pol, ktore nadaja sie do kolejnego shotu
 		ArrayList<Position> oSasiedniePola = new ArrayList<Position>(4);
-		//petla wyszukujaca we wczesniejszych trafieniach pola do oddania kolejnego strzalu
+		//petla wyszukujaca we wczesniejszych trafieniach pola do oddania kolejnego shotu
 		while (oUzyteczneTrafienia.size() > 0)
 			{
 			//wylosowanie pola do przetestowania
@@ -131,13 +131,13 @@ public abstract class AiGeneric
 				for (int i = -1; i <= 1; ++i)
 					for (int j = -1; j <= 1; ++j)
 						if (
-							oWybranePole.getX() + i >= 0 && oWybranePole.getX() + i < oStatkiPrzeciwnika.getPlansza().getWidth()
-							&& oWybranePole.getY() + j >= 0 && oWybranePole.getY() + j < oStatkiPrzeciwnika.getPlansza().getHeight()
+							oWybranePole.getX() + i >= 0 && oWybranePole.getX() + i < oStatkiPrzeciwnika.getBoard().getWidth()
+							&& oWybranePole.getY() + j >= 0 && oWybranePole.getY() + j < oStatkiPrzeciwnika.getBoard().getHeight()
 							&& (i + j == -1 || i + j == 1)
 							)
 							{
-							if (oStatkiPrzeciwnika.getPlansza().getPole(oWybranePole.getX() + i, oWybranePole.getY() + j) != FieldTypeBoard.BOARD_FIELD_EMPTY
-								&& oStatkiPrzeciwnika.getPlansza().getPole(oWybranePole.getX() + i, oWybranePole.getY() + j) != FieldTypeBoard.SHIP_BOARD
+							if (oStatkiPrzeciwnika.getBoard().getField(oWybranePole.getX() + i, oWybranePole.getY() + j) != FieldTypeBoard.BOARD_FIELD_EMPTY
+								&& oStatkiPrzeciwnika.getBoard().getField(oWybranePole.getX() + i, oWybranePole.getY() + j) != FieldTypeBoard.SHIP_BOARD
 								)
 								{
 								} else {
@@ -148,19 +148,19 @@ public abstract class AiGeneric
                                     }
 							}
 				
-				if (bProsteLinie == true)
+				if (bStraightLines == true)
 					{
 					boolean bPionowy = false;
 					boolean bPoziomy = false;
 					for (int i = -1; i <= 1; ++i)
 						for (int j = -1; j <= 1; ++j)
 							if (
-								oWybranePole.getX() + i >= 0 && oWybranePole.getX() + i < oStatkiPrzeciwnika.getPlansza().getWidth()
-								&& oWybranePole.getY() + j >= 0 && oWybranePole.getY() + j < oStatkiPrzeciwnika.getPlansza().getHeight()
+								oWybranePole.getX() + i >= 0 && oWybranePole.getX() + i < oStatkiPrzeciwnika.getBoard().getWidth()
+								&& oWybranePole.getY() + j >= 0 && oWybranePole.getY() + j < oStatkiPrzeciwnika.getBoard().getHeight()
 								&& (i + j == -1 || i + j == 1)
 								)
 								{
-								if (oStatkiPrzeciwnika.getPlansza().getPole(oWybranePole.getX() + i, oWybranePole.getY() + j) == FieldTypeBoard.CUSTOMS_SHOT_BOARD)
+								if (oStatkiPrzeciwnika.getBoard().getField(oWybranePole.getX() + i, oWybranePole.getY() + j) == FieldTypeBoard.CUSTOMS_SHOT_BOARD)
 									{
 									if (i == 0)
 										bPionowy = true;
@@ -186,20 +186,20 @@ public abstract class AiGeneric
 				
 				if (!oSasiedniePola.isEmpty())
 					{
-					//sa pola prawidlowe do oddania kolejnego strzalu
+					//sa pola prawidlowe do oddania kolejnego shotu
 					int iWylosowanySasiad = oRand.nextInt(oSasiedniePola.size());
-					//oddanie strzalu na wspolrzedne weybranego pola
-					boolean bStrzal;
-					bStrzal = oStatkiPrzeciwnika.strzal(oSasiedniePola.get(iWylosowanySasiad).getX(), oSasiedniePola.get(iWylosowanySasiad).getY());
-					if (bStrzal == true)
+					//oddanie shotu na wspolrzedne weybranego pola
+					boolean bshot;
+					bshot = oStatkiPrzeciwnika.shot(oSasiedniePola.get(iWylosowanySasiad).getX(), oSasiedniePola.get(iWylosowanySasiad).getY());
+					if (bshot == true)
 						{
-						//zapisanie celnego strzalu w tablicy trafien
+						//zapisanie celnego shotu w tablicy trafien
 						Position oTrafienie = new Position(2);
 						oTrafienie.setX( oSasiedniePola.get(iWylosowanySasiad).getX() );
 						oTrafienie.setY( oSasiedniePola.get(iWylosowanySasiad).getY() );
 						oUzyteczneTrafienia.add(oTrafienie);
 						}
-					return bStrzal;
+					return bshot;
 					}
 				else
 					{
@@ -213,45 +213,45 @@ public abstract class AiGeneric
 				}
 			
 			}
-		return strzalLosowy(oStatkiPrzeciwnika);
+		return shotLosowy(oStatkiPrzeciwnika);
 		}
 	/**
-	 * Metoda wyszukuje losowo na planszy pole do oddania strzalu, jednak jesli wylosowane pole nie zawiera statku,
-	 * nastepuje ponowne losowanie w celu znalezienia lepszego pola do strzalu. Dozwolona ilosc powtorzen okresla
+	 * Metoda wyszukuje losowo na planszy pole do oddania shotu, jednak jesli wylosowane pole nie zawiera statku,
+	 * nastepuje ponowne losowanie w celu znalezienia lepszego pola do shotu. Dozwolona ilosc powtorzen okresla
 	 * drugi parametr.<br />
 	 * 
-	 * Jesli w ktorejkolwiek iteracji nastapi wylosowanie pola zawierajacego statek, strzal uznaje sie za trafiony
+	 * Jesli w ktorejkolwiek iteracji nastapi wylosowanie pola zawierajacego statek, shot uznaje sie za trafiony
 	 * i nie sa wykonywane kolejne iteracje petli.<br />
 	 * 
 	 * Jesli w ostatniej iteracji takze zostanie wylosowane pole puste,
-	 * wspolrzedne tego pola zostaje uznane za wykonany strzal i jest on niecelny.
+	 * wspolrzedne tego pola zostaje uznane za wykonany shot i jest on niecelny.
 	 * 
 	 * @param oStatkiPrzeciwnika Kontener statkow przeciwnika.
-	 * @param iIloscPowtorzen Dozwolona ilosc powtorzen losowania pola do ostrzalu.
-	 * @return Zwraca TRUE, w przypadku trafienia statku, lub FALSE, jesli strzal byl niecelny.
+	 * @param iIloscPowtorzen Dozwolona ilosc powtorzen losowania pola do oshotu.
+	 * @return Zwraca TRUE, w przypadku trafienia statku, lub FALSE, jesli shot byl niecelny.
 	 */
-	protected boolean strzalWielokrotny(ShipIterator oStatkiPrzeciwnika, int iIloscPowtorzen)
+	protected boolean shotWielokrotny(ShipIterator oStatkiPrzeciwnika, int iIloscPowtorzen)
 		{
 		try
 			{
 			Position oWylosowanePole = null;
-			Board oPlansza = oStatkiPrzeciwnika.getPlansza();
+			Board oBoard = oStatkiPrzeciwnika.getBoard();
 			for (int i = 1; i <= iIloscPowtorzen; ++i)
 				{
-				oWylosowanePole = losujPole(oPlansza);
-				if (oPlansza.getPole(oWylosowanePole.getX(), oWylosowanePole.getY()) == FieldTypeBoard.SHIP_BOARD || i == iIloscPowtorzen)
+				oWylosowanePole = losujPole(oBoard);
+				if (oBoard.getField(oWylosowanePole.getX(), oWylosowanePole.getY()) == FieldTypeBoard.SHIP_BOARD || i == iIloscPowtorzen)
 					{
-					boolean bStrzal;
-					bStrzal = oStatkiPrzeciwnika.strzal(oWylosowanePole.getX(), oWylosowanePole.getY());
-					if (bStrzal == true)
+					boolean bshot;
+					bshot = oStatkiPrzeciwnika.shot(oWylosowanePole.getX(), oWylosowanePole.getY());
+					if (bshot == true)
 						{
-						//zapisanie celnego strzalu w tablicy trafien
+						//zapisanie celnego shotu w tablicy trafien
 						Position oTrafienie = new Position(2);
 						oTrafienie.setX( oWylosowanePole.getX() );
 						oTrafienie.setY( oWylosowanePole.getY() );
 						oUzyteczneTrafienia.add(oTrafienie);
 						}
-					return bStrzal;
+					return bshot;
 					}
 				}
 			}
@@ -259,32 +259,32 @@ public abstract class AiGeneric
 			{
 			throw new DeveloperException(e);
 			}
-		//petla musi zwrocic strzal. skoro doszlo tutaj - wywal wyjatek
+		//petla musi zwrocic shot. skoro doszlo tutaj - wywal wyjatek
 		throw new DeveloperException();
 		}
 	/**
 	 * Metoda wybiera losowe pole dostepne do ostrzelania na planszy przeciwnika i zwraca obiekt typu Position zawierajacy te wspolrzedne.
 	 * 
-	 * @param oPlanszaPrzeciwnika Board przeciwnika, na ktora ma byc oddany strzal.
+	 * @param oBoardPrzeciwnika Board przeciwnika, na ktora ma byc oddany shot.
 	 * @return Wspolrzedne wylosowanego pola do ostrzelania.
 	 */
-	private Position losujPole(Board oPlanszaPrzeciwnika)
+	private Position losujPole(Board oBoardPrzeciwnika)
 		{
 		try
 			{
 			Position oWylosowanePole = new Position(2);
-			int iWylosowanePole = oRand.nextInt( oPlanszaPrzeciwnika.getUnknownQuantity() ) + 1;
+			int iWylosowanePole = oRand.nextInt( oBoardPrzeciwnika.getUnknownQuantity() ) + 1;
 			//obliczenie x i y dla wylosowanego pola
 			int iX = 0;
 			int iY = 0;
 			while (iWylosowanePole > 0)
 				{
-				if (oPlanszaPrzeciwnika.getPole(iX, iY) == FieldTypeBoard.BOARD_FIELD_EMPTY || oPlanszaPrzeciwnika.getPole(iX, iY) == FieldTypeBoard.SHIP_BOARD)
+				if (oBoardPrzeciwnika.getField(iX, iY) == FieldTypeBoard.BOARD_FIELD_EMPTY || oBoardPrzeciwnika.getField(iX, iY) == FieldTypeBoard.SHIP_BOARD)
 					--iWylosowanePole;
 				if (iWylosowanePole > 0)
 					{
 					++iX;
-					if (iX == oPlanszaPrzeciwnika.getWidth())
+					if (iX == oBoardPrzeciwnika.getWidth())
 						{
 						++iY;
 						iX = 0;

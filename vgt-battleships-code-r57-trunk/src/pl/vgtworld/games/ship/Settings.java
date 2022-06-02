@@ -150,7 +150,7 @@ public class Settings
 	 * @param iSize Size of the ships to be counted.
 	 * @return Number of ships of the given size.
 	 */
-	public int getIloscStatkow(int iSize)
+	public int getNumberOfShips(int iSize)
 		{
 		int iQuantity = 0;
 		for (int iShip: aShips)

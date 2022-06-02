@@ -8,8 +8,8 @@ import pl.vgtworld.games.ship.ShipIterator;
  * Dopoki komputer wygrywa, lub rozgrwka jest wyrownana, jedyne co AI realizuje, to ostrzeliwanie wczesniej
  * trafionych pol staku, lub strzelanie losowe, jesli zadnych pol trafionych nie ma.<br />
  * 
- * Gdy AI przegrywa, zaczyna oszukiwac i po wylosowaniu miejsca strzalu sprawdza, czy na danym polu przeciwnika
- * jest statek. Jesli pole jest puste, nie oddaje strzalu, tylko losuje ponownie inne pole.<br />
+ * Gdy AI przegrywa, zaczyna oszukiwac i po wylosowaniu miejsca shotu sprawdza, czy na danym polu przeciwnika
+ * jest statek. Jesli pole jest puste, nie oddaje shotu, tylko losuje ponownie inne pole.<br />
  * 
  * Ilosc prob uzalezniona jest od tego, jak bardzo AI przegrywa wzgledem gracza.
  * 
@@ -32,29 +32,29 @@ public class AiCheater
 	/**
 	 * Implementacja metody interface'u Ai.
 	 */
-	public boolean strzal(ShipIterator oStatkiPrzeciwnika)
+	public boolean shot(ShipIterator oStatkiPrzeciwnika)
 		{
 		if (oUzyteczneTrafienia.size() > 0)
 			{
-			return strzalSasiadujacy(oStatkiPrzeciwnika);
+			return shotSasiadujacy(oStatkiPrzeciwnika);
 			}
 		else
 			{
 			//ustalenie, czy komputer przegrywa
-                        int iAiTotal = oStatki.getIloscTrafionychStatkow() + oStatki.getIloscZatopionychStatkow();
-                        int iEnemyTotal = oStatkiPrzeciwnika.getIloscTrafionychStatkow() - oStatkiPrzeciwnika.getIloscZatopionychStatkow();
+                        int iAiTotal = oStatki.getNumberOfShipsHit() + oStatki.getNumberOfSunkenShips();
+                        int iEnemyTotal = oStatkiPrzeciwnika.getNumberOfShipsHit() - oStatkiPrzeciwnika.getNumberOfSunkenShips();
 			int iDifference = iAiTotal - iEnemyTotal;
 			if (iDifference > 0)
 				{
 				//komputer przegrywa
 				int iIloscDozwolonychProb;
-                                iIloscDozwolonychProb = (1 + (oStatkiPrzeciwnika.getIloscNieuszkodzonychStatkow() - oStatki.getIloscNieuszkodzonychStatkow()));
-				return strzalWielokrotny(oStatkiPrzeciwnika, iIloscDozwolonychProb);
+                                iIloscDozwolonychProb = (1 + (oStatkiPrzeciwnika.getNumberOfSunkenShips() - oStatki.getNumberOfSunkenShips()));
+				return shotWielokrotny(oStatkiPrzeciwnika, iIloscDozwolonychProb);
 				}
 			else
 				{
 				//komputer wygrywa
-				return strzalLosowy(oStatkiPrzeciwnika);
+				return shotLosowy(oStatkiPrzeciwnika);
 				}
 			}
 		}

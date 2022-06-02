@@ -26,8 +26,8 @@ public class AiBasic
 	/**
 	 * Implementacja metody interface'u Ai.
 	 */
-	public boolean strzal(ShipIterator oStatkiPrzeciwnika)
+	public boolean shot(ShipIterator oStatkiPrzeciwnika)
 		{
-		return strzalLosowy(oStatkiPrzeciwnika);
+		return shotLosowy(oStatkiPrzeciwnika);
 		}
 	}

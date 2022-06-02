@@ -11,10 +11,10 @@ import pl.vgtworld.games.ship.ShipIterator;
 public interface Ai
 	{
 	/**
-	 * Glowna metoda obslugujaca strzal na plansze przeciwnika.
+	 * Glowna metoda obslugujaca shot na plansze przeciwnika.
 	 * 
 	 * @param oStatkiPrzeciwnika Kontener statkow przeciwnika.
-	 * @return Zwraca TRUE w przypadku trafenia statku, lub FALSE, jesli strzal byl niecelny.
+	 * @return Zwraca TRUE w przypadku trafenia statku, lub FALSE, jesli shot byl niecelny.
 	 */
-	public boolean strzal(ShipIterator oStatkiPrzeciwnika);
+	public boolean shot(ShipIterator oStatkiPrzeciwnika);
 	}

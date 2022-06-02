@@ -126,9 +126,9 @@ public class JFrameGameWindowSettings
 	 */
 	private Ai oAi;
 	/**
-	 * Zmienna okreslajaca, czy jest kolej gracza na oddanie strzalu.<br />
+	 * Zmienna okreslajaca, czy jest kolej gracza na oddanie shotu.<br />
 	 * 
-	 * Wykorzystywana w celu zablokowania oddania strzalu, gdy jest kolej komputera, lub gra zakonczyla sie
+	 * Wykorzystywana w celu zablokowania oddania shotu, gdy jest kolej komputera, lub gra zakonczyla sie
 	 * zwyciestwem ktoregos gracza.
 	 */
 	private boolean bKolejGracza;
@@ -207,19 +207,19 @@ public class JFrameGameWindowSettings
 	/**
 	 * Klasa prywatna obslugujaca przebieg pojedynczego cyklu rozgrywki.<br />
 	 * 
-	 * - oddanie strzalu przez gracza poprzez klikniecie na plansze komputera realizowane przez metode mousePressed().<br />
-	 * - oddanie strzalu przez komputer na plansze gracza wywolywane z metody actionPerformed() za pomoca timera.
+	 * - oddanie shotu przez gracza poprzez klikniecie na plansze komputera realizowane przez metode mousePressed().<br />
+	 * - oddanie shotu przez komputer na plansze gracza wywolywane z metody actionPerformed() za pomoca timera.
 	 */
 	private class RozgrywkaMouseListener
 		extends MouseAdapter
 		implements ActionListener
 		{
-		private Board oPlansza;
+		private Board oBoard;
 		private JComponentPlansza oCompPlansza;
 		private Timer oTimer;
-		public RozgrywkaMouseListener(Board oPlansza, JComponentPlansza oCompPlansza)
+		public RozgrywkaMouseListener(Board oBoard, JComponentPlansza oCompPlansza)
 			{
-			this.oPlansza = oPlansza;
+			this.oBoard = oBoard;
 			this.oCompPlansza = oCompPlansza;
 			oTimer = new Timer(1000, this);
 			oTimer.setRepeats(false);
@@ -237,8 +237,8 @@ public class JFrameGameWindowSettings
 			}
 		@Override public void mousePressed(MouseEvent event)
 			{
-			int iPlanszaSzerokosc = oPlansza.getWidth();
-			int iPlanszaWysokosc = oPlansza.getHeight();
+			int iPlanszaSzerokosc = oBoard.getWidth();
+			int iPlanszaWysokosc = oBoard.getHeight();
 			int iKomponentSzerokosc = oCompPlansza.getWidth();
 			int iKomponentWysokosc = oCompPlansza.getHeight();
 			int iClickX = event.getX();
@@ -250,21 +250,21 @@ public class JFrameGameWindowSettings
 				if (bKolejGracza == true
 					&& oKliknietePole.getX() >= 0 && oKliknietePole.getX() < iPlanszaSzerokosc
 					&& oKliknietePole.getY() >= 0 && oKliknietePole.getY() < iPlanszaWysokosc
-					&& (oPlansza.getPole(oKliknietePole.getX(), oKliknietePole.getY()) == FieldTypeBoard.BOARD_FIELD_EMPTY
-						|| oPlansza.getPole(oKliknietePole.getX(), oKliknietePole.getY()) == FieldTypeBoard.SHIP_BOARD
+					&& (oBoard.getField(oKliknietePole.getX(), oKliknietePole.getY()) == FieldTypeBoard.BOARD_FIELD_EMPTY
+						|| oBoard.getField(oKliknietePole.getX(), oKliknietePole.getY()) == FieldTypeBoard.SHIP_BOARD
 						)
 					)
 					{
 					bKolejGracza = false;
-					int iIloscZatopionychPrzedStrzalem = oStatkiKomputer.getIloscZatopionychStatkow();
+					int iIloscZatopionychPrzedshotem = oStatkiKomputer.getNumberOfSunkenShips();
 					
-					//strzal na plansze komputera
+					//shot na plansze komputera
 					boolean bTrafienie;
-					bTrafienie = oStatkiKomputer.strzal(oKliknietePole.getX(), oKliknietePole.getY());
+					bTrafienie = oStatkiKomputer.shot(oKliknietePole.getX(), oKliknietePole.getY());
 					JComponentPlansza oComponentPlansza = (JComponentPlansza)oPanelPlanszeKontener.getComponent(1);
 					oComponentPlansza.aktywujWyroznienie(oKliknietePole);
 					//obsluga sprawdzania, czy koniec gry
-					if (bTrafienie == true && oStatkiKomputer.getIloscStatkow() == oStatkiKomputer.getIloscZatopionychStatkow())
+					if (bTrafienie == true && oStatkiKomputer.getNumberOfShips() == oStatkiKomputer.getNumberOfSunkenShips())
 						{
 						oStatusGry.playerVictory();
 						oComponentStatusGry.aktualizujDane();
@@ -288,7 +288,7 @@ public class JFrameGameWindowSettings
                                                     }
                                                     
 						oComponentStatusGry.aktualizujDane();
-						if (iIloscZatopionychPrzedStrzalem != oStatkiKomputer.getIloscZatopionychStatkow())
+						if (iIloscZatopionychPrzedshotem != oStatkiKomputer.getNumberOfSunkenShips())
 							oComponentWydarzenia.ustawPrawyKomunikat(LANG.getProperty("message.hit2"));
 						else
 							oComponentWydarzenia.ustawPrawyKomunikat(LANG.getProperty("message.hit1"));
@@ -304,13 +304,13 @@ public class JFrameGameWindowSettings
 			}
 		public void actionPerformed(ActionEvent oEvent)
 			{
-			int iIloscZatopionychPrzedStrzalem = oStatkiGracz.getIloscZatopionychStatkow();
-			//strzal na plansze gracza
-			boolean bTrafienie = oAi.strzal(oStatkiGracz);
+			int iIloscZatopionychPrzedshotem = oStatkiGracz.getNumberOfSunkenShips();
+			//shot na plansze gracza
+			boolean bTrafienie = oAi.shot(oStatkiGracz);
 			JComponentPlansza oComponentPlansza = (JComponentPlansza)oPanelPlanszeKontener.getComponent(0);
-			oComponentPlansza.aktywujWyroznienie(oStatkiGracz.getOstatniStrzal());
+			oComponentPlansza.aktywujWyroznienie(oStatkiGracz.getOstatnishot());
 			//obsluga sprawdzania, czy koniec gry
-			if (bTrafienie == true && oStatkiGracz.getIloscStatkow() == oStatkiGracz.getIloscZatopionychStatkow())
+			if (bTrafienie == true && oStatkiGracz.getNumberOfShips() == oStatkiGracz.getNumberOfSunkenShips())
 				{
 				oStatusGry.computerVictory();
 				oComponentStatusGry.aktualizujDane();
@@ -329,7 +329,7 @@ public class JFrameGameWindowSettings
 			else if (bTrafienie == true)
 				{
 				oComponentStatusGry.aktualizujDane();
-				if (iIloscZatopionychPrzedStrzalem != oStatkiGracz.getIloscZatopionychStatkow())
+				if (iIloscZatopionychPrzedshotem != oStatkiGracz.getNumberOfSunkenShips())
 					oComponentWydarzenia.ustawLewyKomunikat(LANG.getProperty("message.hit2"));
 				else
 					oComponentWydarzenia.ustawLewyKomunikat(LANG.getProperty("message.hit1"));
@@ -350,7 +350,7 @@ public class JFrameGameWindowSettings
 		this(oStatusGry, oUstawienia, MIN_SZEROKOSC, MIN_WYSOKOSC);
 		}
 	/**
-	 * konstruktor przeciazaony pozwalajacy zdefiniowac rozmiar okna gry.
+	 * konstruktor przeciazaony pozwalajacy zdefiniowac Size okna gry.
 	 * 
 	 * @param oStatusGry Obiekt przechowujacy informacje na temat aktualnego statusu gry.
 	 * @param oUstawienia Obiekt przechowujacy ustawienia dotyczace rozgrywki.
@@ -486,25 +486,25 @@ public class JFrameGameWindowSettings
 	/**
 	 * Metoda dodaje do kontenera plansz przekazana w parametrze plansze.
 	 * 
-	 * @param oPlansza Board, ktora ma byc wyswietlana w kontenerze plansz.
+	 * @param oBoard Board, ktora ma byc wyswietlana w kontenerze plansz.
 	 * @param bWyswietlStatki Zmienna okreslajaca, czy na planszy maja byc wyswietlane takze nietrafione pola statkow.
 	 */
-	public void dodajPlansze(Board oPlansza, boolean bWyswietlStatki)
+	public void dodajPlansze(Board oBoard, boolean bWyswietlStatki)
 		{
-		dodajPlansze(oPlansza, bWyswietlStatki, null);
+		dodajPlansze(oBoard, bWyswietlStatki, null);
 		}
 	/**
 	 * Metoda dodaje do kontenera plansz przekazana w parametrze plansze.<br />
 	 * 
 	 * Wersja przeciazona, ktora dodatkowo pozwala przekazac listener klikniec na plansze.
 	 * 
-	 * @param oPlansza Board, ktora ma byc wyswietlana w kontenerze plansz.
+	 * @param oBoard Board, ktora ma byc wyswietlana w kontenerze plansz.
 	 * @param bWyswietlStatki Zmienna okreslajaca, czy na planszy maja byc wyswietlane takze nietrafione pola statkow.
 	 * @param oMouseListener Obiekt obslugi zdarzen klikniec dla dodawanej planszy.
 	 */
-	public void dodajPlansze(Board oPlansza, boolean bWyswietlStatki, RozgrywkaMouseListener oMouseListener)
+	public void dodajPlansze(Board oBoard, boolean bWyswietlStatki, RozgrywkaMouseListener oMouseListener)
 		{
-		JComponentPlansza oCompPlansza = new JComponentPlansza(oPlansza);
+		JComponentPlansza oCompPlansza = new JComponentPlansza(oBoard);
 		if (oMouseListener != null)
 			{
 			if (oMouseListener.isSetComponent() == false)
@@ -554,8 +554,8 @@ public class JFrameGameWindowSettings
 			oPanelPlanszeKontener.removeAll();
 			if (oPanelPlanszeKontener.getComponentCount() == 0)
 				{
-				dodajPlansze(oStatkiGracz.getPlansza(), true);
-				dodajPlansze(oStatkiKomputer.getPlansza(), false, new RozgrywkaMouseListener(oStatkiKomputer.getPlansza(), null));
+				dodajPlansze(oStatkiGracz.getBoard(), true);
+				dodajPlansze(oStatkiKomputer.getBoard(), false, new RozgrywkaMouseListener(oStatkiKomputer.getBoard(), null));
 				}
 			oPanelPrzyciski.setVisible(false);
 			oPanelZaznaczanieStatkow.setVisible(false);
@@ -585,18 +585,18 @@ public class JFrameGameWindowSettings
 	/**
 	 * Metoda tworzy nowa plansze i nowy kontener zawierajacy statki dla gracza i zwraca obiekt kontenera.<br />
 	 * 
-	 * Rozmiar planszy, ilosc i rozmiar statkow sa ustalane na podstawie ustawien gry przekazanych w parametrze.
+	 * Size planszy, ilosc i Size statkow sa ustalane na podstawie ustawien gry przekazanych w parametrze.
 	 * 
 	 * @param oUstawienia Settings glowne gry.
 	 * @return Zwraca kontener statkow gracza.
 	 */
 	public static ShipIterator generujGracza(Settings oUstawienia)
 		{
-		Board oPlansza = new Board(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
-		ShipIterator oStatki = new ShipIterator(oPlansza);
+		Board oBoard = new Board(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
+		ShipIterator oStatki = new ShipIterator(oBoard);
 		int[] aListaStatkow = oUstawienia.getShips();
-		for (int iRozmiar: aListaStatkow)
-			oStatki.dodajStatek(iRozmiar);
+		for (int iSize: aListaStatkow)
+			oStatki.addAShip(iSize);
 		return oStatki;
 		}
 	}

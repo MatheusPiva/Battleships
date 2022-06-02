@@ -15,11 +15,11 @@ public class JListUstawieniaListaStatkow
 	extends JList
 	{
 	/**
-	 * Tablica przechowujaca rozmiary statkow.
+	 * Tablica przechowujaca Sizey statkow.
 	 */
 	private ArrayList<Integer> oListaInt;
 	/**
-	 * Model listy przechowujacy rozmiary statkow.
+	 * Model listy przechowujacy Sizey statkow.
 	 */
 	private DefaultListModel oJListLista;
 	/**
@@ -36,14 +36,14 @@ public class JListUstawieniaListaStatkow
 	 * 
 	 * @return Ilosc statkow na liscie.
 	 */
-	public int getIloscStatkow()
+	public int getNumberOfShips()
 		{
 		return oListaInt.size();
 		}
 	/**
-	 * Zwraca tablice int zawierajaca rozmiar wszystkich statkow przechowywanych w liscie.
+	 * Zwraca tablice int zawierajaca Size wszystkich statkow przechowywanych w liscie.
 	 * 
-	 * @return Tablica z rozmiarami statkow przechowywanych w liscie.
+	 * @return Tablica z Sizeami statkow przechowywanych w liscie.
 	 */
 	public int[] getListaStatkow()
 		{
@@ -53,36 +53,36 @@ public class JListUstawieniaListaStatkow
 		return aLista;
 		}
 	/**
-	 * Dodaje do listy statek o podanym rozmiarze.
+	 * Dodaje do listy statek o podanym Sizeze.
 	 * 
-	 * @param iRozmiar Rozmiar dodawanego statku.
-	 * @throws ParameterException Wyrzuca wyjatek, jesli podany rozmiar jest mniejszy od 1.
+	 * @param iSize Size dodawanego statku.
+	 * @throws ParameterException Wyrzuca wyjatek, jesli podany Size jest mniejszy od 1.
 	 */
-	public void listaDodaj(int iRozmiar) throws ParameterException
+	public void listaDodaj(int iSize) throws ParameterException
 		{
-		if (iRozmiar < 1)
-			throw new ParameterException("iRozmiar = " + iRozmiar);
-		oListaInt.add(iRozmiar);
-		oJListLista.addElement(JListUstawieniaListaStatkow.statekNazwa(iRozmiar));
+		if (iSize < 1)
+			throw new ParameterException("iSize = " + iSize);
+		oListaInt.add(iSize);
+		oJListLista.addElement(JListUstawieniaListaStatkow.statekNazwa(iSize));
 		}
 	/**
-	 * Zmienia rozmiar statku o podanym indexie.
+	 * Zmienia Size statku o podanym indexie.
 	 * 
 	 * @param iIndex Index statku na liscie (liczony od 0).
-	 * @param iRozmiar Nowy rozmiar statku.
-	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow, lub rozmiar jest mniejszy od 1.
+	 * @param iSize Nowy Size statku.
+	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow, lub Size jest mniejszy od 1.
 	 */
-	public void listaZmien(int iIndex, int iRozmiar) throws ParameterException
+	public void listaZmien(int iIndex, int iSize) throws ParameterException
 		{
 		if (iIndex < 0 || iIndex >= oListaInt.size())
 			throw new ParameterException("iIndex = " + iIndex);
-		if (iRozmiar < 1)
-			throw new ParameterException("iRozmiar = " + iRozmiar);
-		oListaInt.set(iIndex, iRozmiar);
-		oJListLista.set(iIndex, JListUstawieniaListaStatkow.statekNazwa(iRozmiar));
+		if (iSize < 1)
+			throw new ParameterException("iSize = " + iSize);
+		oListaInt.set(iIndex, iSize);
+		oJListLista.set(iIndex, JListUstawieniaListaStatkow.statekNazwa(iSize));
 		}
 	/**
-	 * Powieksza o 1 rozmiar statku o podanym indexie.
+	 * Powieksza o 1 Size statku o podanym indexie.
 	 * 
 	 * @param iIndex Index statku na liscie (liczone od 0).
 	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
@@ -95,7 +95,7 @@ public class JListUstawieniaListaStatkow
 		oJListLista.set(iIndex, JListUstawieniaListaStatkow.statekNazwa(oListaInt.get(iIndex)));
 		}
 	/**
-	 * Pomniejsza o 1 rozmiar statku o podanym indexie.
+	 * Pomniejsza o 1 Size statku o podanym indexie.
 	 * 
 	 * @param iIndex Index statku na liscie (liczone od 0).
 	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
@@ -132,16 +132,16 @@ public class JListUstawieniaListaStatkow
 		oJListLista.clear();
 		}
 	/**
-	 * Metoda generujaca nazwe statku do wyswietlania na liscie na podstawie podanego rozmiaru.
+	 * Metoda generujaca nazwe statku do wyswietlania na liscie na podstawie podanego Sizeu.
 	 * 
-	 * @param iRozmiar Rozmiar statku.
+	 * @param iSize Size statku.
 	 * @return Nazwa statku.
 	 */
-	private static String statekNazwa(int iRozmiar) throws ParameterException
+	private static String statekNazwa(int iSize) throws ParameterException
 		{
-		if (iRozmiar < 1)
-			throw new ParameterException("iRozmiar = " + iRozmiar);
-		int iKlasaStatku = iRozmiar > 5 ? 5 : iRozmiar;
-		return JFrameGameWindowSettings.LANG.getProperty("shipName.size" + iKlasaStatku) + " ( " + iRozmiar + " )";
+		if (iSize < 1)
+			throw new ParameterException("iSize = " + iSize);
+		int iKlasaStatku = iSize > 5 ? 5 : iSize;
+		return JFrameGameWindowSettings.LANG.getProperty("shipName.size" + iKlasaStatku) + " ( " + iSize + " )";
 		}
 	}

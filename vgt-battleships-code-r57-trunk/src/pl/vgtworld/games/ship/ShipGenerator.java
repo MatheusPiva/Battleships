@@ -17,7 +17,7 @@ public class ShipGenerator
 	 * 
 	 * Docelowo zostanie ona wykorzystana, jako plansza obiektu kontenera statkow.
 	 */
-	private Board oPlansza;
+	private Board oBoard;
 	/**
 	 * Kontener statkow, ktory zostanie utworzony na podstawie dostarczonej planszy.
 	 */
@@ -33,11 +33,11 @@ public class ShipGenerator
 	/**
 	 * Konstruktor domyslny.
 	 * 
-	 * @param oPlansza Board z rozmieszczonymi statkami.
+	 * @param oBoard Board z rozmieszczonymi statkami.
 	 */
-	public ShipGenerator(Board oPlansza)
+	public ShipGenerator(Board oBoard)
 		{
-		this.oPlansza = oPlansza;
+		this.oBoard = oBoard;
 		oStatki = null;
 		aPolaStatkow = new Position[0];
 		iIloscPolStatkow = 0;
@@ -54,16 +54,16 @@ public class ShipGenerator
 			//wyszukanie na planszy oznaczonych pol i wyczyszczenie planszy
 			znajdzPola();
 			//utworzenie kontenera statkow
-			oStatki = new ShipIterator(oPlansza);
-			int iIloscStatkow = 0;
+			oStatki = new ShipIterator(oBoard);
+			int iNumberOfShips = 0;
 			//wypelnienie kontenera statkami
 			while (iIloscPolStatkow > 0)
 				{
 				Position[] aStatek = generujStatek();
-				oStatki.dodajStatek( aStatek.length );
-				++iIloscStatkow;
+				oStatki.addAShip( aStatek.length );
+				++iNumberOfShips;
 				for (int i = 0; i < aStatek.length; ++i)
-					oStatki.getStatek(iIloscStatkow).setPole(i+1, aStatek[i].getX(), aStatek[i].getY());
+					oStatki.getShip(iNumberOfShips).setField(i+1, aStatek[i].getX(), aStatek[i].getY());
 				}
 			//zwrocenie kontenera
 			return this.oStatki;
@@ -85,9 +85,9 @@ public class ShipGenerator
 			{
 			aPolaStatkow = new Position[0];
 			iIloscPolStatkow = 0;
-			for (int i = 0; i < oPlansza.getWidth(); ++i)
-				for (int j = 0; j < oPlansza.getHeight(); ++j)
-					if (oPlansza.getPole(i, j) == FieldTypeBoard.SHIP_BOARD)
+			for (int i = 0; i < oBoard.getWidth(); ++i)
+				for (int j = 0; j < oBoard.getHeight(); ++j)
+					if (oBoard.getField(i, j) == FieldTypeBoard.SHIP_BOARD)
 						{
 						Position[] aNowaLista = new Position[ iIloscPolStatkow + 1 ];
 						//przepisanie dotychczasowej listy
@@ -103,7 +103,7 @@ public class ShipGenerator
 						}
 			//zamazanie pol na planszy
 			for (int i = 0; i < aPolaStatkow.length; ++i)
-				oPlansza.setPole(aPolaStatkow[i].getX(), aPolaStatkow[i].getY(), FieldTypeBoard.BOARD_FIELD_EMPTY);
+				oBoard.setField(aPolaStatkow[i].getX(), aPolaStatkow[i].getY(), FieldTypeBoard.BOARD_FIELD_EMPTY);
 			}
 		catch (ParameterException e)
 			{
@@ -125,27 +125,27 @@ public class ShipGenerator
 			{
 			//utworzenie tablicy mogacej przechowac liste wszystkich pol aktualnie znajdujacych sie na planszy
 			//(w przyszlosci mozna przerobic na kontener)
-			int iRozmiar = 0;
+			int iSize = 0;
 			Position[] aPola = new Position[ aPolaStatkow.length ];
 			//pobranie pierwszego pola z planszy
-			aPola[ iRozmiar++ ] =  pobierzPole(0);
+			aPola[ iSize++ ] =  pobierzPole(0);
 			//petla pobierajaca kolejne pola dopoki jakies sasiadujace sa znajdowane
 			boolean bNowySasiad = true;
 			while (bNowySasiad == true)
 				{
 				bNowySasiad = false;
-				for (int i = 0; i < iRozmiar; ++i)
+				for (int i = 0; i < iSize; ++i)
 					{
 					int iNrSzukanegoSasiada = znajdzSasiada(aPola[i]);
 					if (iNrSzukanegoSasiada != -1)
 						{
-						aPola[ iRozmiar++ ] = pobierzPole(iNrSzukanegoSasiada);
+						aPola[ iSize++ ] = pobierzPole(iNrSzukanegoSasiada);
 						bNowySasiad = true;
 						}
 					}
 				}
-			//utworzenie nowej tablicy o rozmiarach przycietych do znalezionego statku, przepisanie do niej pol i return
-			Position[] aReturn = new Position[iRozmiar];
+			//utworzenie nowej tablicy o Sizeach przycietych do znalezionego statku, przepisanie do niej pol i return
+			Position[] aReturn = new Position[iSize];
 			for (int i = 0; i < aReturn.length; ++i)
 				aReturn[i] = aPola[i];
 			return aReturn;

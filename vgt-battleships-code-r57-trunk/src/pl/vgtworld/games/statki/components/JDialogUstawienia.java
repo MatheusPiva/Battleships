@@ -48,11 +48,11 @@ public class JDialogUstawienia
 	/**
 	 * Slider pozwalajacy ustawic szerokosc planszy.
 	 */
-	private JSlider oPlanszaSzerokoscSlider;
+	private JSlider oBoardSzerokoscSlider;
 	/**
 	 * Slider pozwalajacy ustawic wysokosc planszy.
 	 */
-	private JSlider oPlanszaWysokoscSlider;
+	private JSlider oBoardWysokoscSlider;
 	/**
 	 * Slider pozwalajacy ustawic poziom trudnosci komputera.
 	 */
@@ -60,11 +60,11 @@ public class JDialogUstawienia
 	/**
 	 * Pole tekstowe przechowujace szerokosc planszy.
 	 */
-	private JTextField oPlanszaSzerokosc;
+	private JTextField oBoardSzerokosc;
 	/**
 	 * Pole tekstowe przechowujace wysokosc planszy.
 	 */
-	private JTextField oPlanszaWysokosc;
+	private JTextField oBoardWysokosc;
 	/**
 	 * Checkbox zawierajacy informacje, czy statki moga byc tylko prostymi liniami.
 	 */
@@ -94,7 +94,7 @@ public class JDialogUstawienia
 		public void stateChanged(ChangeEvent oEvent)
 			{
 			JSlider oSource = (JSlider)oEvent.getSource();
-			oPlanszaSzerokosc.setText(String.valueOf(oSource.getValue()));
+			oBoardSzerokosc.setText(String.valueOf(oSource.getValue()));
 			}
 		}
 	/**
@@ -106,7 +106,7 @@ public class JDialogUstawienia
 		public void stateChanged(ChangeEvent oEvent)
 			{
 			JSlider oSource = (JSlider)oEvent.getSource();
-			oPlanszaWysokosc.setText(String.valueOf(oSource.getValue()));
+			oBoardWysokosc.setText(String.valueOf(oSource.getValue()));
 			}
 		}
 	/**
@@ -145,8 +145,8 @@ public class JDialogUstawienia
 				int iPlanszaWysokosc;
 				try
 					{
-					iPlanszaSzerokosc = Integer.parseInt(oPlanszaSzerokosc.getText());
-					iPlanszaWysokosc = Integer.parseInt(oPlanszaWysokosc.getText());
+					iPlanszaSzerokosc = Integer.parseInt(oBoardSzerokosc.getText());
+					iPlanszaWysokosc = Integer.parseInt(oBoardWysokosc.getText());
 					}
 				catch (NumberFormatException e)
 					{
@@ -158,7 +158,7 @@ public class JDialogUstawienia
 					JOptionPane.showMessageDialog(JDialogUstawienia.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.settings.invalidBoardSize"));
 					return;
 					}
-				if (oListaStatkow.getListaStatkow().getIloscStatkow() == 0)
+				if (oListaStatkow.getListaStatkow().getNumberOfShips() == 0)
 					{
 					JOptionPane.showMessageDialog(JDialogUstawienia.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.settings.noShip"));
 					return;
@@ -173,8 +173,8 @@ public class JDialogUstawienia
 					oUstawienia.setStraightLines(false);
 				oUstawienia.removeAllShips();
 				int[] aLista = oListaStatkow.getListaStatkow().getListaStatkow();
-				for (int iRozmiar: aLista)
-					oUstawienia.addShip(iRozmiar);
+				for (int iSize: aLista)
+					oUstawienia.addShip(iSize);
 				
 				oOknoGlowne.zmianaUstawien();
 				
@@ -197,19 +197,19 @@ public class JDialogUstawienia
 		this.oOknoGlowne = oOknoGlowne;
 		this.oUstawienia = oUstawienia;
 		//szerokosc planszy
-		JLabel oPlanszaSzerokoscLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardWidth"), JLabel.CENTER);
-		oPlanszaSzerokoscSlider = new JSlider(5, 25, oUstawienia.getBoardWidth());
-		oPlanszaSzerokoscSlider.addChangeListener(new ActionSzerokoscSlider());
-		oPlanszaSzerokosc = new JTextField(5);
-		oPlanszaSzerokosc.setHorizontalAlignment(JTextField.RIGHT);
-		oPlanszaSzerokosc.setText(String.valueOf(oPlanszaSzerokoscSlider.getValue()));
+		JLabel oBoardSzerokoscLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardWidth"), JLabel.CENTER);
+		oBoardSzerokoscSlider = new JSlider(5, 25, oUstawienia.getBoardWidth());
+		oBoardSzerokoscSlider.addChangeListener(new ActionSzerokoscSlider());
+		oBoardSzerokosc = new JTextField(5);
+		oBoardSzerokosc.setHorizontalAlignment(JTextField.RIGHT);
+		oBoardSzerokosc.setText(String.valueOf(oBoardSzerokoscSlider.getValue()));
 		//wysokosc planszy
-		JLabel oPlanszaWysokoscLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardHeight"), JLabel.CENTER);
-		oPlanszaWysokoscSlider = new JSlider(5, 25, oUstawienia.getBoardHeight());
-		oPlanszaWysokoscSlider.addChangeListener(new ActionWysokoscSlider());
-		oPlanszaWysokosc = new JTextField(5);
-		oPlanszaWysokosc.setHorizontalAlignment(JTextField.RIGHT);
-		oPlanszaWysokosc.setText(String.valueOf(oPlanszaWysokoscSlider.getValue()));
+		JLabel oBoardWysokoscLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardHeight"), JLabel.CENTER);
+		oBoardWysokoscSlider = new JSlider(5, 25, oUstawienia.getBoardHeight());
+		oBoardWysokoscSlider.addChangeListener(new ActionWysokoscSlider());
+		oBoardWysokosc = new JTextField(5);
+		oBoardWysokosc.setHorizontalAlignment(JTextField.RIGHT);
+		oBoardWysokosc.setText(String.valueOf(oBoardWysokoscSlider.getValue()));
 		//poziom trudnosci
 		JLabel oPoziomTrudnosciLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.difficulty"), JLabel.CENTER);
 		oPoziomTrudnosci = new JSlider(1, 100, oUstawienia.getDifficultyLevel());
@@ -220,11 +220,11 @@ public class JDialogUstawienia
 			oStatkiProsteLinie.setSelected(true);
 		//lista statkow
 		oListaStatkow = new JPanelUstawieniaListaStatkow();
-		int[] aStatki = oUstawienia.getShips();
+		int[] aShips = oUstawienia.getShips();
 		try
 			{
-			for (int iRozmiar: aStatki)
-				oListaStatkow.getListaStatkow().listaDodaj(iRozmiar);
+			for (int iSize: aShips)
+				oListaStatkow.getListaStatkow().listaDodaj(iSize);
 			}
 		catch (ParameterException e)
 			{
@@ -236,27 +236,27 @@ public class JDialogUstawienia
 		JPanel oPanelLewy = new JPanel();
 		oPanelLewy.setLayout(new GridLayout(4, 1));
 		
-		JPanel oPlanszaSzerokoscContainer2 = new JPanel();
-		JPanel oPlanszaSzerokoscContainer = new JPanel();
-		oPlanszaSzerokoscContainer.setLayout(new GridLayout(3, 1));
-		oPlanszaSzerokoscContainer.add(oPlanszaSzerokoscLabel);
-		JPanel oPlanszaSzerokoscTextfieldContainer = new JPanel();
-		oPlanszaSzerokoscTextfieldContainer.add(oPlanszaSzerokosc);
-		oPlanszaSzerokoscContainer.add(oPlanszaSzerokoscSlider);
-		oPlanszaSzerokoscContainer.add(oPlanszaSzerokoscTextfieldContainer);
-		oPlanszaSzerokoscContainer2.add(oPlanszaSzerokoscContainer);
-		oPanelLewy.add(oPlanszaSzerokoscContainer2);
+		JPanel oBoardSzerokoscContainer2 = new JPanel();
+		JPanel oBoardSzerokoscContainer = new JPanel();
+		oBoardSzerokoscContainer.setLayout(new GridLayout(3, 1));
+		oBoardSzerokoscContainer.add(oBoardSzerokoscLabel);
+		JPanel oBoardSzerokoscTextfieldContainer = new JPanel();
+		oBoardSzerokoscTextfieldContainer.add(oBoardSzerokosc);
+		oBoardSzerokoscContainer.add(oBoardSzerokoscSlider);
+		oBoardSzerokoscContainer.add(oBoardSzerokoscTextfieldContainer);
+		oBoardSzerokoscContainer2.add(oBoardSzerokoscContainer);
+		oPanelLewy.add(oBoardSzerokoscContainer2);
 		
-		JPanel oPlanszaWysokoscContainer2 = new JPanel();
-		JPanel oPlanszaWysokoscContainer = new JPanel();
-		oPlanszaWysokoscContainer.setLayout(new GridLayout(3, 1));
-		oPlanszaWysokoscContainer.add(oPlanszaWysokoscLabel);
-		JPanel oPlanszaWysokoscTextfieldContainer = new JPanel();
-		oPlanszaWysokoscTextfieldContainer.add(oPlanszaWysokosc);
-		oPlanszaWysokoscContainer.add(oPlanszaWysokoscSlider);
-		oPlanszaWysokoscContainer.add(oPlanszaWysokoscTextfieldContainer);
-		oPlanszaWysokoscContainer2.add(oPlanszaWysokoscContainer);
-		oPanelLewy.add(oPlanszaWysokoscContainer2);
+		JPanel oBoardWysokoscContainer2 = new JPanel();
+		JPanel oBoardWysokoscContainer = new JPanel();
+		oBoardWysokoscContainer.setLayout(new GridLayout(3, 1));
+		oBoardWysokoscContainer.add(oBoardWysokoscLabel);
+		JPanel oBoardWysokoscTextfieldContainer = new JPanel();
+		oBoardWysokoscTextfieldContainer.add(oBoardWysokosc);
+		oBoardWysokoscContainer.add(oBoardWysokoscSlider);
+		oBoardWysokoscContainer.add(oBoardWysokoscTextfieldContainer);
+		oBoardWysokoscContainer2.add(oBoardWysokoscContainer);
+		oPanelLewy.add(oBoardWysokoscContainer2);
 		
 		JPanel oPoziomTrudnosciContainer2 = new JPanel();
 		JPanel oPoziomTrudnosciContainer = new JPanel();
@@ -322,21 +322,21 @@ public class JDialogUstawienia
 		int iPozycjaY = oOknoGlowne.getY() + (oOknoGlowne.getHeight() - WYSOKOSC) / 2;
 		setBounds(iPozycjaX, iPozycjaY, SZEROKOSC, WYSOKOSC);
 		//reset ustawien
-		oPlanszaSzerokosc.setText(String.valueOf(oUstawienia.getBoardWidth()));
-		oPlanszaSzerokoscSlider.setValue(oUstawienia.getBoardWidth());
-		oPlanszaWysokosc.setText(String.valueOf(oUstawienia.getBoardHeight()));
-		oPlanszaWysokoscSlider.setValue(oUstawienia.getBoardHeight());
+		oBoardSzerokosc.setText(String.valueOf(oUstawienia.getBoardWidth()));
+		oBoardSzerokoscSlider.setValue(oUstawienia.getBoardWidth());
+		oBoardWysokosc.setText(String.valueOf(oUstawienia.getBoardHeight()));
+		oBoardWysokoscSlider.setValue(oUstawienia.getBoardHeight());
 		oPoziomTrudnosci.setValue(oUstawienia.getDifficultyLevel());
 		if (oUstawienia.getStraightLines() == true)
 			oStatkiProsteLinie.setSelected(true);
 		else
 			oStatkiProsteLinie.setSelected(false);
 		oListaStatkow.getListaStatkow().listaWyczysc();
-		int[] aStatki = oUstawienia.getShips();
+		int[] aShips = oUstawienia.getShips();
 		try
 			{
-			for (int iRozmiar: aStatki)
-				oListaStatkow.getListaStatkow().listaDodaj(iRozmiar);
+			for (int iSize: aShips)
+				oListaStatkow.getListaStatkow().listaDodaj(iSize);
 			}
 		catch (ParameterException e)
 			{

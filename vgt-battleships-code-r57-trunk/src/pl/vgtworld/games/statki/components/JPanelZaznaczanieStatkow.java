@@ -38,7 +38,7 @@ public class JPanelZaznaczanieStatkow
 	/**
 	 * Board, na ktorej gracz zaznacza statki.
 	 */
-	private Board oPlansza;
+	private Board oBoard;
 	/**
 	 * Kontener statkow tworzony dla gracza po zakonczeniu rozmieszczania statkow.
 	 */
@@ -52,7 +52,7 @@ public class JPanelZaznaczanieStatkow
 	 */
 	private JComponentPlansza oComponentPlansza;
 	/**
-	 * Panel wyswietlajacy informacje na temat ilosci statkow poszczegolnych rozmiarow,
+	 * Panel wyswietlajacy informacje na temat ilosci statkow poszczegolnych Sizeow,
 	 * ktore nalezy umiescic na planszy.
 	 */
 	private JPanelZaznaczanieStatkowLista oListaStatkowInfo;
@@ -77,16 +77,16 @@ public class JPanelZaznaczanieStatkow
 			}
 		@Override public void actionPerformed(ActionEvent event)
 			{
-			ShipGenerator oGenerator = new ShipGenerator(oPlansza);
+			ShipGenerator oGenerator = new ShipGenerator(oBoard);
 			oStatki = oGenerator.generujStatki();
 			boolean bOK = true;
 			//sprawdzenie, kolejnych warunkow rozmieszczenia statkow
-			if (oStatki.getIloscStatkow() != oUstawienia.getNumbeOfShips())
+			if (oStatki.getNumberOfShips() != oUstawienia.getNumbeOfShips())
 				bOK = false;
-			for (int i = oStatki.getMaxRozmiarStatku(); i >= 1; --i)
-				if (oStatki.getIloscStatkow(i) != oUstawienia.getIloscStatkow(i))
+			for (int i = oStatki.getMaxShipSize(); i >= 1; --i)
+				if (oStatki.getNumberOfShips(i) != oUstawienia.getNumberOfShips(i))
 					bOK = false;
-			if (oStatki.weryfikujRozmieszczenie(oUstawienia.getStraightLines()) == false)
+			if (oStatki.verifyApplication(oUstawienia.getStraightLines()) == false)
 				bOK = false;
 			//commit
 			if (bOK == false)
@@ -113,10 +113,10 @@ public class JPanelZaznaczanieStatkow
 			{
 			try
 				{
-				for (int i = 0; i < oPlansza.getWidth(); ++i)
-					for (int j = 0; j < oPlansza.getHeight(); ++j)
-						if (oPlansza.getPole(i, j) == FieldTypeBoard.SHIP_BOARD)
-							oPlansza.setPole(i, j, FieldTypeBoard.BOARD_FIELD_EMPTY);
+				for (int i = 0; i < oBoard.getWidth(); ++i)
+					for (int j = 0; j < oBoard.getHeight(); ++j)
+						if (oBoard.getField(i, j) == FieldTypeBoard.SHIP_BOARD)
+							oBoard.setField(i, j, FieldTypeBoard.BOARD_FIELD_EMPTY);
 				repaint();
 				}
 			catch (ParameterException e)
@@ -140,14 +140,14 @@ public class JPanelZaznaczanieStatkow
 			{
 			try
 				{
-				for (int i = 0; i < oPlansza.getWidth(); ++i)
-					for (int j = 0; j < oPlansza.getHeight(); ++j)
-						if (oPlansza.getPole(i, j) == FieldTypeBoard.SHIP_BOARD)
-							oPlansza.setPole(i, j, FieldTypeBoard.BOARD_FIELD_EMPTY);
-				ShipIterator oKontener = new ShipIterator(oPlansza);
-				int[] aStatki = oUstawienia.getShips();
-				for (int iRozmiar: aStatki)
-					oKontener.dodajStatek(iRozmiar);
+				for (int i = 0; i < oBoard.getWidth(); ++i)
+					for (int j = 0; j < oBoard.getHeight(); ++j)
+						if (oBoard.getField(i, j) == FieldTypeBoard.SHIP_BOARD)
+							oBoard.setField(i, j, FieldTypeBoard.BOARD_FIELD_EMPTY);
+				ShipIterator oKontener = new ShipIterator(oBoard);
+				int[] aShips = oUstawienia.getShips();
+				for (int iSize: aShips)
+					oKontener.addAShip(iSize);
 				ShipPositioner oPozycjoner = new ShipPositioner();
 				if (oPozycjoner.rozmiescStatki(oKontener, oUstawienia.getStraightLines()) == false)
 					JOptionPane.showMessageDialog(JPanelZaznaczanieStatkow.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.shipPlacement.randomShipPlacementFail"));
@@ -170,8 +170,8 @@ public class JPanelZaznaczanieStatkow
 			}
 		@Override public void mousePressed(MouseEvent event)
 			{
-			int iPlanszaSzerokosc = oPlansza.getWidth();
-			int iPlanszaWysokosc = oPlansza.getHeight();
+			int iPlanszaSzerokosc = oBoard.getWidth();
+			int iPlanszaWysokosc = oBoard.getHeight();
 			int iKomponentSzerokosc = oComponentPlansza.getWidth();
 			int iKomponentWysokosc = oComponentPlansza.getHeight();
 			int iClickX = event.getX();
@@ -184,14 +184,14 @@ public class JPanelZaznaczanieStatkow
 					&& oKliknietePole.getY() >= 0 && oKliknietePole.getY() < iPlanszaWysokosc
 					)
 					{
-					if (oPlansza.getPole(oKliknietePole.getX(), oKliknietePole.getY()) == FieldTypeBoard.BOARD_FIELD_EMPTY)
+					if (oBoard.getField(oKliknietePole.getX(), oKliknietePole.getY()) == FieldTypeBoard.BOARD_FIELD_EMPTY)
 						{
-						oPlansza.setPole(oKliknietePole.getX(), oKliknietePole.getY(), FieldTypeBoard.SHIP_BOARD);
+						oBoard.setField(oKliknietePole.getX(), oKliknietePole.getY(), FieldTypeBoard.SHIP_BOARD);
 //						oComponentPlansza.aktywujWyroznienie(oKliknietePole.getX(), oKliknietePole.getY());
 						}
-					else if (oPlansza.getPole(oKliknietePole.getX(), oKliknietePole.getY()) == FieldTypeBoard.SHIP_BOARD)
+					else if (oBoard.getField(oKliknietePole.getX(), oKliknietePole.getY()) == FieldTypeBoard.SHIP_BOARD)
 						{
-						oPlansza.setPole(oKliknietePole.getX(), oKliknietePole.getY(), FieldTypeBoard.BOARD_FIELD_EMPTY);
+						oBoard.setField(oKliknietePole.getX(), oKliknietePole.getY(), FieldTypeBoard.BOARD_FIELD_EMPTY);
 //						oComponentPlansza.aktywujWyroznienie(oKliknietePole.getX(), oKliknietePole.getY());
 						}
 					Position oWspTopLeft;
@@ -218,15 +218,15 @@ public class JPanelZaznaczanieStatkow
 		setLayout(new GridLayout(1, 2));
 		this.oUstawienia = oUstawienia;
 		this.oOkno = oOkno;
-		oPlansza = new Board(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
+		oBoard = new Board(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
 		oStatki = null;
-		oComponentPlansza = new JComponentPlansza(oPlansza);
+		oComponentPlansza = new JComponentPlansza(oBoard);
 		oMouseListener = new ZaznaczanieStatkowMouseListener();
 		
 		addMouseListener(oMouseListener);
 		
 		//lewa polowka
-		oComponentPlansza = new JComponentPlansza(oPlansza);
+		oComponentPlansza = new JComponentPlansza(oBoard);
 		add(oComponentPlansza);
 		
 		//prawa polowka
@@ -253,9 +253,9 @@ public class JPanelZaznaczanieStatkow
 	 * 
 	 * @return Board z zaznaczonymi statkami.
 	 */
-	public Board getPlansza()
+	public Board getBoard()
 		{
-		return oPlansza;
+		return oBoard;
 		}
 	/**
 	 * Metoda zwraca obiekt kontenera statkow stworznych przez gracza.<br />
@@ -273,20 +273,20 @@ public class JPanelZaznaczanieStatkow
 	 */
 	public void wyczyscPlansze()
 		{
-		oPlansza.clean();
+		oBoard.clean();
 		}
 	/**
-	 * Metoda zmienia rozmiar planszy na podstawie aktualnego stanu obiektu ustawien.<br />
+	 * Metoda zmienia Size planszy na podstawie aktualnego stanu obiektu ustawien.<br />
 	 * 
 	 * Wywolywana po zmianie ustawien rozgrywki.
 	 */
 	public void resetujPlansze()
 		{
-		//oPlansza = new Board(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
+		//oBoard = new Board(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
 		try
 			{
-			if (oUstawienia.getBoardWidth() != oPlansza.getWidth() || oUstawienia.getBoardHeight() != oPlansza.getHeight())
-				oPlansza.zmienRozmiar(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
+			if (oUstawienia.getBoardWidth() != oBoard.getWidth() || oUstawienia.getBoardHeight() != oBoard.getHeight())
+				oBoard.zmienSize(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
 			}
 		catch (ParameterException e)
 			{

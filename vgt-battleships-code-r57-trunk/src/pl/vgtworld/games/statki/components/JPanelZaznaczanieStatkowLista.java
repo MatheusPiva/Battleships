@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import pl.vgtworld.games.ship.Settings;
 
 /**
- * Panel wyswietlajacy informacje na temat ilosci wymaganych statkow w poszczegolnych rozmiarach.
+ * Panel wyswietlajacy informacje na temat ilosci wymaganych statkow w poszczegolnych Sizeach.
  * 
  * @author VGT
  * @version 1.0
@@ -57,13 +57,13 @@ public class JPanelZaznaczanieStatkowLista
 			oEtykieta.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 			oEtykiety.add(oEtykieta);
 			}
-		int iMaxRozmiar = oUstawienia.getMaxShipSize();
+		int iMaxSize = oUstawienia.getMaxShipSize();
 		int iLinieTekstu = 1;
 		int iIlosc;
 		String sText;
-		for (int i = iMaxRozmiar; i >= 1; --i)
+		for (int i = iMaxSize; i >= 1; --i)
 			{
-			iIlosc = oUstawienia.getIloscStatkow(i);
+			iIlosc = oUstawienia.getNumberOfShips(i);
 			if (iIlosc > 0)
 				{
 				int iKlasaStatku = i > 5 ? 5 : i;

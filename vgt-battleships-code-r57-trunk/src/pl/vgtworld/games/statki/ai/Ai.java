@@ -13,8 +13,8 @@ public interface Ai
 	/**
 	 * Glowna metoda obslugujaca shot na plansze przeciwnika.
 	 * 
-	 * @param oStatkiPrzeciwnika Kontener statkow przeciwnika.
+	 * @param oShipsPrzeciwnika Kontener statkow przeciwnika.
 	 * @return Zwraca TRUE w przypadku trafenia statku, lub FALSE, jesli shot byl niecelny.
 	 */
-	public boolean shot(ShipIterator oStatkiPrzeciwnika);
+	public boolean shot(ShipIterator oShipsPrzeciwnika);
 	}

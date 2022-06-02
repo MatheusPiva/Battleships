@@ -116,11 +116,11 @@ public class JFrameGameWindowSettings
 	/**
 	 * Kontener statkow gracza.
 	 */
-	private ShipIterator oStatkiGracz;
+	private ShipIterator oShipsGracz;
 	/**
 	 * Kontener statkow komputera.
 	 */
-	private ShipIterator oStatkiKomputer;
+	private ShipIterator oShipsKomputer;
 	/**
 	 * Sztuczna inteligencja komputera.
 	 */
@@ -256,22 +256,22 @@ public class JFrameGameWindowSettings
 					)
 					{
 					bKolejGracza = false;
-					int iIloscZatopionychPrzedshotem = oStatkiKomputer.getNumberOfSunkenShips();
+					int iQuantityZatopionychPrzedshotem = oShipsKomputer.getNumberOfSunkenShips();
 					
 					//shot na plansze komputera
-					boolean bTrafienie;
-					bTrafienie = oStatkiKomputer.shot(oKliknietePole.getX(), oKliknietePole.getY());
+					boolean bHit;
+					bHit = oShipsKomputer.shot(oKliknietePole.getX(), oKliknietePole.getY());
 					JComponentPlansza oComponentPlansza = (JComponentPlansza)oPanelPlanszeKontener.getComponent(1);
 					oComponentPlansza.aktywujWyroznienie(oKliknietePole);
 					//obsluga sprawdzania, czy koniec gry
-					if (bTrafienie == true && oStatkiKomputer.getNumberOfShips() == oStatkiKomputer.getNumberOfSunkenShips())
+					if (bHit == true && oShipsKomputer.getNumberOfShips() == oShipsKomputer.getNumberOfSunkenShips())
 						{
 						oStatusGry.playerVictory();
 						oComponentStatusGry.aktualizujDane();
 						JOptionPane.showMessageDialog(JFrameGameWindowSettings.this, LANG.getProperty("message.win"));
 						return;
 						}
-					else if (bTrafienie == true)
+					else if (bHit == true)
 						{
                                                     
                                                 //COLOCAR AUDIO DE EXPLOSÃO
@@ -288,7 +288,7 @@ public class JFrameGameWindowSettings
                                                     }
                                                     
 						oComponentStatusGry.aktualizujDane();
-						if (iIloscZatopionychPrzedshotem != oStatkiKomputer.getNumberOfSunkenShips())
+						if (iQuantityZatopionychPrzedshotem != oShipsKomputer.getNumberOfSunkenShips())
 							oComponentWydarzenia.ustawPrawyKomunikat(LANG.getProperty("message.hit2"));
 						else
 							oComponentWydarzenia.ustawPrawyKomunikat(LANG.getProperty("message.hit1"));
@@ -304,19 +304,19 @@ public class JFrameGameWindowSettings
 			}
 		public void actionPerformed(ActionEvent oEvent)
 			{
-			int iIloscZatopionychPrzedshotem = oStatkiGracz.getNumberOfSunkenShips();
+			int iQuantityZatopionychPrzedshotem = oShipsGracz.getNumberOfSunkenShips();
 			//shot na plansze gracza
-			boolean bTrafienie = oAi.shot(oStatkiGracz);
+			boolean bHit = oAi.shot(oShipsGracz);
 			JComponentPlansza oComponentPlansza = (JComponentPlansza)oPanelPlanszeKontener.getComponent(0);
-			oComponentPlansza.aktywujWyroznienie(oStatkiGracz.getOstatnishot());
+			oComponentPlansza.aktywujWyroznienie(oShipsGracz.getLastShot());
 			//obsluga sprawdzania, czy koniec gry
-			if (bTrafienie == true && oStatkiGracz.getNumberOfShips() == oStatkiGracz.getNumberOfSunkenShips())
+			if (bHit == true && oShipsGracz.getNumberOfShips() == oShipsGracz.getNumberOfSunkenShips())
 				{
 				oStatusGry.computerVictory();
 				oComponentStatusGry.aktualizujDane();
-				int iIloscKomponentow = oPanelPlanszeKontener.getComponentCount();
+				int iQuantityKomponentow = oPanelPlanszeKontener.getComponentCount();
 				JComponentPlansza oCompPlansza;
-				for (int i = 0; i < iIloscKomponentow; ++i)
+				for (int i = 0; i < iQuantityKomponentow; ++i)
 					{
 					oCompPlansza = (JComponentPlansza)oPanelPlanszeKontener.getComponent(i);
 					if (oCompPlansza != null)
@@ -326,10 +326,10 @@ public class JFrameGameWindowSettings
 				JOptionPane.showMessageDialog(JFrameGameWindowSettings.this, LANG.getProperty("message.lose"));
 				return;
 				}
-			else if (bTrafienie == true)
+			else if (bHit == true)
 				{
 				oComponentStatusGry.aktualizujDane();
-				if (iIloscZatopionychPrzedshotem != oStatkiGracz.getNumberOfSunkenShips())
+				if (iQuantityZatopionychPrzedshotem != oShipsGracz.getNumberOfSunkenShips())
 					oComponentWydarzenia.ustawLewyKomunikat(LANG.getProperty("message.hit2"));
 				else
 					oComponentWydarzenia.ustawLewyKomunikat(LANG.getProperty("message.hit1"));
@@ -519,12 +519,12 @@ public class JFrameGameWindowSettings
 	 */
 	public void rozpocznijRozgrywke()
 		{
-		oStatkiGracz = oPanelZaznaczanieStatkow.getStatki();
-		oStatkiKomputer = JFrameGameWindowSettings.generujGracza(oUstawienia);
-		oComponentStatusGry.setStatkiGracz(oStatkiGracz);
-		oComponentStatusGry.setStatkiKomputer(oStatkiKomputer);
+		oShipsGracz = oPanelZaznaczanieStatkow.getStatki();
+		oShipsKomputer = JFrameGameWindowSettings.generujGracza(oUstawienia);
+		oComponentStatusGry.setStatkiGracz(oShipsGracz);
+		oComponentStatusGry.setStatkiKomputer(oShipsKomputer);
 		oComponentStatusGry.aktualizujDane();
-		oAi = AiFactory.getAi(oUstawienia.getDifficultyLevel(), oUstawienia.getStraightLines(), oStatkiKomputer);
+		oAi = AiFactory.getAi(oUstawienia.getDifficultyLevel(), oUstawienia.getStraightLines(), oShipsKomputer);
 		ShipPositioner oPozycjoner = new ShipPositioner();
 		boolean bUdaneRozmieszczenie = false;
 		boolean bContinue = true;
@@ -532,7 +532,7 @@ public class JFrameGameWindowSettings
 			{
 			while (bUdaneRozmieszczenie == false && bContinue == true)
 				{
-				bUdaneRozmieszczenie = oPozycjoner.rozmiescStatki(oStatkiKomputer, oUstawienia.getStraightLines());
+				bUdaneRozmieszczenie = oPozycjoner.shipSpaces(oShipsKomputer, oUstawienia.getStraightLines());
 				if (bUdaneRozmieszczenie == false)
 					{
 					if (JOptionPane.showConfirmDialog(this, LANG.getProperty("errorMsg.shipPlacement.computerShipPlacementError"), LANG.getProperty("errorMsg.windowTitle"), JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION)
@@ -554,8 +554,8 @@ public class JFrameGameWindowSettings
 			oPanelPlanszeKontener.removeAll();
 			if (oPanelPlanszeKontener.getComponentCount() == 0)
 				{
-				dodajPlansze(oStatkiGracz.getBoard(), true);
-				dodajPlansze(oStatkiKomputer.getBoard(), false, new RozgrywkaMouseListener(oStatkiKomputer.getBoard(), null));
+				dodajPlansze(oShipsGracz.getBoard(), true);
+				dodajPlansze(oShipsKomputer.getBoard(), false, new RozgrywkaMouseListener(oShipsKomputer.getBoard(), null));
 				}
 			oPanelPrzyciski.setVisible(false);
 			oPanelZaznaczanieStatkow.setVisible(false);
@@ -593,10 +593,10 @@ public class JFrameGameWindowSettings
 	public static ShipIterator generujGracza(Settings oUstawienia)
 		{
 		Board oBoard = new Board(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
-		ShipIterator oStatki = new ShipIterator(oBoard);
+		ShipIterator oShips = new ShipIterator(oBoard);
 		int[] aListaStatkow = oUstawienia.getShips();
 		for (int iSize: aListaStatkow)
-			oStatki.addAShip(iSize);
-		return oStatki;
+			oShips.addAShip(iSize);
+		return oShips;
 		}
 	}

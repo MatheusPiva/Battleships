@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 /**
- * Komponent wyswietlajacy informacje o trafieniach i zatopieniach statkow poszczegolnych graczy.
+ * Komponent wyswietlajacy informacje o Hitsch i zatopieniach statkow poszczegolnych graczy.
  * 
  * @author VGT
  * @version 1.0

@@ -53,7 +53,7 @@ public class ShipIterator
 	 */
 	@Override public String toString()
 		{
-		String sReturn = "StatekIterator\n";
+		String sReturn = "Ship Iterator\n";
 		sReturn+= "Number of Ships: " + iNumberOfShips + "\n";
 		sReturn+= "=================\n";
 		for (int i = 0; i < iNumberOfShips; ++i)
@@ -103,7 +103,7 @@ public class ShipIterator
 	 * 
 	 * @return Wspolrzedne ostatniego shotu.
 	 */
-	public Position getOstatnishot()
+	public Position getLastShot()
 		{
 		return oLastShot;
 		}
@@ -126,11 +126,11 @@ public class ShipIterator
 	 */
 	public int getNumberOfShips(int iSize)
 		{
-		int iIlosc = 0;
+		int iQuantity = 0;
 		for (int i = 0; i < iNumberOfShips; ++i)
 			if (aShips[i].getSize() == iSize)
-				++iIlosc;
-		return iIlosc;
+				++iQuantity;
+		return iQuantity;
 		}
 	/**
 	 * Metoda zwraca ilosc trafionych, ale nie zatopionych statkow.
@@ -344,16 +344,16 @@ public class ShipIterator
 			for (int iShipNumber = 1; iShipNumber <= iNumberOfShips; ++iShipNumber)
 				{
 				Ship oShip = getShip(iShipNumber);
-				ShipVerification oWeryfikator = new ShipVerification();
-				oWeryfikator.importujStatek(oShip);
+				ShipVerification oVerifier = new ShipVerification();
+				oVerifier.importShip(oShip);
 				//sprawdzenie, czy wszystkie pola znajduja sie na planszy
-				if (oWeryfikator.polaNaPlanszy() == false)
+				if (oVerifier.spacesOnBoard() == false)
 					return false;
 				//sprawdzenie, czy wszystkie pola tworza jednolita strukture (stykaja sie ze soba)
-				if (oWeryfikator.polaPolaczone(bStraightLines) == false)
+				if (oVerifier.fieldsConnected(bStraightLines) == false)
 					return false;
 				//sprawdzenie, czy statek nie styka sie bokiem, lub naroznikiem z innym statkiem
-				if (oWeryfikator.brakSasiadow() == false)
+				if (oVerifier.NoNeighbors() == false)
 					return false;
 				}
 			}

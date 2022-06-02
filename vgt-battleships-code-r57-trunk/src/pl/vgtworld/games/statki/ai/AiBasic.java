@@ -17,17 +17,17 @@ public class AiBasic
 	/**
 	 * Konstruktor.
 	 * 
-	 * @param oStatki Kontener statkow nalezacych do gracza sterowanego przez dany obiekt AI.
+	 * @param oShips Kontener statkow nalezacych do gracza sterowanego przez dany obiekt AI.
 	 */
-	public AiBasic(ShipIterator oStatki)
+	public AiBasic(ShipIterator oShips)
 		{
-		super(oStatki);
+		super(oShips);
 		}
 	/**
 	 * Implementacja metody interface'u Ai.
 	 */
-	public boolean shot(ShipIterator oStatkiPrzeciwnika)
+	public boolean shot(ShipIterator oShipsPrzeciwnika)
 		{
-		return shotLosowy(oStatkiPrzeciwnika);
+		return shotLosowy(oShipsPrzeciwnika);
 		}
 	}

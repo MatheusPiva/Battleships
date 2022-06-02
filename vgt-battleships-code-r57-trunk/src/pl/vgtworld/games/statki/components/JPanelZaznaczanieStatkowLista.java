@@ -59,12 +59,12 @@ public class JPanelZaznaczanieStatkowLista
 			}
 		int iMaxSize = oUstawienia.getMaxShipSize();
 		int iLinieTekstu = 1;
-		int iIlosc;
+		int iQuantity;
 		String sText;
 		for (int i = iMaxSize; i >= 1; --i)
 			{
-			iIlosc = oUstawienia.getNumberOfShips(i);
-			if (iIlosc > 0)
+			iQuantity = oUstawienia.getNumberOfShips(i);
+			if (iQuantity > 0)
 				{
 				int iKlasaStatku = i > 5 ? 5 : i;
 				if (i == 1)
@@ -74,13 +74,13 @@ public class JPanelZaznaczanieStatkowLista
 				++iLinieTekstu;
 				if (oEtykiety.size() < iLinieTekstu)
 					{
-					JLabel oEtykieta = new JLabel(sText + iIlosc);
+					JLabel oEtykieta = new JLabel(sText + iQuantity);
 					oEtykieta.setForeground(oTextColor);
 					oEtykieta.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 					oEtykiety.add(oEtykieta);
 					}
 				else
-					oEtykiety.get(iLinieTekstu - 1).setText(sText + iIlosc);
+					oEtykiety.get(iLinieTekstu - 1).setText(sText + iQuantity);
 				}
 			}
 		

@@ -68,7 +68,7 @@ public class JDialogUstawienia
 	/**
 	 * Checkbox zawierajacy informacje, czy statki moga byc tylko prostymi liniami.
 	 */
-	private JCheckBox oStatkiProsteLinie;
+	private JCheckBox oShipsProsteLinie;
 	/**
 	 * Przycisk zapisujacy zmiany w ustawieniach.
 	 */
@@ -167,7 +167,7 @@ public class JDialogUstawienia
 				oUstawienia.setBoardWidth(iPlanszaSzerokosc);
 				oUstawienia.setBoardHeight(iPlanszaWysokosc);
 				oUstawienia.setDifficultyLevel(oPoziomTrudnosci.getValue());
-				if (oStatkiProsteLinie.isSelected() == true)
+				if (oShipsProsteLinie.isSelected() == true)
 					oUstawienia.setStraightLines(true);
 				else
 					oUstawienia.setStraightLines(false);
@@ -214,10 +214,10 @@ public class JDialogUstawienia
 		JLabel oPoziomTrudnosciLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.difficulty"), JLabel.CENTER);
 		oPoziomTrudnosci = new JSlider(1, 100, oUstawienia.getDifficultyLevel());
 		//ksztalkt statkow
-		JLabel oStatkiProsteLinieLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.shipsShape"), JLabel.CENTER);
-		oStatkiProsteLinie = new JCheckBox(JFrameGameWindowSettings.LANG.getProperty("settings.shipsShapeCheckbox"));
+		JLabel oShipsProsteLinieLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.shipsShape"), JLabel.CENTER);
+		oShipsProsteLinie = new JCheckBox(JFrameGameWindowSettings.LANG.getProperty("settings.shipsShapeCheckbox"));
 		if (oUstawienia.getStraightLines() == true)
-			oStatkiProsteLinie.setSelected(true);
+			oShipsProsteLinie.setSelected(true);
 		//lista statkow
 		oListaStatkow = new JPanelUstawieniaListaStatkow();
 		int[] aShips = oUstawienia.getShips();
@@ -268,16 +268,16 @@ public class JDialogUstawienia
 		oPoziomTrudnosciContainer2.add(oPoziomTrudnosciContainer);
 		oPanelLewy.add(oPoziomTrudnosciContainer2);
 		
-		JPanel oStatkiKsztaltContainer2 = new JPanel();
-		JPanel oStatkiKsztaltContainer = new JPanel();
-		oStatkiKsztaltContainer.setLayout(new GridLayout(2, 1));
+		JPanel oShipsKsztaltContainer2 = new JPanel();
+		JPanel oShipsKsztaltContainer = new JPanel();
+		oShipsKsztaltContainer.setLayout(new GridLayout(2, 1));
 		
                 // REMOVIDA OPÇÃO QUE PERMITE O POSICIONAMENTO DOS NAVIOS DE FORMA QUE NÃO SEJA VERTICAL OU HORIZONTAL
-                //oStatkiKsztaltContainer.add(oStatkiProsteLinieLabel);
-		//oStatkiKsztaltContainer.add(oStatkiProsteLinie);
+                //oShipsKsztaltContainer.add(oShipsProsteLinieLabel);
+		//oShipsKsztaltContainer.add(oShipsProsteLinie);
                 
-		oStatkiKsztaltContainer2.add(oStatkiKsztaltContainer);
-		oPanelLewy.add(oStatkiKsztaltContainer2);
+		oShipsKsztaltContainer2.add(oShipsKsztaltContainer);
+		oPanelLewy.add(oShipsKsztaltContainer2);
 		
 		JPanel oPanelPrawy = new JPanel();
 		oPanelPrawy.setLayout(new BorderLayout());
@@ -318,9 +318,9 @@ public class JDialogUstawienia
 	public void reset()
 		{
 		//rest pozycji okna
-		int iPozycjaX = oOknoGlowne.getX() + (oOknoGlowne.getWidth() - SZEROKOSC) / 2;
-		int iPozycjaY = oOknoGlowne.getY() + (oOknoGlowne.getHeight() - WYSOKOSC) / 2;
-		setBounds(iPozycjaX, iPozycjaY, SZEROKOSC, WYSOKOSC);
+		int iPositionX = oOknoGlowne.getX() + (oOknoGlowne.getWidth() - SZEROKOSC) / 2;
+		int iPositionY = oOknoGlowne.getY() + (oOknoGlowne.getHeight() - WYSOKOSC) / 2;
+		setBounds(iPositionX, iPositionY, SZEROKOSC, WYSOKOSC);
 		//reset ustawien
 		oBoardSzerokosc.setText(String.valueOf(oUstawienia.getBoardWidth()));
 		oBoardSzerokoscSlider.setValue(oUstawienia.getBoardWidth());
@@ -328,9 +328,9 @@ public class JDialogUstawienia
 		oBoardWysokoscSlider.setValue(oUstawienia.getBoardHeight());
 		oPoziomTrudnosci.setValue(oUstawienia.getDifficultyLevel());
 		if (oUstawienia.getStraightLines() == true)
-			oStatkiProsteLinie.setSelected(true);
+			oShipsProsteLinie.setSelected(true);
 		else
-			oStatkiProsteLinie.setSelected(false);
+			oShipsProsteLinie.setSelected(false);
 		oListaStatkow.getListaStatkow().listaWyczysc();
 		int[] aShips = oUstawienia.getShips();
 		try

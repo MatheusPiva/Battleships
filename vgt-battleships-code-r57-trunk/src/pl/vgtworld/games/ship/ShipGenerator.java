@@ -21,15 +21,15 @@ public class ShipGenerator
 	/**
 	 * Kontener statkow, ktory zostanie utworzony na podstawie dostarczonej planszy.
 	 */
-	private ShipIterator oStatki;
+	private ShipIterator oShips;
 	/**
 	 * Tablica pomocnicza wczytujaca pozycje wszystkich zaznaczonych pol na planszy.
 	 */
-	private Position[] aPolaStatkow;
+	private Position[] aShipSpaces;
 	/**
-	 * Aktualna ilosc pol przechowywana w tablicy aPolaStatkow.
+	 * Aktualna ilosc pol przechowywana w tablicy aShipSpaces.
 	 */
-	private int iIloscPolStatkow;
+	private int iNumberOfShipsField;
 	/**
 	 * Konstruktor domyslny.
 	 * 
@@ -38,35 +38,35 @@ public class ShipGenerator
 	public ShipGenerator(Board oBoard)
 		{
 		this.oBoard = oBoard;
-		oStatki = null;
-		aPolaStatkow = new Position[0];
-		iIloscPolStatkow = 0;
+		oShips = null;
+		aShipSpaces = new Position[0];
+		iNumberOfShipsField = 0;
 		}
 	/**
 	 * Glowna metoda rozpoczynajaca proces tworzenia kontenera statkow na podstawie planszy dostarczonej w konstruktorze.
 	 * 
 	 * @return Zwraca stworzony kontener statkow.
 	 */
-	public ShipIterator generujStatki()
+	public ShipIterator generateShips()
 		{
 		try
 			{
 			//wyszukanie na planszy oznaczonych pol i wyczyszczenie planszy
-			znajdzPola();
+			findField();
 			//utworzenie kontenera statkow
-			oStatki = new ShipIterator(oBoard);
+			oShips = new ShipIterator(oBoard);
 			int iNumberOfShips = 0;
 			//wypelnienie kontenera statkami
-			while (iIloscPolStatkow > 0)
+			while (iNumberOfShipsField > 0)
 				{
-				Position[] aStatek = generujStatek();
-				oStatki.addAShip( aStatek.length );
+				Position[] aShip = generateShip();
+				oShips.addAShip( aShip.length );
 				++iNumberOfShips;
-				for (int i = 0; i < aStatek.length; ++i)
-					oStatki.getShip(iNumberOfShips).setField(i+1, aStatek[i].getX(), aStatek[i].getY());
+				for (int i = 0; i < aShip.length; ++i)
+					oShips.getShip(iNumberOfShips).setField(i+1, aShip[i].getX(), aShip[i].getY());
 				}
 			//zwrocenie kontenera
-			return this.oStatki;
+			return this.oShips;
 			}
 		catch (ParameterException e)
 			{
@@ -76,34 +76,34 @@ public class ShipGenerator
 	/**
 	 * Metoda wyszukuje na planszy pola statkow.<br />
 	 * 
-	 * Liste ich pozycji zapisuje do tablicy aPolaStatkow, a ilosc pol do iIloscPolStatkow.
+	 * Liste ich pozycji zapisuje do tablicy aShipSpaces, a ilosc pol do iNumberOfShipsField.
 	 * Na koniec czysci takze plansze z oznaczonych pol, aby przygotowac ja do dzialania w ramach tworzonego obiektu kontenera statkow.
 	 */
-	private void znajdzPola()
+	private void findField()
 		{
 		try
 			{
-			aPolaStatkow = new Position[0];
-			iIloscPolStatkow = 0;
+			aShipSpaces = new Position[0];
+			iNumberOfShipsField = 0;
 			for (int i = 0; i < oBoard.getWidth(); ++i)
 				for (int j = 0; j < oBoard.getHeight(); ++j)
 					if (oBoard.getField(i, j) == FieldTypeBoard.SHIP_BOARD)
 						{
-						Position[] aNowaLista = new Position[ iIloscPolStatkow + 1 ];
+						Position[] aNewList = new Position[ iNumberOfShipsField + 1 ];
 						//przepisanie dotychczasowej listy
-						for (int k = 0; k < iIloscPolStatkow; k++)
-							aNowaLista[k] = aPolaStatkow[k];
+						for (int k = 0; k < iNumberOfShipsField; k++)
+							aNewList[k] = aShipSpaces[k];
 						//dopisanie nowego elementu na koncu
 						Position oObj = new Position(2);
 						oObj.setX(i);
 						oObj.setY(j);
-						aNowaLista[iIloscPolStatkow] = oObj;
-						++iIloscPolStatkow;
-						aPolaStatkow = aNowaLista;
+						aNewList[iNumberOfShipsField] = oObj;
+						++iNumberOfShipsField;
+						aShipSpaces = aNewList;
 						}
 			//zamazanie pol na planszy
-			for (int i = 0; i < aPolaStatkow.length; ++i)
-				oBoard.setField(aPolaStatkow[i].getX(), aPolaStatkow[i].getY(), FieldTypeBoard.BOARD_FIELD_EMPTY);
+			for (int i = 0; i < aShipSpaces.length; ++i)
+				oBoard.setField(aShipSpaces[i].getX(), aShipSpaces[i].getY(), FieldTypeBoard.BOARD_FIELD_EMPTY);
 			}
 		catch (ParameterException e)
 			{
@@ -111,43 +111,43 @@ public class ShipGenerator
 			}
 		}
 	/**
-	 * Metoda pobiera i usuwa pola z tablicy aPolaStatkow starajac sie wygenerowac liste pol pojedynczego statku.<br />
+	 * Metoda pobiera i usuwa pola z tablicy aShipSpaces starajac sie wygenerowac liste pol pojedynczego statku.<br />
 	 * 
 	 * Po pobraniu pierwszego pola skanuje liste pozostalych tak dlugo, az uzyska tablice zawierajaca wszystkie polaczone ze soba pola.
 	 * 
 	 * @return Zwraca tablice zawierajaca liste pol dla jednego statku.
 	 */
-	private Position[] generujStatek()
+	private Position[] generateShip()
 		{
-		if (aPolaStatkow.length == 0)
-			throw new DeveloperException("Brak pol na liscie");
+		if (aShipSpaces.length == 0)
+			throw new DeveloperException("No fields on the list");
 		try
 			{
 			//utworzenie tablicy mogacej przechowac liste wszystkich pol aktualnie znajdujacych sie na planszy
 			//(w przyszlosci mozna przerobic na kontener)
 			int iSize = 0;
-			Position[] aPola = new Position[ aPolaStatkow.length ];
+			Position[] aField = new Position[ aShipSpaces.length ];
 			//pobranie pierwszego pola z planszy
-			aPola[ iSize++ ] =  pobierzPole(0);
+			aField[ iSize++ ] =  getField(0);
 			//petla pobierajaca kolejne pola dopoki jakies sasiadujace sa znajdowane
-			boolean bNowySasiad = true;
-			while (bNowySasiad == true)
+			boolean bNewNeighbor = true;
+			while (bNewNeighbor == true)
 				{
-				bNowySasiad = false;
+				bNewNeighbor = false;
 				for (int i = 0; i < iSize; ++i)
 					{
-					int iNrSzukanegoSasiada = znajdzSasiada(aPola[i]);
-					if (iNrSzukanegoSasiada != -1)
+					int iNumberOfSearchedNeighbor = findNeighbor(aField[i]);
+					if (iNumberOfSearchedNeighbor != -1)
 						{
-						aPola[ iSize++ ] = pobierzPole(iNrSzukanegoSasiada);
-						bNowySasiad = true;
+						aField[ iSize++ ] = getField(iNumberOfSearchedNeighbor);
+						bNewNeighbor = true;
 						}
 					}
 				}
 			//utworzenie nowej tablicy o Sizeach przycietych do znalezionego statku, przepisanie do niej pol i return
 			Position[] aReturn = new Position[iSize];
 			for (int i = 0; i < aReturn.length; ++i)
-				aReturn[i] = aPola[i];
+				aReturn[i] = aField[i];
 			return aReturn;
 			}
 		catch (ParameterException e)
@@ -158,51 +158,51 @@ public class ShipGenerator
 	/**
 	 * Metoda sprawdza, czy na liscie pol jest pole sasiadujace z przekazanym w parametrze.<br />
 	 * 
-	 * Jesli tak, zwraca jego index w tablicy aPolaStatkow.
+	 * Jesli tak, zwraca jego index w tablicy aShipSpaces.
 	 * Jesli wystepuje wiecej takich pol, zwrocony zostanie index pierwszego znalezionego pola.
 	 * Jesli podane pola nie ma sasiadow, zostanie zwrocona wartosc -1.
 	 * 
-	 * @param oPozycja Wspolrzedne pola, dla ktorego nalezy szukac sasiadow.
+	 * @param oPosition Wspolrzedne pola, dla ktorego nalezy szukac sasiadow.
 	 * @return Zwraca index pola sasiadujacego, lub -1, jesli nie znaleziono zadnego.
 	 */
-	private int znajdzSasiada(Position oPozycja)
+	private int findNeighbor(Position oPosition)
 		{
-		for (int i = 0; i < aPolaStatkow.length; ++i)
+		for (int i = 0; i < aShipSpaces.length; ++i)
 			{
 			if (
-				(aPolaStatkow[i].getX() == oPozycja.getX() - 1 && aPolaStatkow[i].getY() == oPozycja.getY()) ||
-				(aPolaStatkow[i].getX() == oPozycja.getX() + 1 && aPolaStatkow[i].getY() == oPozycja.getY()) ||
-				(aPolaStatkow[i].getX() == oPozycja.getX() && aPolaStatkow[i].getY() == oPozycja.getY() - 1) ||
-				(aPolaStatkow[i].getX() == oPozycja.getX() && aPolaStatkow[i].getY() == oPozycja.getY() + 1)
+				(aShipSpaces[i].getX() == oPosition.getX() - 1 && aShipSpaces[i].getY() == oPosition.getY()) ||
+				(aShipSpaces[i].getX() == oPosition.getX() + 1 && aShipSpaces[i].getY() == oPosition.getY()) ||
+				(aShipSpaces[i].getX() == oPosition.getX() && aShipSpaces[i].getY() == oPosition.getY() - 1) ||
+				(aShipSpaces[i].getX() == oPosition.getX() && aShipSpaces[i].getY() == oPosition.getY() + 1)
 				)
 				return i;
 			}
 		return -1;
 		}
 	/**
-	 * Metoda usuwa z listy pol w aPolaStatkow element o podanym indexie i zwraca go.
+	 * Metoda usuwa z listy pol w aShipSpaces element o podanym indexie i zwraca go.
 	 * 
 	 * @param iIndex Index pola do usuniecia.
 	 * @return Zwraca usuniete pole.
 	 * @throws ParameterException Wyrzuca wyjatek, jesli index znajduje sie poza dostepnym zakresem pol.
 	 */
-	private Position pobierzPole(int iIndex) throws ParameterException
+	private Position getField(int iIndex) throws ParameterException
 		{
-		if (iIndex >= iIloscPolStatkow || iIndex < 0)
+		if (iIndex >= iNumberOfShipsField || iIndex < 0)
 			throw new ParameterException("iIndex = " + iIndex);
-		Position[] aNowaLista = new Position[iIloscPolStatkow - 1];
+		Position[] aNewList = new Position[iNumberOfShipsField - 1];
 		//przepisanie elementow do nowej tablicy z pominieciem usuwanego
-		int iLicznik = 0;
-		for (int i = 0; i < iIloscPolStatkow; ++i)
+		int iCounter = 0;
+		for (int i = 0; i < iNumberOfShipsField; ++i)
 			if (i != iIndex)
 				{
-				aNowaLista[iLicznik] = aPolaStatkow[i];
-				++iLicznik;
+				aNewList[iCounter] = aShipSpaces[i];
+				++iCounter;
 				}
 		//zapisanie elementu do usuniecia i podmiana tablicy pol w obiekcie
-		Position oReturn = aPolaStatkow[iIndex];
-		aPolaStatkow = aNowaLista;
-		--iIloscPolStatkow;
+		Position oReturn = aShipSpaces[iIndex];
+		aShipSpaces = aNewList;
+		--iNumberOfShipsField;
 		
 		return oReturn;
 		}

@@ -143,9 +143,9 @@ public class JComponentPlansza
 		{
 		bWyswietlStatki = bStan;
 		}
-	public void aktywujWyroznienie(Position oPozycja)
+	public void aktywujWyroznienie(Position oPosition)
 		{
-		aktywujWyroznienie(oPozycja.getX(), oPozycja.getY());
+		aktywujWyroznienie(oPosition.getX(), oPosition.getY());
 		}
 	public void aktywujWyroznienie(int iX, int iY)
 		{

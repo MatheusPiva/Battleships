@@ -16,12 +16,12 @@ public class JComponentStatusGryStatki
 	extends JComponent
 	{
 	private static final int MARGINES = 5;
-	private ShipIterator oStatki;
+	private ShipIterator oShips;
 	private Image oImgStatekNieuszkodzony;
 	private Image oImgStatekUszkodzony;
 	public JComponentStatusGryStatki(ShipIterator oKontener) throws IOException
 		{
-		oStatki = oKontener;
+		oShips = oKontener;
 		URL oImgUrlStatekNieuszkodzony = getClass().getResource("/pl/vgtworld/games/statki/img/ship-0.png");
 		URL oImgUrlStatekUszkodzony = getClass().getResource("/pl/vgtworld/games/statki/img/ship-1.png");
 		if (oImgUrlStatekNieuszkodzony != null && oImgUrlStatekUszkodzony != null)
@@ -35,16 +35,16 @@ public class JComponentStatusGryStatki
 			oImgStatekUszkodzony = null;
 			}
 		}
-	public void setStatki(ShipIterator oStatki)
+	public void setStatki(ShipIterator oShips)
 		{
-		this.oStatki = oStatki;
+		this.oShips = oShips;
 		}
 	@Override public void paintComponent(Graphics g)
 		{
-		if (oImgStatekNieuszkodzony != null && oImgStatekUszkodzony != null && oStatki != null)
+		if (oImgStatekNieuszkodzony != null && oImgStatekUszkodzony != null && oShips != null)
 			{
-			int iNieuszkodzone = oStatki.getNumberOfSunkenShips();
-			int iUszkodzone = oStatki.getNumberOfShipsHit();
+			int iNieuszkodzone = oShips.getNumberOfSunkenShips();
+			int iUszkodzone = oShips.getNumberOfShipsHit();
 			int iX = 0;
 			for (int i = 1; i <= iNieuszkodzone; ++i)
 				{

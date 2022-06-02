@@ -23,38 +23,38 @@ public class AiCheater
 	/**
 	 * Konstruktor.
 	 * 
-	 * @param oStatki Kontener statkow nalezacych do gracza sterowanego przez dany obiekt Ai.
+	 * @param oShips Kontener statkow nalezacych do gracza sterowanego przez dany obiekt Ai.
 	 */
-	public AiCheater(ShipIterator oStatki)
+	public AiCheater(ShipIterator oShips)
 		{
-		super(oStatki);
+		super(oShips);
 		}
 	/**
 	 * Implementacja metody interface'u Ai.
 	 */
-	public boolean shot(ShipIterator oStatkiPrzeciwnika)
+	public boolean shot(ShipIterator oShipsPrzeciwnika)
 		{
-		if (oUzyteczneTrafienia.size() > 0)
+		if (oUzyteczneHits.size() > 0)
 			{
-			return shotSasiadujacy(oStatkiPrzeciwnika);
+			return shotSasiadujacy(oShipsPrzeciwnika);
 			}
 		else
 			{
 			//ustalenie, czy komputer przegrywa
-                        int iAiTotal = oStatki.getNumberOfShipsHit() + oStatki.getNumberOfSunkenShips();
-                        int iEnemyTotal = oStatkiPrzeciwnika.getNumberOfShipsHit() - oStatkiPrzeciwnika.getNumberOfSunkenShips();
+                        int iAiTotal = oShips.getNumberOfShipsHit() + oShips.getNumberOfSunkenShips();
+                        int iEnemyTotal = oShipsPrzeciwnika.getNumberOfShipsHit() - oShipsPrzeciwnika.getNumberOfSunkenShips();
 			int iDifference = iAiTotal - iEnemyTotal;
 			if (iDifference > 0)
 				{
 				//komputer przegrywa
-				int iIloscDozwolonychProb;
-                                iIloscDozwolonychProb = (1 + (oStatkiPrzeciwnika.getNumberOfSunkenShips() - oStatki.getNumberOfSunkenShips()));
-				return shotWielokrotny(oStatkiPrzeciwnika, iIloscDozwolonychProb);
+				int iQuantityDozwolonychProb;
+                                iQuantityDozwolonychProb = (1 + (oShipsPrzeciwnika.getNumberOfSunkenShips() - oShips.getNumberOfSunkenShips()));
+				return shotWielokrotny(oShipsPrzeciwnika, iQuantityDozwolonychProb);
 				}
 			else
 				{
 				//komputer wygrywa
-				return shotLosowy(oStatkiPrzeciwnika);
+				return shotLosowy(oShipsPrzeciwnika);
 				}
 			}
 		}

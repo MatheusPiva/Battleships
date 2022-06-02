@@ -32,8 +32,8 @@ public class JComponentStatusGry
 	private static final Color KOLOR_POZYTYWNY = Color.GREEN;
 	private static final Color KOLOR_NEGATYWNY = Color.RED;
 	private GameStatus oStatusGry;
-	private ShipIterator oStatkiGracz;
-	private ShipIterator oStatkiKomputer;
+	private ShipIterator oShipsGracz;
+	private ShipIterator oShipsKomputer;
 	private JComponentStatusGryStatki oListaStatkowGracz;
 	private JComponentStatusGryStatki oListaStatkowKomputer;
 	private JLabel oPunktyGracz;
@@ -50,8 +50,8 @@ public class JComponentStatusGry
 		this.oStatusGry = oStatusGry;
 		setPreferredSize(new Dimension(100, 100));
 		setLayout(new BorderLayout());
-		oStatkiGracz = null;
-		oStatkiKomputer = null;
+		oShipsGracz = null;
+		oShipsKomputer = null;
 		Font oFontEtykiety = new Font("Arial", Font.BOLD, ETYKIETY_FONT_WIELKOSC);
 		Font oFontWartosci = new Font("Arial", Font.BOLD, WARTOSCI_FONT_WIELKOSC);
 		//tlo img
@@ -116,8 +116,8 @@ public class JComponentStatusGry
 		
 		try
 			{
-			oListaStatkowGracz = new JComponentStatusGryStatki(oStatkiGracz);
-			oListaStatkowKomputer = new JComponentStatusGryStatki(oStatkiKomputer);
+			oListaStatkowGracz = new JComponentStatusGryStatki(oShipsGracz);
+			oListaStatkowKomputer = new JComponentStatusGryStatki(oShipsKomputer);
 	
 			JPanel oPanelStatki = new JPanel();
 			oPanelStatki.setOpaque(false);
@@ -136,22 +136,22 @@ public class JComponentStatusGry
 	/**
 	 * Ustawienie obiektu kontenera statkow gracza.
 	 * 
-	 * @param oStatki Kontener statkow gracza.
+	 * @param oShips Kontener statkow gracza.
 	 */
-	public void setStatkiGracz(ShipIterator oStatki)
+	public void setStatkiGracz(ShipIterator oShips)
 		{
-		oStatkiGracz = oStatki;
-		oListaStatkowGracz.setStatki(oStatki);
+		oShipsGracz = oShips;
+		oListaStatkowGracz.setStatki(oShips);
 		}
 	/**
 	 * Ustawienie obiektu kontenera statkow komputera.
 	 * 
-	 * @param oStatki Kontener statkow komputera.
+	 * @param oShips Kontener statkow komputera.
 	 */
-	public void setStatkiKomputer(ShipIterator oStatki)
+	public void setStatkiKomputer(ShipIterator oShips)
 		{
-		oStatkiKomputer = oStatki;
-		oListaStatkowKomputer.setStatki(oStatki);
+		oShipsKomputer = oShips;
+		oListaStatkowKomputer.setStatki(oShips);
 		}
 	/**
 	 * Odswiezenie danych w komponencie na podstawie obiektu statusu gry.

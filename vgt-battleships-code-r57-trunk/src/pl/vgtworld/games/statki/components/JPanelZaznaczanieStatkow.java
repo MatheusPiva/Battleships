@@ -42,7 +42,7 @@ public class JPanelZaznaczanieStatkow
 	/**
 	 * Kontener statkow tworzony dla gracza po zakonczeniu rozmieszczania statkow.
 	 */
-	private ShipIterator oStatki;
+	private ShipIterator oShips;
 	/**
 	 * Referencja do glownego okna gry.
 	 */
@@ -78,21 +78,21 @@ public class JPanelZaznaczanieStatkow
 		@Override public void actionPerformed(ActionEvent event)
 			{
 			ShipGenerator oGenerator = new ShipGenerator(oBoard);
-			oStatki = oGenerator.generujStatki();
+			oShips = oGenerator.generateShips();
 			boolean bOK = true;
 			//sprawdzenie, kolejnych warunkow rozmieszczenia statkow
-			if (oStatki.getNumberOfShips() != oUstawienia.getNumbeOfShips())
+			if (oShips.getNumberOfShips() != oUstawienia.getNumbeOfShips())
 				bOK = false;
-			for (int i = oStatki.getMaxShipSize(); i >= 1; --i)
-				if (oStatki.getNumberOfShips(i) != oUstawienia.getNumberOfShips(i))
+			for (int i = oShips.getMaxShipSize(); i >= 1; --i)
+				if (oShips.getNumberOfShips(i) != oUstawienia.getNumberOfShips(i))
 					bOK = false;
-			if (oStatki.verifyApplication(oUstawienia.getStraightLines()) == false)
+			if (oShips.verifyApplication(oUstawienia.getStraightLines()) == false)
 				bOK = false;
 			//commit
 			if (bOK == false)
 				{
 				JOptionPane.showMessageDialog(JPanelZaznaczanieStatkow.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.shipPlacement.invalidShipPlacement"));
-				oStatki = null;
+				oShips = null;
 				}
 			else
 				oOkno.rozpocznijRozgrywke();
@@ -128,10 +128,10 @@ public class JPanelZaznaczanieStatkow
 	/**
 	 * Klasa prywatna zawierajaca obsluge wcisniecia przycisku rozmieszczajacego statki gracza losowo na planszy.
 	 */
-	private class ActionRozmiescLosowoStatkiGracza
+	private class ActionRozmiescLosowoShipsGracza
 		extends AbstractAction
 		{
-		public ActionRozmiescLosowoStatkiGracza()
+		public ActionRozmiescLosowoShipsGracza()
 			{
 			putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.shipPlacement.random"));
 			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.shipPlacement.random.desc"));
@@ -149,7 +149,7 @@ public class JPanelZaznaczanieStatkow
 				for (int iSize: aShips)
 					oKontener.addAShip(iSize);
 				ShipPositioner oPozycjoner = new ShipPositioner();
-				if (oPozycjoner.rozmiescStatki(oKontener, oUstawienia.getStraightLines()) == false)
+				if (oPozycjoner.shipSpaces(oKontener, oUstawienia.getStraightLines()) == false)
 					JOptionPane.showMessageDialog(JPanelZaznaczanieStatkow.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.shipPlacement.randomShipPlacementFail"));
 				}
 			catch (ParameterException e)
@@ -219,7 +219,7 @@ public class JPanelZaznaczanieStatkow
 		this.oUstawienia = oUstawienia;
 		this.oOkno = oOkno;
 		oBoard = new Board(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
-		oStatki = null;
+		oShips = null;
 		oComponentPlansza = new JComponentPlansza(oBoard);
 		oMouseListener = new ZaznaczanieStatkowMouseListener();
 		
@@ -240,7 +240,7 @@ public class JPanelZaznaczanieStatkow
 		oButtonContainer.setLayout(new GridLayout(1,3));
 		JButton oButtonZatwierdz = new JButton(new ActionZatwierdzStatki());
 		JButton oButtonWyczysc = new JButton(new ActionWyczysc());
-		JButton oButtonLosuj = new JButton(new ActionRozmiescLosowoStatkiGracza());
+		JButton oButtonLosuj = new JButton(new ActionRozmiescLosowoShipsGracza());
 		oButtonContainer.add(oButtonZatwierdz);
 		oButtonContainer.add(oButtonLosuj);
 		oButtonContainer.add(oButtonWyczysc);
@@ -266,7 +266,7 @@ public class JPanelZaznaczanieStatkow
 	 */
 	public ShipIterator getStatki()
 		{
-		return oStatki;
+		return oShips;
 		}
 	/**
 	 * Metoda usuwa wszystkie statki umieszczone na planszy.

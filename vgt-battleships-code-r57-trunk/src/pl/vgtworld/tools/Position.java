@@ -59,8 +59,8 @@ public class Position
 	/**
 	 * Metoda zwraca pozycje zapisana na podanym w parametrze wymiarze.
 	 * 
-	 * @param iNrWymiaru Numer wymiaru, dla ktorego ma byc zwrocona pozycja (liczone od 1).
-	 * @return Zwraca pozycja obiektu na danym wymiarze.
+	 * @param iNrWymiaru Numer wymiaru, dla ktorego ma byc zwrocona Position (liczone od 1).
+	 * @return Zwraca Position obiektu na danym wymiarze.
 	 * @throws ParameterException Wyrzuca wyjatek, jesli przekazany numer wymiaru jest poza zakresem.
 	 */
 	public int getWymiar(int iNrWymiaru) throws ParameterException
@@ -121,26 +121,26 @@ public class Position
 	/**
 	 * Metoda zapisuje pozycje w podanym wymiarze.
 	 * 
-	 * @param iNrWymiaru Numer wymiaru, dla ktorego ma byc zapisana pozycja (liczone od 1).
-	 * @param iPozycja Position obiektu w danym wymiarze, na ktora ma byc ustawiony.
+	 * @param iNrWymiaru Numer wymiaru, dla ktorego ma byc zapisana Position (liczone od 1).
+	 * @param iPosition Position obiektu w danym wymiarze, na ktora ma byc ustawiony.
 	 * @throws ParameterException Wyrzuca wyjatek, jesli przekazany numer wymiaru jest poza zakresem.
 	 */
-	public void setWymiar(int iNrWymiaru, int iPozycja) throws ParameterException
+	public void setWymiar(int iNrWymiaru, int iPosition) throws ParameterException
 		{
 		if (iNrWymiaru > iLiczbaWymiarow || iNrWymiaru <= 0)
 			throw new ParameterException("iNrWymiaru = " + iNrWymiaru);
-		aWymiary[ iNrWymiaru - 1 ] = iPozycja;
+		aWymiary[ iNrWymiaru - 1 ] = iPosition;
 		}
 	/**
 	 * Uproszczona wersja metody {@link #setWymiar(int, int)} ustawiajaca pozycje dla pierwszego wymiaru.
 	 * 
-	 * @param iPozycja Position obiektu w pierwszym wymiarze.
+	 * @param iPosition Position obiektu w pierwszym wymiarze.
 	 */
-	public void setX(int iPozycja)
+	public void setX(int iPosition)
 		{
 		try
 			{
-			setWymiar(1, iPozycja);
+			setWymiar(1, iPosition);
 			}
 		catch (ParameterException e)
 			{
@@ -150,13 +150,13 @@ public class Position
 	/**
 	 * Uproszczona wersja metody {@link #setWymiar(int, int)} ustawiajaca pozycje dla drugiego wymiaru.
 	 * 
-	 * @param iPozycja Position obiektu w drugim wymiarze.
+	 * @param iPosition Position obiektu w drugim wymiarze.
 	 */
-	public void setY(int iPozycja)
+	public void setY(int iPosition)
 		{
 		try
 			{
-			setWymiar(2, iPozycja);
+			setWymiar(2, iPosition);
 			}
 		catch (ParameterException e)
 			{
@@ -167,13 +167,13 @@ public class Position
 	 * Uproszczona wersja metody {@link #setWymiar(int, int)} ustawiajaca pozycje dla trzeciego wymiaru.
 	 * 
 	 * @since 1.2
-	 * @param iPozycja Position obiektu w trzecim wymiarze.
+	 * @param iPosition Position obiektu w trzecim wymiarze.
 	 */
-	public void setZ(int iPozycja)
+	public void setZ(int iPosition)
 		{
 		try
 			{
-			setWymiar(3, iPozycja);
+			setWymiar(3, iPosition);
 			}
 		catch (ParameterException e)
 			{
@@ -183,7 +183,7 @@ public class Position
 	/**
 	 * Metoda przesuwa pozycje na danym wymiarze o dana wartosc.
 	 * 
-	 * @param iNrWymiaru Numer wymiaru, ktorego pozycja ma byc przesunieta (liczone od 1).
+	 * @param iNrWymiaru Numer wymiaru, ktorego Position ma byc przesunieta (liczone od 1).
 	 * @param iWartoscPrzesuniecia Wartosc przesuniecia danego wymiaru.
 	 * @throws ParameterException Wyrzuca wyjatek, jesli numer wymiaru jest poza zakresem.
 	 */
@@ -277,12 +277,12 @@ public class Position
 		if (getClass() != oObj.getClass())
 			return false;
 		
-		Position oPozycja = (Position)oObj;
+		Position oPosition = (Position)oObj;
 		
-		if (oPozycja.iLiczbaWymiarow != iLiczbaWymiarow)
+		if (oPosition.iLiczbaWymiarow != iLiczbaWymiarow)
 			return false;
 		for (int i = 0; i < iLiczbaWymiarow; ++i)
-			if (aWymiary[i] != oPozycja.aWymiary[i])
+			if (aWymiary[i] != oPosition.aWymiary[i])
 				return false;
 		return true;
 		}

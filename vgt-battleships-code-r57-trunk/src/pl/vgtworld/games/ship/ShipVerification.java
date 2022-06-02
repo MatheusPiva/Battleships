@@ -11,7 +11,7 @@ import pl.vgtworld.tools.Position;
  * <p>
  * aktualizacje:<br />
  * 1.1<br />
- * - dodanie parametru bStraightLines do metody {@link #polaPolaczone(boolean)}.<br />
+ * - dodanie parametru bStraightLines do metody {@link #fieldsConnected(boolean)}.<br />
  * </p>
  * 
  * @author VGT
@@ -40,7 +40,7 @@ public class ShipVerification
 	 * 
 	 * @param oShip Obiekt statku do testow.
 	 */
-	public void importujStatek(Ship oShip)
+	public void importShip(Ship oShip)
 		{
 		this.oShip = oShip;
 		oBoard = oShip.getBoard();
@@ -50,17 +50,17 @@ public class ShipVerification
 	 * 
 	 * @return Zwraca TRUE jesli statek w calosci jest na planszy, lub FALSE w przeciwnym wypadku.
 	 */
-	public boolean polaNaPlanszy()
+	public boolean spacesOnBoard()
 		{
 		if (oShip == null)
-			throw new DeveloperException("obiekt statku niezaimportowany");
+			throw new DeveloperException("Ship item not imported");
 		try
 			{
 			for (int i = 1; i <= oShip.getSize(); ++i)
 				{
-				Position oPole = oShip.getField(i);
-				if (oPole.getX() == -1 || oPole.getX() >= oBoard.getWidth()
-					|| oPole.getY() == -1 || oPole.getY() >= oBoard.getHeight()
+				Position oField = oShip.getField(i);
+				if (oField.getX() == -1 || oField.getX() >= oBoard.getWidth()
+					|| oField.getY() == -1 || oField.getY() >= oBoard.getHeight()
 					)
 					return false;
 				}
@@ -74,9 +74,9 @@ public class ShipVerification
 	/**
 	 * @deprecated
 	 */
-	public boolean polaPolaczone()
+	public boolean fieldsConnected()
 		{
-		return polaPolaczone(false);
+		return fieldsConnected(false);
 		}
 	/**
 	 * Metoda sprawdza, czy wszystkie pola danego statku tworza jednolita strukture
@@ -89,67 +89,67 @@ public class ShipVerification
 	 * @param bStraightLines Okresla, czy pola musza byc w jednej linii pionowej lub poziomej.
 	 * @return Zwraca TRUE, jesli statek jest prawidlowo zbudowany, lub FALSE w przeciwnym wypadku.
 	 */
-	public boolean polaPolaczone(boolean bStraightLines)
+	public boolean fieldsConnected(boolean bStraightLines)
 		{
 		if (oShip == null)
-			throw new DeveloperException("obiekt statku niezaimportowany");
+			throw new DeveloperException("Ship item not imported");
 		try
 			{
-			int iIloscPrawidlowych = 0;
-			boolean[] aPrawidlowe = new boolean[ oShip.getSize() ];
+			int iQuantityValid = 0;
+			boolean[] aCorrect = new boolean[ oShip.getSize() ];
 			for (int i = 0; i < oShip.getSize(); ++i)
-				aPrawidlowe[i] = false;
+				aCorrect[i] = false;
 			//pierwsze pole statku prawidlowe z automatu
-			++iIloscPrawidlowych;
-			aPrawidlowe[0] = true;
-			boolean bZmiany = true;
+			++iQuantityValid;
+			aCorrect[0] = true;
+			boolean bChanges = true;
 			//petla wykonujaca sie dopoki nastepuja jakies zmiany w ilosci prawidlowych pol
-			while (bZmiany == true)
+			while (bChanges == true)
 				{
-				bZmiany = false;
+				bChanges = false;
 				for (int i = 0; i < oShip.getSize(); ++i)
-					if (aPrawidlowe[i] == true)
+					if (aCorrect[i] == true)
 						{
-						Position oPolePrawidlowe = oShip.getField(i+1);
+						Position oValidField = oShip.getField(i+1);
 						for (int j = -1; j <= 1; ++j)
 							for (int k = -1; k <= 1; ++k)
 								{
-								if (oPolePrawidlowe.getX() + j < 0 || oPolePrawidlowe.getX() + j >= oBoard.getWidth()
-									|| oPolePrawidlowe.getY() + k < 0 || oPolePrawidlowe.getY() + k >= oBoard.getHeight()
+								if (oValidField.getX() + j < 0 || oValidField.getX() + j >= oBoard.getWidth()
+									|| oValidField.getY() + k < 0 || oValidField.getY() + k >= oBoard.getHeight()
 									)
 									continue;
-								int iNumberPola = oShip.getNumerPola(oPolePrawidlowe.getX() + j, oPolePrawidlowe.getY() + k);
-								if (iNumberPola > 0 && aPrawidlowe[iNumberPola - 1] == false)
+								int iNumberFields = oShip.getNumerPola(oValidField.getX() + j, oValidField.getY() + k);
+								if (iNumberFields > 0 && aCorrect[iNumberFields - 1] == false)
 									{
-									bZmiany = true;
-									++iIloscPrawidlowych;
-									aPrawidlowe[iNumberPola - 1] = true;
+									bChanges = true;
+									++iQuantityValid;
+									aCorrect[iNumberFields - 1] = true;
 									}
 								}
 						}
 				}
 			
-			if (iIloscPrawidlowych == oShip.getSize())
+			if (iQuantityValid == oShip.getSize())
 				{
 				//dodatkowe sprawdzenie, czy pola tworza linie, jesli wymagane
 				if (bStraightLines == true)
 					{
 					int iX = -1;
 					int iY = -1;
-					boolean bPoziom = true;
-					boolean bPion = true;
-					for (int i = 1; i <= iIloscPrawidlowych; ++i)
+					boolean bLevel = true;
+					boolean bVertical = true;
+					for (int i = 1; i <= iQuantityValid; ++i)
 						{
 						if (iX == -1)
 							iX = oShip.getField(i).getX();
 						else if (iX != oShip.getField(i).getX())
-							bPoziom = false;
+							bLevel = false;
 						if (iY == -1)
 							iY = oShip.getField(i).getY();
 						else if (iY != oShip.getField(i).getY())
-							bPion = false;
+							bVertical = false;
 						}
-					if (bPoziom == true || bPion == true)
+					if (bLevel == true || bVertical == true)
 						return true;
 					else
 						return false;
@@ -170,28 +170,28 @@ public class ShipVerification
 	 * 
 	 * @return Zwraca FALSE, jesli wystapilo zetkniecie z innym statkiem, lub TRUE w przeciwnym wypadku. 
 	 */
-	public boolean brakSasiadow()
+	public boolean NoNeighbors()
 		{
 		if (oShip == null)
-			throw new DeveloperException("obiekt statku niezaimportowany");
+			throw new DeveloperException("Ship item not imported");
 		try
 			{
 			for (int i = 1; i <= oShip.getSize(); ++i)
 				{
-				Position oPole = oShip.getField(i);
+				Position oField = oShip.getField(i);
 				for (int j = -1; j <= 1; ++j)
 					for (int k = -1; k <=1; ++k)
 						{
-						Position oSasiedniePole = new Position(2);
-						oSasiedniePole.setX(oPole.getX() + j);
-						oSasiedniePole.setY(oPole.getY() + k);
+						Position oAdjacentField = new Position(2);
+						oAdjacentField.setX(oField.getX() + j);
+						oAdjacentField.setY(oField.getY() + k);
 						//odrzucenie sprawdzania pol, ktore laduja poza zakresem planszy
-						if (oSasiedniePole.getX() < 0 || oSasiedniePole.getX() >= oBoard.getWidth()
-							|| oSasiedniePole.getY() < 0 || oSasiedniePole.getY() >= oBoard.getHeight()
+						if (oAdjacentField.getX() < 0 || oAdjacentField.getX() >= oBoard.getWidth()
+							|| oAdjacentField.getY() < 0 || oAdjacentField.getY() >= oBoard.getHeight()
 							)
 							continue;
-						if (oBoard.getField(oSasiedniePole.getX(), oSasiedniePole.getY()) == FieldTypeBoard.SHIP_BOARD
-							&& oShip.getNumerPola(oSasiedniePole.getX(), oSasiedniePole.getY()) == 0
+						if (oBoard.getField(oAdjacentField.getX(), oAdjacentField.getY()) == FieldTypeBoard.SHIP_BOARD
+							&& oShip.getNumerPola(oAdjacentField.getX(), oAdjacentField.getY()) == 0
 							)
 							return false;
 						}

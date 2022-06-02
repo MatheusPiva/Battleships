@@ -19,22 +19,22 @@ public class AiExtended
 	/**
 	 * Konstruktor.
 	 * 
-	 * @param oStatki Kontener statkow nalezacych do gracza sterowanego przez dany obiekt Ai.
+	 * @param oShips Kontener statkow nalezacych do gracza sterowanego przez dany obiekt Ai.
 	 */
-	public AiExtended(ShipIterator oStatki)
+	public AiExtended(ShipIterator oShips)
 		{
-		super(oStatki);
+		super(oShips);
 		}
 	/**
 	 * Implementacja metody interface'u Ai.
 	 */
-	public boolean shot(ShipIterator oStatkiPrzeciwnika)
+	public boolean shot(ShipIterator oShipsPrzeciwnika)
 		{
-		if (oUzyteczneTrafienia.size() > 0)
+		if (oUzyteczneHits.size() > 0)
 			{
-			return shotSasiadujacy(oStatkiPrzeciwnika);
+			return shotSasiadujacy(oShipsPrzeciwnika);
 			}
 		else
-			return shotLosowy(oStatkiPrzeciwnika);
+			return shotLosowy(oShipsPrzeciwnika);
 		}
 	}

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import javax.swing.JOptionPane;
 import pl.vgtworld.exceptions.ParameterException;
-import pl.vgtworld.games.statki.components.JFrameGameWindowSettings;
+import pl.vgtworld.games.ship.components.JFrameGameWindowSettings;
 
 /**
  * The class that stores the main game settings..

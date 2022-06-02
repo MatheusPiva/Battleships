@@ -1,7 +1,7 @@
 package pl.vgtworld.games.ship;
 
 import java.awt.EventQueue;
-import pl.vgtworld.games.statki.components.JFrameGameWindowSettings;
+import pl.vgtworld.games.ship.components.JFrameGameWindowSettings;
 
 /**
  * A class with a startup method main().

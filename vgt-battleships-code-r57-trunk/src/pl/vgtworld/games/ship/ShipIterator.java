@@ -168,9 +168,9 @@ public class ShipIterator
 	 * @return Ilosc nietrafionych statkow.
 	 * @since 1.1 
 	 */
-	public int getNumberOfSunkenShips()
+	public int getNumberOfUndamagedShips()
 		{
-		return getNumberOfShips() - getNumberOfShipsHit() - getNumberOfSunkenShips();
+		return getNumberOfShips() - getNumberOfShipsHit() - getNumberOfUndamagedShips();
 		}
 	/**
 	 * Zwraca Size, jaki ma najwiekszy statek aktualnie przechowywany w kontenerze.

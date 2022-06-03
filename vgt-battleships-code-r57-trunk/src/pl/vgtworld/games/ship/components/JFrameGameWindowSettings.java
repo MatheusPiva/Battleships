@@ -256,7 +256,7 @@ public class JFrameGameWindowSettings
 					)
 					{
 					bKolejGracza = false;
-					int iQuantityZatopionychPrzedshotem = oShipsKomputer.getNumberOfSunkenShips();
+					int iQuantityZatopionychPrzedshotem = oShipsKomputer.getNumberOfUndamagedShips();
 					
 					//shot na plansze komputera
 					boolean bHit;
@@ -264,7 +264,7 @@ public class JFrameGameWindowSettings
 					JComponentPlansza oComponentPlansza = (JComponentPlansza)oPanelPlanszeKontener.getComponent(1);
 					oComponentPlansza.aktywujWyroznienie(oKliknietePole);
 					//obsluga sprawdzania, czy koniec gry
-					if (bHit == true && oShipsKomputer.getNumberOfShips() == oShipsKomputer.getNumberOfSunkenShips())
+					if (bHit == true && oShipsKomputer.getNumberOfShips() == oShipsKomputer.getNumberOfUndamagedShips())
 						{
 						oStatusGry.playerVictory();
 						oComponentStatusGry.aktualizujDane();
@@ -288,7 +288,7 @@ public class JFrameGameWindowSettings
                                                     }
                                                     
 						oComponentStatusGry.aktualizujDane();
-						if (iQuantityZatopionychPrzedshotem != oShipsKomputer.getNumberOfSunkenShips())
+						if (iQuantityZatopionychPrzedshotem != oShipsKomputer.getNumberOfUndamagedShips())
 							oComponentWydarzenia.ustawPrawyKomunikat(LANG.getProperty("message.hit2"));
 						else
 							oComponentWydarzenia.ustawPrawyKomunikat(LANG.getProperty("message.hit1"));
@@ -304,13 +304,13 @@ public class JFrameGameWindowSettings
 			}
 		public void actionPerformed(ActionEvent oEvent)
 			{
-			int iQuantityZatopionychPrzedshotem = oShipsGracz.getNumberOfSunkenShips();
+			int iQuantityZatopionychPrzedshotem = oShipsGracz.getNumberOfUndamagedShips();
 			//shot na plansze gracza
 			boolean bHit = oAi.shot(oShipsGracz);
 			JComponentPlansza oComponentPlansza = (JComponentPlansza)oPanelPlanszeKontener.getComponent(0);
 			oComponentPlansza.aktywujWyroznienie(oShipsGracz.getLastShot());
 			//obsluga sprawdzania, czy koniec gry
-			if (bHit == true && oShipsGracz.getNumberOfShips() == oShipsGracz.getNumberOfSunkenShips())
+			if (bHit == true && oShipsGracz.getNumberOfShips() == oShipsGracz.getNumberOfUndamagedShips())
 				{
 				oStatusGry.computerVictory();
 				oComponentStatusGry.aktualizujDane();
@@ -329,7 +329,7 @@ public class JFrameGameWindowSettings
 			else if (bHit == true)
 				{
 				oComponentStatusGry.aktualizujDane();
-				if (iQuantityZatopionychPrzedshotem != oShipsGracz.getNumberOfSunkenShips())
+				if (iQuantityZatopionychPrzedshotem != oShipsGracz.getNumberOfUndamagedShips())
 					oComponentWydarzenia.ustawLewyKomunikat(LANG.getProperty("message.hit2"));
 				else
 					oComponentWydarzenia.ustawLewyKomunikat(LANG.getProperty("message.hit1"));

@@ -41,14 +41,14 @@ public class AiCheater
 		else
 			{
 			//ustalenie, czy komputer przegrywa
-                        int iAiTotal = oShips.getNumberOfShipsHit() + oShips.getNumberOfSunkenShips();
-                        int iEnemyTotal = oShipsPrzeciwnika.getNumberOfShipsHit() - oShipsPrzeciwnika.getNumberOfSunkenShips();
+                        int iAiTotal = oShips.getNumberOfShipsHit() + oShips.getNumberOfUndamagedShips();
+                        int iEnemyTotal = oShipsPrzeciwnika.getNumberOfShipsHit() - oShipsPrzeciwnika.getNumberOfUndamagedShips();
 			int iDifference = iAiTotal - iEnemyTotal;
 			if (iDifference > 0)
 				{
 				//komputer przegrywa
 				int iQuantityDozwolonychProb;
-                                iQuantityDozwolonychProb = (1 + (oShipsPrzeciwnika.getNumberOfSunkenShips() - oShips.getNumberOfSunkenShips()));
+                                iQuantityDozwolonychProb = (1 + (oShipsPrzeciwnika.getNumberOfUndamagedShips() - oShips.getNumberOfUndamagedShips()));
 				return shotWielokrotny(oShipsPrzeciwnika, iQuantityDozwolonychProb);
 				}
 			else

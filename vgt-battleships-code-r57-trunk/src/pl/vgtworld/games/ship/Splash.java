@@ -21,7 +21,7 @@ public class Splash {
     private final int imgWidth = 1000;
     private final int imgHeight = 900;
     private final int splashTime = 6000;
-    private final String imgPath = "/pl/vgtworld/games/statki/img/splash.png";
+    private final String imgPath = "/pl/vgtworld/games/ship/img/splash.png";
     
     public Splash(){
         

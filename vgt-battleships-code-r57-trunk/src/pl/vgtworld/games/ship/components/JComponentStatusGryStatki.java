@@ -43,7 +43,7 @@ public class JComponentStatusGryStatki
 		{
 		if (oImgStatekNieuszkodzony != null && oImgStatekUszkodzony != null && oShips != null)
 			{
-			int iNieuszkodzone = oShips.getNumberOfSunkenShips();
+			int iNieuszkodzone = oShips.getNumberOfUndamagedShips();
 			int iUszkodzone = oShips.getNumberOfShipsHit();
 			int iX = 0;
 			for (int i = 1; i <= iNieuszkodzone; ++i)

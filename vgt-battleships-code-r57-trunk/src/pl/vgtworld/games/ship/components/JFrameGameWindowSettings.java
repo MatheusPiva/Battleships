@@ -83,7 +83,7 @@ public class JFrameGameWindowSettings
 	/**
 	 * Okno ustawien rozgrywki.
 	 */
-	private JDialogUstawienia oOknoUstawienia;
+	private JDialogSettings oOknoUstawienia;
 	/**
 	 * Okno informacji o autorze.
 	 */
@@ -99,7 +99,7 @@ public class JFrameGameWindowSettings
 	/**
 	 * Panel wyswietlany po rozpoczeciu nowej gry. Realizuje obsluge rozmieszczenia statkow przez gracza.
 	 */
-	private JPanelZaznaczanieStatkow oPanelZaznaczanieStatkow;
+	private JPanelMarkingShips oPanelZaznaczanieStatkow;
 	/**
 	 * Panel startowy wyswietlany po uruchomieniu programu zawierajacy przyciski do uruchomienia gry,
 	 * zmiany ustawien i zakonczenia rozgrywki.
@@ -108,11 +108,11 @@ public class JFrameGameWindowSettings
 	/**
 	 * Komponent wyswietlany w gornej czesci okna prezentujacy komunikaty na temat wydarzen na planszy poszczegolnych graczy.
 	 */
-	private JComponentWydarzenia oComponentWydarzenia;
+	private JComponentEvents oComponentWydarzenia;
 	/**
 	 * Komponent wyswietlany w dolnej czesci okna prezentujacy informacje na temat stanu aktualnej rozgrywki.
 	 */
-	private JComponentStatusGry oComponentStatusGry;
+	private JComponentGameStatus oComponentStatusGry;
 	/**
 	 * Kontener statkow gracza.
 	 */
@@ -215,16 +215,16 @@ public class JFrameGameWindowSettings
 		implements ActionListener
 		{
 		private Board oBoard;
-		private JComponentPlansza oCompPlansza;
+		private JComponentBoard oCompPlansza;
 		private Timer oTimer;
-		public RozgrywkaMouseListener(Board oBoard, JComponentPlansza oCompPlansza)
+		public RozgrywkaMouseListener(Board oBoard, JComponentBoard oCompPlansza)
 			{
 			this.oBoard = oBoard;
 			this.oCompPlansza = oCompPlansza;
 			oTimer = new Timer(1000, this);
 			oTimer.setRepeats(false);
 			}
-		public void setComponent(JComponentPlansza oCompPlansza)
+		public void setComponent(JComponentBoard oCompPlansza)
 			{
 			this.oCompPlansza = oCompPlansza;
 			}
@@ -261,7 +261,7 @@ public class JFrameGameWindowSettings
 					//shot na plansze komputera
 					boolean bHit;
 					bHit = oShipsKomputer.shot(oKliknietePole.getX(), oKliknietePole.getY());
-					JComponentPlansza oComponentPlansza = (JComponentPlansza)oPanelPlanszeKontener.getComponent(1);
+					JComponentBoard oComponentPlansza = (JComponentBoard)oPanelPlanszeKontener.getComponent(1);
 					oComponentPlansza.aktywujWyroznienie(oKliknietePole);
 					//obsluga sprawdzania, czy koniec gry
 					if (bHit == true && oShipsKomputer.getNumberOfShips() == oShipsKomputer.getNumberOfUndamagedShips())
@@ -307,7 +307,7 @@ public class JFrameGameWindowSettings
 			int iQuantityZatopionychPrzedshotem = oShipsGracz.getNumberOfUndamagedShips();
 			//shot na plansze gracza
 			boolean bHit = oAi.shot(oShipsGracz);
-			JComponentPlansza oComponentPlansza = (JComponentPlansza)oPanelPlanszeKontener.getComponent(0);
+			JComponentBoard oComponentPlansza = (JComponentBoard)oPanelPlanszeKontener.getComponent(0);
 			oComponentPlansza.aktywujWyroznienie(oShipsGracz.getLastShot());
 			//obsluga sprawdzania, czy koniec gry
 			if (bHit == true && oShipsGracz.getNumberOfShips() == oShipsGracz.getNumberOfUndamagedShips())
@@ -315,10 +315,10 @@ public class JFrameGameWindowSettings
 				oStatusGry.computerVictory();
 				oComponentStatusGry.aktualizujDane();
 				int iQuantityKomponentow = oPanelPlanszeKontener.getComponentCount();
-				JComponentPlansza oCompPlansza;
+				JComponentBoard oCompPlansza;
 				for (int i = 0; i < iQuantityKomponentow; ++i)
 					{
-					oCompPlansza = (JComponentPlansza)oPanelPlanszeKontener.getComponent(i);
+					oCompPlansza = (JComponentBoard)oPanelPlanszeKontener.getComponent(i);
 					if (oCompPlansza != null)
 						oCompPlansza.setWyswietlStatki(true);
 					}
@@ -405,7 +405,7 @@ public class JFrameGameWindowSettings
 		setLocationRelativeTo(null);
 		this.oStatusGry = oStatusGry;
 		this.oUstawienia = oUstawienia;
-		oOknoUstawienia = new JDialogUstawienia(this, oUstawienia);
+		oOknoUstawienia = new JDialogSettings(this, oUstawienia);
 		oOknoUstawienia.setLocationRelativeTo(this);
 		oOknoAbout = new JDialogAbout(this, JFrameGameWindowSettings.LANG.getProperty("mainWindow.title"));
 		if (sWersja != null)
@@ -421,7 +421,7 @@ public class JFrameGameWindowSettings
 			add(oPanelPlanszeKontener, BorderLayout.CENTER);
 		
 		//panel z plansza do zaznaczania statkow po rozpoczeciu gry
-		oPanelZaznaczanieStatkow = new JPanelZaznaczanieStatkow(oUstawienia, this);
+		oPanelZaznaczanieStatkow = new JPanelMarkingShips(oUstawienia, this);
 		if (oStatusGry.getGameLaunched() == true && oStatusGry.getShipsArranged() == false)
 			add(oPanelZaznaczanieStatkow, BorderLayout.CENTER);
 		
@@ -444,11 +444,11 @@ public class JFrameGameWindowSettings
 			add(oPanelPrzyciski, BorderLayout.CENTER);
 		
 		//obszar rysowania wydarzen
-		oComponentWydarzenia = new JComponentWydarzenia();
+		oComponentWydarzenia = new JComponentEvents();
 		add(oComponentWydarzenia, BorderLayout.PAGE_START);
 		
 		//obszar rysowania statusu gry
-		oComponentStatusGry = new JComponentStatusGry(this.oStatusGry);
+		oComponentStatusGry = new JComponentGameStatus(this.oStatusGry);
 		add(oComponentStatusGry, BorderLayout.PAGE_END);
 		
 		//menu
@@ -504,7 +504,7 @@ public class JFrameGameWindowSettings
 	 */
 	public void dodajPlansze(Board oBoard, boolean bWyswietlStatki, RozgrywkaMouseListener oMouseListener)
 		{
-		JComponentPlansza oCompPlansza = new JComponentPlansza(oBoard);
+		JComponentBoard oCompPlansza = new JComponentBoard(oBoard);
 		if (oMouseListener != null)
 			{
 			if (oMouseListener.isSetComponent() == false)

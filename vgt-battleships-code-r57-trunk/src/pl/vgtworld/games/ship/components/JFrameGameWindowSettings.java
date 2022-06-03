@@ -371,7 +371,7 @@ public class JFrameGameWindowSettings
 		Properties oDefaultLang = new Properties();
 		try
 			{
-			InputStream oDefaultLangStream = getClass().getResourceAsStream("/pl/vgtworld/games/statki/lang/en_US.lang");
+			InputStream oDefaultLangStream = getClass().getResourceAsStream("/pl/vgtworld/games/ship/lang/en_US.lang");
 			if (oDefaultLangStream == null)
 				{
 				System.err.println("default language file not found");
@@ -379,7 +379,7 @@ public class JFrameGameWindowSettings
 				System.exit(1);
 				}
 			oDefaultLang.load(oDefaultLangStream);
-			InputStream oLangStream = getClass().getResourceAsStream("/pl/vgtworld/games/statki/lang/" + Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry() + ".lang");
+			InputStream oLangStream = getClass().getResourceAsStream("/pl/vgtworld/games/ship/lang/" + Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry() + ".lang");
 			LANG = new Properties(oDefaultLang);
 			if (oLangStream != null)
 				{

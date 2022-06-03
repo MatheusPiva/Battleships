@@ -28,13 +28,13 @@ public class AiExtended
 	/**
 	 * Implementacja metody interface'u Ai.
 	 */
-	public boolean shot(ShipIterator oShipsPrzeciwnika)
+	public boolean shot(ShipIterator oOpponentShip)
 		{
-		if (oUzyteczneHits.size() > 0)
+		if (oUsefulHits.size() > 0)
 			{
-			return shotSasiadujacy(oShipsPrzeciwnika);
+			return shotNeighbor(oOpponentShip);
 			}
 		else
-			return shotLosowy(oShipsPrzeciwnika);
+			return shotRandom(oOpponentShip);
 		}
 	}

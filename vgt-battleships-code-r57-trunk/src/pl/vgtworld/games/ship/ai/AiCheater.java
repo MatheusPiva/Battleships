@@ -32,29 +32,29 @@ public class AiCheater
 	/**
 	 * Implementacja metody interface'u Ai.
 	 */
-	public boolean shot(ShipIterator oShipsPrzeciwnika)
+	public boolean shot(ShipIterator oOpponentShip)
 		{
-		if (oUzyteczneHits.size() > 0)
+		if (oUsefulHits.size() > 0)
 			{
-			return shotSasiadujacy(oShipsPrzeciwnika);
+			return shotNeighbor(oOpponentShip);
 			}
 		else
 			{
 			//ustalenie, czy komputer przegrywa
                         int iAiTotal = oShips.getNumberOfShipsHit() + oShips.getNumberOfUndamagedShips();
-                        int iEnemyTotal = oShipsPrzeciwnika.getNumberOfShipsHit() - oShipsPrzeciwnika.getNumberOfUndamagedShips();
+                        int iEnemyTotal = oOpponentShip.getNumberOfShipsHit() - oOpponentShip.getNumberOfUndamagedShips();
 			int iDifference = iAiTotal - iEnemyTotal;
 			if (iDifference > 0)
 				{
 				//komputer przegrywa
-				int iQuantityDozwolonychProb;
-                                iQuantityDozwolonychProb = (1 + (oShipsPrzeciwnika.getNumberOfUndamagedShips() - oShips.getNumberOfUndamagedShips()));
-				return shotWielokrotny(oShipsPrzeciwnika, iQuantityDozwolonychProb);
+				int iQuantityAllowedTrials;
+                                iQuantityAllowedTrials = (1 + (oOpponentShip.getNumberOfUndamagedShips() - oShips.getNumberOfUndamagedShips()));
+				return multipleShot(oOpponentShip, iQuantityAllowedTrials);
 				}
 			else
 				{
 				//komputer wygrywa
-				return shotLosowy(oShipsPrzeciwnika);
+				return shotRandom(oOpponentShip);
 				}
 			}
 		}

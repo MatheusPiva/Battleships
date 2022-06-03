@@ -99,7 +99,7 @@ public class JComponentWydarzenia
 	public JComponentWydarzenia()
 		{
 		//tlo img
-		URL oImgUrl = getClass().getResource("/pl/vgtworld/games/statki/img/events-bg.png");
+		URL oImgUrl = getClass().getResource("/pl/vgtworld/games/ship/img/events-bg.png");
 		if (oImgUrl != null)
 			{
 			try

@@ -170,7 +170,7 @@ public class ShipIterator
 	 */
 	public int getNumberOfUndamagedShips()
 		{
-		return getNumberOfShips() - getNumberOfShipsHit() - getNumberOfUndamagedShips();
+		return getNumberOfShips() - getNumberOfShipsHit() - getNumberOfSunkenShips();
 		}
 	/**
 	 * Zwraca Size, jaki ma najwiekszy statek aktualnie przechowywany w kontenerze.

@@ -40,7 +40,7 @@ public class JPanelUstawieniaListaStatkow
 		public ActionDodaj()
 			{
 			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.add.desc"));
-			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/statki/img/button-add.png");
+			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/ship/img/button-add.png");
 			if (oImgUrl == null)
 				putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.add"));
 			else
@@ -70,7 +70,7 @@ public class JPanelUstawieniaListaStatkow
 		public ActionUsun()
 			{
 			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.delete.desc"));
-			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/statki/img/button-delete.png");
+			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/ship/img/button-delete.png");
 			if (oImgUrl == null)
 				putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.delete"));
 			else
@@ -104,7 +104,7 @@ public class JPanelUstawieniaListaStatkow
 		public ActionPowieksz()
 			{
 			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.increase.desc"));
-			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/statki/img/button-up.png");
+			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/ship/img/button-up.png");
 			if (oImgUrl == null)
 				putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.increase"));
 			else
@@ -139,7 +139,7 @@ public class JPanelUstawieniaListaStatkow
 			{
 			//putValue(Action.NAME, "Pomniejsz zaznaczone");
 			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.decrease.desc"));
-			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/statki/img/button-down.png");
+			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/ship/img/button-down.png");
 			if (oImgUrl == null)
 				putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.decrease"));
 			else

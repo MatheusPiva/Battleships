@@ -55,7 +55,7 @@ public class JComponentStatusGry
 		Font oFontEtykiety = new Font("Arial", Font.BOLD, ETYKIETY_FONT_WIELKOSC);
 		Font oFontWartosci = new Font("Arial", Font.BOLD, WARTOSCI_FONT_WIELKOSC);
 		//tlo img
-		URL oImgUrl = getClass().getResource("/pl/vgtworld/games/statki/img/game-status-bg.png");
+		URL oImgUrl = getClass().getResource("/pl/vgtworld/games/ship/img/game-status-bg.png");
 		if (oImgUrl != null)
 			{
 			try

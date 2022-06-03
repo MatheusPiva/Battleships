@@ -13,23 +13,23 @@ abstract public class AiFactory
 	/**
 	 * Metoda zwracajaca rozne obiekty AI na podstawie przekazanego w parametrze oczekiwanego poziomu trudnosci.
 	 * 
-	 * @param iPoziomTrudnosci Liczba z zakresu 1-100 informujaca o oczekiwanym poziomie trudnosci gracza komputerowego.
+	 * @param iDifficultyLevel Liczba z zakresu 1-100 informujaca o oczekiwanym poziomie trudnosci gracza komputerowego.
 	 * @param bStraightLines Okresla, czy statki moga byc tylko pionowymi/poziomymi liniami.
 	 * Informacja jest zapisywana w tworzonym obiekcie Ai, gdyz jest niezbedna przy pozniejszym wyszukiwaniu pol do oshotu.
 	 * @param oShips Kontener statkow nalezacy do generowanego gracza komputerowego.
 	 * @return Zwraca obiekt Ai zawierajacy sztuczna inteligencje gracza komputerowego.
 	 */
-	public static Ai getAi(int iPoziomTrudnosci, boolean bStraightLines, ShipIterator oShips)
+	public static Ai getAi(int iDifficultyLevel, boolean bStraightLines, ShipIterator oShips)
 		{
 		Ai oAi;
-		if (iPoziomTrudnosci > 66)
+		if (iDifficultyLevel > 66)
 			oAi = new AiCheater(oShips);
-		else if (iPoziomTrudnosci > 33)
+		else if (iDifficultyLevel > 33)
 			oAi = new AiExtended(oShips);
 		else
 			oAi = new AiBasic(oShips);
 		AiGeneric oAi2 = (AiGeneric)oAi;
-		oAi2.setProsteLinie(bStraightLines);
+		oAi2.setStraightLines(bStraightLines);
 		return oAi;
 		}
 	}

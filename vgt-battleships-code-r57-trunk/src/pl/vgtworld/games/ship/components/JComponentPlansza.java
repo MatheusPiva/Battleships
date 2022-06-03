@@ -109,7 +109,7 @@ public class JComponentPlansza
 		oWyroznionePole.setY(-1);
 		if (JComponentPlansza.oImgTlo == null)
 			{
-			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/statki/img/map-bg.jpg");
+			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/ship/img/map-bg.jpg");
 			
 			if (oImgUrl != null)
 				{

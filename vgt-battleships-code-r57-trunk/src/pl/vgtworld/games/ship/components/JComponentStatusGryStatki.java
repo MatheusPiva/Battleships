@@ -22,8 +22,8 @@ public class JComponentStatusGryStatki
 	public JComponentStatusGryStatki(ShipIterator oKontener) throws IOException
 		{
 		oShips = oKontener;
-		URL oImgUrlStatekNieuszkodzony = getClass().getResource("/pl/vgtworld/games/statki/img/ship-0.png");
-		URL oImgUrlStatekUszkodzony = getClass().getResource("/pl/vgtworld/games/statki/img/ship-1.png");
+		URL oImgUrlStatekNieuszkodzony = getClass().getResource("/pl/vgtworld/games/ship/img/ship-0.png");
+		URL oImgUrlStatekUszkodzony = getClass().getResource("/pl/vgtworld/games/ship/img/ship-1.png");
 		if (oImgUrlStatekNieuszkodzony != null && oImgUrlStatekUszkodzony != null)
 			{
 			oImgStatekNieuszkodzony = ImageIO.read(oImgUrlStatekNieuszkodzony);

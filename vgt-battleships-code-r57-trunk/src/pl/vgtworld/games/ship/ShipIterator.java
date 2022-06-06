@@ -280,7 +280,7 @@ public class ShipIterator
 		return false;
 		}
 	/**
-	 * Dodaje do kontenera statek o podanej wielkosci.<br />
+	 * Dodaje do kontenera statek o podanej Sizei.<br />
 	 * 
 	 * Po utworzeniu statku wszystkie jego pola sa ustawione na domyslna pozycje (-1, -1).
 	 * 

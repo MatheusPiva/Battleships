@@ -26,17 +26,17 @@ public class JComponentEvents
 	extends JComponent
 	{
 	/**
-	 * Minimalna i preferowana szerokosc komponentu.
+	 * Minimalna i preferowana Width komponentu.
 	 */
-	private static final int SZEROKOSC = 40;
+	private static final int Width = 40;
 	/**
-	 * Minimalna i preferowana wysokosc komponentu.
+	 * Minimalna i preferowana Height komponentu.
 	 */
-	private static final int WYSOKOSC = 40;
+	private static final int Height = 40;
 	/**
-	 * Wielkosc czcionki wyswietlanych komunikatow.
+	 * Size czcionki wyswietlanych komunikatow.
 	 */
-	private static final int FONT_WIELKOSC = 30;
+	private static final int FONT_Size = 30;
 	/**
 	 * Kolor tla komponentu.
 	 */
@@ -68,7 +68,7 @@ public class JComponentEvents
 	/**
 	 * Tlo graficzne komponentu.
 	 */
-	private Image oImgTlo;
+	private Image oBackgroundImg;
 	/**
 	 * Klasa prywatna obslugujaca akcje ukrywania komunikatu dla lewego gracza.
 	 */
@@ -104,18 +104,18 @@ public class JComponentEvents
 			{
 			try
 				{
-				oImgTlo = ImageIO.read(oImgUrl);
+				oBackgroundImg = ImageIO.read(oImgUrl);
 				}
 			catch (IOException e)
 				{
-				oImgTlo = null;
+				oBackgroundImg = null;
 				}
 			}
 		else
-			oImgTlo = null;
+			oBackgroundImg = null;
 		oColorBackground = new Color(255, 255, 255);
 		oColorFont = new Color(255, 255, 255);
-		oCzcionka = new Font("Serif", Font.BOLD, FONT_WIELKOSC);
+		oCzcionka = new Font("Serif", Font.BOLD, FONT_Size);
 		oGraczLewy = new JLabel("", JLabel.CENTER);
 		oGraczLewy.setFont(oCzcionka);
 		oGraczLewy.setVerticalAlignment(JLabel.CENTER);
@@ -135,8 +135,8 @@ public class JComponentEvents
 		oTimerPrawy = new Timer(1000, new ActionWyczyscPrawy());
 		oTimerPrawy.setRepeats(false);
 		
-		setMinimumSize(new Dimension(SZEROKOSC, WYSOKOSC));
-		setPreferredSize(new Dimension(SZEROKOSC, WYSOKOSC));
+		setMinimumSize(new Dimension(Width, Height));
+		setPreferredSize(new Dimension(Width, Height));
 		setLayout(new GridLayout());
 		
 		add(oGraczLewyContainer);
@@ -163,19 +163,19 @@ public class JComponentEvents
 		oTimerPrawy.start();
 		}
 	/**
-	 * Przeciazona metoda rysujaca komponent.
+	 * Przeciazona metoda drawaca komponent.
 	 */
 	@Override public void paintComponent(Graphics g)
 		{
 		g.setColor(oColorBackground);
 		g.fillRect(0, 0, getWidth(), getHeight());
-		if (oImgTlo != null)
+		if (oBackgroundImg != null)
 			{
 			int iStartX = 0;
 			while (iStartX < getWidth())
 				{
-				g.drawImage(oImgTlo, iStartX, 0, null);
-				iStartX+= oImgTlo.getWidth(null);
+				g.drawImage(oBackgroundImg, iStartX, 0, null);
+				iStartX+= oBackgroundImg.getWidth(null);
 				}
 			}
 		}

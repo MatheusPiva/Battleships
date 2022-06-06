@@ -74,10 +74,10 @@ public abstract class DrawingCoordinatesOnBoard
          * are separated by a single row of pixels in order to draw the mesh)
          * and contain the point where the mesh crosses between the fields.
 	 * 
-	 * @param iPanelWidth Szerokosc panelu w pixelach.
-	 * @param iPanelHeight Wysokosc panelu w pixelach.
-	 * @param iBoardWidth Szerokosc planszy w polach.
-	 * @param iBoardHeight Wysokosc planszy w polach.
+	 * @param iPanelWidth Width panelu w pixelach.
+	 * @param iPanelHeight Height panelu w pixelach.
+	 * @param iBoardWidth Width planszy w polach.
+	 * @param iBoardHeight Height planszy w polach.
 	 * @param iXField Wspolrzedna X konwertowanego pola (liczone od 0).
 	 * @param iYField Wspolrzedna Y konwertowanego pola (liczone od 0).
 	 * @return Wspolrzedne pixela znajdujacego sie przy lewym gornym rogu rysowanego pola.

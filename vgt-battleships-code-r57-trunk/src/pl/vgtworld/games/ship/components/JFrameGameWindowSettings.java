@@ -61,13 +61,13 @@ public class JFrameGameWindowSettings
 	 */
 	public static String sWersja;
 	/**
-	 * Stala przechowujaca minimalna szerokosc okna glownego gry.
+	 * Stala przechowujaca minimalna Width okna glownego gry.
 	 */
-	public static final int MIN_SZEROKOSC = 640;
+	public static final int MIN_Width = 640;
 	/**
-	 * Stala przechowujaca minimalna wysokosc okna glownego gry.
+	 * Stala przechowujaca minimalna Height okna glownego gry.
 	 */
-	public static final int MIN_WYSOKOSC = 480;
+	public static final int MIN_Height = 480;
 	/**
 	 * Plik jezykowy.
 	 */
@@ -237,19 +237,19 @@ public class JFrameGameWindowSettings
 			}
 		@Override public void mousePressed(MouseEvent event)
 			{
-			int iPlanszaSzerokosc = oBoard.getWidth();
-			int iPlanszaWysokosc = oBoard.getHeight();
-			int iKomponentSzerokosc = oCompPlansza.getWidth();
-			int iKomponentWysokosc = oCompPlansza.getHeight();
+			int iBoardWidth = oBoard.getWidth();
+			int iBoardHeight = oBoard.getHeight();
+			int iKomponentWidth = oCompPlansza.getWidth();
+			int iKomponentHeight = oCompPlansza.getHeight();
 			int iClickX = event.getX();
 			int iClickY = event.getY();
 			Position oKliknietePole;
-			oKliknietePole = DrawingCoordinatesOnBoard.pixToField(iKomponentSzerokosc, iKomponentWysokosc, iPlanszaSzerokosc, iPlanszaWysokosc, iClickX, iClickY);
+			oKliknietePole = DrawingCoordinatesOnBoard.pixToField(iKomponentWidth, iKomponentHeight, iBoardWidth, iBoardHeight, iClickX, iClickY);
 			try
 				{
 				if (bKolejGracza == true
-					&& oKliknietePole.getX() >= 0 && oKliknietePole.getX() < iPlanszaSzerokosc
-					&& oKliknietePole.getY() >= 0 && oKliknietePole.getY() < iPlanszaWysokosc
+					&& oKliknietePole.getX() >= 0 && oKliknietePole.getX() < iBoardWidth
+					&& oKliknietePole.getY() >= 0 && oKliknietePole.getY() < iBoardHeight
 					&& (oBoard.getField(oKliknietePole.getX(), oKliknietePole.getY()) == FieldTypeBoard.BOARD_FIELD_EMPTY
 						|| oBoard.getField(oKliknietePole.getX(), oKliknietePole.getY()) == FieldTypeBoard.SHIP_BOARD
 						)
@@ -262,7 +262,7 @@ public class JFrameGameWindowSettings
 					boolean bHit;
 					bHit = oShipsKomputer.shot(oKliknietePole.getX(), oKliknietePole.getY());
 					JComponentBoard oComponentPlansza = (JComponentBoard)oPanelPlanszeKontener.getComponent(1);
-					oComponentPlansza.aktywujWyroznienie(oKliknietePole);
+					oComponentPlansza.activateHighlight(oKliknietePole);
 					//obsluga sprawdzania, czy koniec gry
 					if (bHit == true && oShipsKomputer.getNumberOfShips() == oShipsKomputer.getNumberOfUndamagedShips())
 						{
@@ -308,7 +308,7 @@ public class JFrameGameWindowSettings
 			//shot na plansze gracza
 			boolean bHit = oAi.shot(oShipsGracz);
 			JComponentBoard oComponentPlansza = (JComponentBoard)oPanelPlanszeKontener.getComponent(0);
-			oComponentPlansza.aktywujWyroznienie(oShipsGracz.getLastShot());
+			oComponentPlansza.activateHighlight(oShipsGracz.getLastShot());
 			//obsluga sprawdzania, czy koniec gry
 			if (bHit == true && oShipsGracz.getNumberOfShips() == oShipsGracz.getNumberOfUndamagedShips())
 				{
@@ -320,7 +320,7 @@ public class JFrameGameWindowSettings
 					{
 					oCompPlansza = (JComponentBoard)oPanelPlanszeKontener.getComponent(i);
 					if (oCompPlansza != null)
-						oCompPlansza.setWyswietlStatki(true);
+						oCompPlansza.setViewShips(true);
 					}
 				oPanelPlanszeKontener.repaint();
 				JOptionPane.showMessageDialog(JFrameGameWindowSettings.this, LANG.getProperty("message.lose"));
@@ -347,17 +347,17 @@ public class JFrameGameWindowSettings
 	 */
 	public JFrameGameWindowSettings(GameStatus oStatusGry, Settings oUstawienia)
 		{
-		this(oStatusGry, oUstawienia, MIN_SZEROKOSC, MIN_WYSOKOSC);
+		this(oStatusGry, oUstawienia, MIN_Width, MIN_Height);
 		}
 	/**
 	 * konstruktor przeciazaony pozwalajacy zdefiniowac Size okna gry.
 	 * 
 	 * @param oStatusGry Obiekt przechowujacy informacje na temat aktualnego statusu gry.
 	 * @param oUstawienia Obiekt przechowujacy ustawienia dotyczace rozgrywki.
-	 * @param iSzerokosc Szerokosc okno gry w pixelach.
-	 * @param iWysokosc Wysokosc okna gry w pixelach.
+	 * @param iWidth Width okno gry w pixelach.
+	 * @param iHeight Height okna gry w pixelach.
 	 */
-	public JFrameGameWindowSettings(GameStatus oStatusGry, Settings oUstawienia, int iSzerokosc, int iWysokosc)
+	public JFrameGameWindowSettings(GameStatus oStatusGry, Settings oUstawienia, int iWidth, int iHeight)
 		{
 		InputStream oPlik = getClass().getResourceAsStream("/wersja.txt");
 		if (oPlik != null)
@@ -394,10 +394,10 @@ public class JFrameGameWindowSettings
 			System.exit(1);
 			}
 
-		//setMinimumSize(new Dimension(MIN_SZEROKOSC, MIN_WYSOKOSC));
+		//setMinimumSize(new Dimension(MIN_Width, MIN_Height));
 		
 		setTitle(JFrameGameWindowSettings.LANG.getProperty("mainWindow.title"));
-		//setSize(iSzerokosc, iWysokosc);
+		//setSize(iWidth, iHeight);
                 setExtendedState(JFrameGameWindowSettings.MAXIMIZED_BOTH);
                 setUndecorated(true);
 		setLayout(new BorderLayout());
@@ -487,11 +487,11 @@ public class JFrameGameWindowSettings
 	 * Metoda dodaje do kontenera plansz przekazana w parametrze plansze.
 	 * 
 	 * @param oBoard Board, ktora ma byc wyswietlana w kontenerze plansz.
-	 * @param bWyswietlStatki Zmienna okreslajaca, czy na planszy maja byc wyswietlane takze nietrafione pola statkow.
+	 * @param bViewShips Zmienna okreslajaca, czy na planszy maja byc wyswietlane takze nietrafione pola statkow.
 	 */
-	public void dodajPlansze(Board oBoard, boolean bWyswietlStatki)
+	public void dodajPlansze(Board oBoard, boolean bViewShips)
 		{
-		dodajPlansze(oBoard, bWyswietlStatki, null);
+		dodajPlansze(oBoard, bViewShips, null);
 		}
 	/**
 	 * Metoda dodaje do kontenera plansz przekazana w parametrze plansze.<br />
@@ -499,10 +499,10 @@ public class JFrameGameWindowSettings
 	 * Wersja przeciazona, ktora dodatkowo pozwala przekazac listener klikniec na plansze.
 	 * 
 	 * @param oBoard Board, ktora ma byc wyswietlana w kontenerze plansz.
-	 * @param bWyswietlStatki Zmienna okreslajaca, czy na planszy maja byc wyswietlane takze nietrafione pola statkow.
+	 * @param bViewShips Zmienna okreslajaca, czy na planszy maja byc wyswietlane takze nietrafione pola statkow.
 	 * @param oMouseListener Obiekt obslugi zdarzen klikniec dla dodawanej planszy.
 	 */
-	public void dodajPlansze(Board oBoard, boolean bWyswietlStatki, RozgrywkaMouseListener oMouseListener)
+	public void dodajPlansze(Board oBoard, boolean bViewShips, RozgrywkaMouseListener oMouseListener)
 		{
 		JComponentBoard oCompPlansza = new JComponentBoard(oBoard);
 		if (oMouseListener != null)
@@ -511,7 +511,7 @@ public class JFrameGameWindowSettings
 				oMouseListener.setComponent(oCompPlansza);
 			oCompPlansza.addMouseListener(oMouseListener);
 			}
-		oCompPlansza.setWyswietlStatki(bWyswietlStatki);
+		oCompPlansza.setViewShips(bViewShips);
 		oPanelPlanszeKontener.add(oCompPlansza);
 		}
 	/**
@@ -566,7 +566,7 @@ public class JFrameGameWindowSettings
 		}
 	/**
 	 * Metoda wywolywana przez okno ustawien w przypadku zmian w ustawieniach rozgrywki
-	 * (zmiana wielkosci planszy, ilosci i/lub wielkosci statkow, poziomu trudnosci).<br />
+	 * (zmiana Sizei planszy, ilosci i/lub Sizei statkow, poziomu trudnosci).<br />
 	 * 
 	 * Koryguje wymagane obiekty, aby dopasowac je do nowych ustawien i jesli byla rozpoczeta gra, anuluje ja i rozpoczyna nowa.
 	 */

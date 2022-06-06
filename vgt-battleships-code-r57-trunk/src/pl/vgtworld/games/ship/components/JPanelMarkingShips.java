@@ -170,34 +170,34 @@ public class JPanelMarkingShips
 			}
 		@Override public void mousePressed(MouseEvent event)
 			{
-			int iPlanszaSzerokosc = oBoard.getWidth();
-			int iPlanszaWysokosc = oBoard.getHeight();
-			int iKomponentSzerokosc = oComponentPlansza.getWidth();
-			int iKomponentWysokosc = oComponentPlansza.getHeight();
+			int iBoardWidth = oBoard.getWidth();
+			int iBoardHeight = oBoard.getHeight();
+			int iKomponentWidth = oComponentPlansza.getWidth();
+			int iKomponentHeight = oComponentPlansza.getHeight();
 			int iClickX = event.getX();
 			int iClickY = event.getY();
 			Position oKliknietePole;
-			oKliknietePole = DrawingCoordinatesOnBoard.pixToField(iKomponentSzerokosc, iKomponentWysokosc, iPlanszaSzerokosc, iPlanszaWysokosc, iClickX, iClickY);
+			oKliknietePole = DrawingCoordinatesOnBoard.pixToField(iKomponentWidth, iKomponentHeight, iBoardWidth, iBoardHeight, iClickX, iClickY);
 			try
 				{
-				if (oKliknietePole.getX() >= 0 && oKliknietePole.getX() < iPlanszaSzerokosc
-					&& oKliknietePole.getY() >= 0 && oKliknietePole.getY() < iPlanszaWysokosc
+				if (oKliknietePole.getX() >= 0 && oKliknietePole.getX() < iBoardWidth
+					&& oKliknietePole.getY() >= 0 && oKliknietePole.getY() < iBoardHeight
 					)
 					{
 					if (oBoard.getField(oKliknietePole.getX(), oKliknietePole.getY()) == FieldTypeBoard.BOARD_FIELD_EMPTY)
 						{
 						oBoard.setField(oKliknietePole.getX(), oKliknietePole.getY(), FieldTypeBoard.SHIP_BOARD);
-//						oComponentPlansza.aktywujWyroznienie(oKliknietePole.getX(), oKliknietePole.getY());
+//						oComponentPlansza.activateHighlight(oKliknietePole.getX(), oKliknietePole.getY());
 						}
 					else if (oBoard.getField(oKliknietePole.getX(), oKliknietePole.getY()) == FieldTypeBoard.SHIP_BOARD)
 						{
 						oBoard.setField(oKliknietePole.getX(), oKliknietePole.getY(), FieldTypeBoard.BOARD_FIELD_EMPTY);
-//						oComponentPlansza.aktywujWyroznienie(oKliknietePole.getX(), oKliknietePole.getY());
+//						oComponentPlansza.activateHighlight(oKliknietePole.getX(), oKliknietePole.getY());
 						}
 					Position oWspTopLeft;
 					Position oWspBottomRight;
-					oWspTopLeft = DrawingCoordinatesOnBoard.fieldToPixTopLeft(iKomponentSzerokosc, iKomponentWysokosc, iPlanszaSzerokosc, iPlanszaWysokosc, oKliknietePole.getX(), oKliknietePole.getY());
-					oWspBottomRight = DrawingCoordinatesOnBoard.fieldToPixBottomRight(iKomponentSzerokosc, iKomponentWysokosc, iPlanszaSzerokosc, iPlanszaWysokosc, oKliknietePole.getX(), oKliknietePole.getY());
+					oWspTopLeft = DrawingCoordinatesOnBoard.fieldToPixTopLeft(iKomponentWidth, iKomponentHeight, iBoardWidth, iBoardHeight, oKliknietePole.getX(), oKliknietePole.getY());
+					oWspBottomRight = DrawingCoordinatesOnBoard.fieldToPixBottomRight(iKomponentWidth, iKomponentHeight, iBoardWidth, iBoardHeight, oKliknietePole.getX(), oKliknietePole.getY());
 					oComponentPlansza.repaint(oWspTopLeft.getX(), oWspTopLeft.getY(), oWspBottomRight.getX()-oWspTopLeft.getX(), oWspBottomRight.getY() - oWspTopLeft.getY());
 					}
 				}

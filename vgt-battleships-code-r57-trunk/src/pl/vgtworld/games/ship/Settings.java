@@ -54,8 +54,8 @@ public class Settings
 			FileInputStream oStream = new FileInputStream(System.getProperty("user.dir") + System.getProperty("file.separator") + DEFAULT_SETTINGS);
 			Properties oDefault = new Properties();
 			oDefault.loadFromXML(oStream);
-			iBoardWidth = Integer.parseInt(oDefault.getProperty("plansza_szerokosc"));
-			iBoardHeight = Integer.parseInt(oDefault.getProperty("plansza_wysokosc"));
+			iBoardWidth = Integer.parseInt(oDefault.getProperty("plansza_Width"));
+			iBoardHeight = Integer.parseInt(oDefault.getProperty("plansza_Height"));
 			iDifficultyLevel = Integer.parseInt(oDefault.getProperty("poziom_trudnosci"));
 			if ("tak".equals(oDefault.getProperty("proste_linie")))
 				bStraightLines = true;
@@ -261,8 +261,8 @@ public class Settings
 		try
 			{
 			Properties oDefault = new Properties();
-			oDefault.setProperty("plansza_szerokosc", String.valueOf(iBoardWidth));
-			oDefault.setProperty("plansza_wysokosc", String.valueOf(iBoardHeight));
+			oDefault.setProperty("plansza_Width", String.valueOf(iBoardWidth));
+			oDefault.setProperty("plansza_Height", String.valueOf(iBoardHeight));
 			oDefault.setProperty("poziom_trudnosci", String.valueOf(iDifficultyLevel));
 			if (bStraightLines == true)
 				oDefault.setProperty("proste_linie", "tak");

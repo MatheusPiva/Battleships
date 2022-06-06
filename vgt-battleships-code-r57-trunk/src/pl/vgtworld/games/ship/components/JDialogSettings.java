@@ -30,13 +30,13 @@ public class JDialogSettings
 	extends JDialog
 	{
 	/**
-	 * Szerokosc okna ustawien.
+	 * Width okna ustawien.
 	 */
-	public static final int SZEROKOSC = 600;
+	public static final int Width = 600;
 	/**
-	 * Wysokosc okna ustawien.
+	 * Height okna ustawien.
 	 */
-	public static final int WYSOKOSC = 450; 
+	public static final int Height = 450; 
 	/**
 	 * Referencja do glownego okna gry.
 	 */
@@ -46,25 +46,25 @@ public class JDialogSettings
 	 */
 	private Settings oUstawienia;
 	/**
-	 * Slider pozwalajacy ustawic szerokosc planszy.
+	 * Slider pozwalajacy ustawic Width planszy.
 	 */
-	private JSlider oBoardSzerokoscSlider;
+	private JSlider oBoardWidthSlider;
 	/**
-	 * Slider pozwalajacy ustawic wysokosc planszy.
+	 * Slider pozwalajacy ustawic Height planszy.
 	 */
-	private JSlider oBoardWysokoscSlider;
+	private JSlider oBoardHeightSlider;
 	/**
 	 * Slider pozwalajacy ustawic poziom trudnosci komputera.
 	 */
 	private JSlider oPoziomTrudnosci;
 	/**
-	 * Pole tekstowe przechowujace szerokosc planszy.
+	 * Pole tekstowe przechowujace Width planszy.
 	 */
-	private JTextField oBoardSzerokosc;
+	private JTextField oBoardWidth;
 	/**
-	 * Pole tekstowe przechowujace wysokosc planszy.
+	 * Pole tekstowe przechowujace Height planszy.
 	 */
-	private JTextField oBoardWysokosc;
+	private JTextField oBoardHeight;
 	/**
 	 * Checkbox zawierajacy informacje, czy statki moga byc tylko prostymi liniami.
 	 */
@@ -86,27 +86,27 @@ public class JDialogSettings
 	 */
 	private JCheckBox oZapiszUstawienia;
 	/**
-	 * Klasa prywatna zawierajaca obsluge akcji przesuniecia slidera okreslajacego szerokosc planszy.
+	 * Klasa prywatna zawierajaca obsluge akcji przesuniecia slidera okreslajacego Width planszy.
 	 */
-	private class ActionSzerokoscSlider
+	private class ActionWidthSlider
 		implements ChangeListener
 		{
 		public void stateChanged(ChangeEvent oEvent)
 			{
 			JSlider oSource = (JSlider)oEvent.getSource();
-			oBoardSzerokosc.setText(String.valueOf(oSource.getValue()));
+			oBoardWidth.setText(String.valueOf(oSource.getValue()));
 			}
 		}
 	/**
-	 * Klasa prywatna zawierajaca obsluge akcji przesuniecia slidera okreslajacego wysokosc planszy.
+	 * Klasa prywatna zawierajaca obsluge akcji przesuniecia slidera okreslajacego Height planszy.
 	 */
-	private class ActionWysokoscSlider
+	private class ActionHeightSlider
 		implements ChangeListener
 		{
 		public void stateChanged(ChangeEvent oEvent)
 			{
 			JSlider oSource = (JSlider)oEvent.getSource();
-			oBoardWysokosc.setText(String.valueOf(oSource.getValue()));
+			oBoardHeight.setText(String.valueOf(oSource.getValue()));
 			}
 		}
 	/**
@@ -141,19 +141,19 @@ public class JDialogSettings
 			try
 				{
 				//sprawdzenie blednych danych w wartosciach ustawien
-				int iPlanszaSzerokosc;
-				int iPlanszaWysokosc;
+				int iBoardWidth;
+				int iBoardHeight;
 				try
 					{
-					iPlanszaSzerokosc = Integer.parseInt(oBoardSzerokosc.getText());
-					iPlanszaWysokosc = Integer.parseInt(oBoardWysokosc.getText());
+					iBoardWidth = Integer.parseInt(oBoardWidth.getText());
+					iBoardHeight = Integer.parseInt(oBoardHeight.getText());
 					}
 				catch (NumberFormatException e)
 					{
 					JOptionPane.showMessageDialog(JDialogSettings.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.settings.invalidBoardSize"));
 					return;
 					}
-				if (iPlanszaSzerokosc < 1 || iPlanszaWysokosc < 1)
+				if (iBoardWidth < 1 || iBoardHeight < 1)
 					{
 					JOptionPane.showMessageDialog(JDialogSettings.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.settings.invalidBoardSize"));
 					return;
@@ -164,8 +164,8 @@ public class JDialogSettings
 					return;
 					}
 				//zapisanie ustawien
-				oUstawienia.setBoardWidth(iPlanszaSzerokosc);
-				oUstawienia.setBoardHeight(iPlanszaWysokosc);
+				oUstawienia.setBoardWidth(iBoardWidth);
+				oUstawienia.setBoardHeight(iBoardHeight);
 				oUstawienia.setDifficultyLevel(oPoziomTrudnosci.getValue());
 				if (oShipsProsteLinie.isSelected() == true)
 					oUstawienia.setStraightLines(true);
@@ -196,20 +196,20 @@ public class JDialogSettings
 		super(oOknoGlowne, true);
 		this.oOknoGlowne = oOknoGlowne;
 		this.oUstawienia = oUstawienia;
-		//szerokosc planszy
-		JLabel oBoardSzerokoscLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardWidth"), JLabel.CENTER);
-		oBoardSzerokoscSlider = new JSlider(5, 25, oUstawienia.getBoardWidth());
-		oBoardSzerokoscSlider.addChangeListener(new ActionSzerokoscSlider());
-		oBoardSzerokosc = new JTextField(5);
-		oBoardSzerokosc.setHorizontalAlignment(JTextField.RIGHT);
-		oBoardSzerokosc.setText(String.valueOf(oBoardSzerokoscSlider.getValue()));
-		//wysokosc planszy
-		JLabel oBoardWysokoscLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardHeight"), JLabel.CENTER);
-		oBoardWysokoscSlider = new JSlider(5, 25, oUstawienia.getBoardHeight());
-		oBoardWysokoscSlider.addChangeListener(new ActionWysokoscSlider());
-		oBoardWysokosc = new JTextField(5);
-		oBoardWysokosc.setHorizontalAlignment(JTextField.RIGHT);
-		oBoardWysokosc.setText(String.valueOf(oBoardWysokoscSlider.getValue()));
+		//Width planszy
+		JLabel oBoardWidthLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardWidth"), JLabel.CENTER);
+		oBoardWidthSlider = new JSlider(5, 25, oUstawienia.getBoardWidth());
+		oBoardWidthSlider.addChangeListener(new ActionWidthSlider());
+		oBoardWidth = new JTextField(5);
+		oBoardWidth.setHorizontalAlignment(JTextField.RIGHT);
+		oBoardWidth.setText(String.valueOf(oBoardWidthSlider.getValue()));
+		//Height planszy
+		JLabel oBoardHeightLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardHeight"), JLabel.CENTER);
+		oBoardHeightSlider = new JSlider(5, 25, oUstawienia.getBoardHeight());
+		oBoardHeightSlider.addChangeListener(new ActionHeightSlider());
+		oBoardHeight = new JTextField(5);
+		oBoardHeight.setHorizontalAlignment(JTextField.RIGHT);
+		oBoardHeight.setText(String.valueOf(oBoardHeightSlider.getValue()));
 		//poziom trudnosci
 		JLabel oPoziomTrudnosciLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.difficulty"), JLabel.CENTER);
 		oPoziomTrudnosci = new JSlider(1, 100, oUstawienia.getDifficultyLevel());
@@ -236,27 +236,27 @@ public class JDialogSettings
 		JPanel oPanelLewy = new JPanel();
 		oPanelLewy.setLayout(new GridLayout(4, 1));
 		
-		JPanel oBoardSzerokoscContainer2 = new JPanel();
-		JPanel oBoardSzerokoscContainer = new JPanel();
-		oBoardSzerokoscContainer.setLayout(new GridLayout(3, 1));
-		oBoardSzerokoscContainer.add(oBoardSzerokoscLabel);
-		JPanel oBoardSzerokoscTextfieldContainer = new JPanel();
-		oBoardSzerokoscTextfieldContainer.add(oBoardSzerokosc);
-		oBoardSzerokoscContainer.add(oBoardSzerokoscSlider);
-		oBoardSzerokoscContainer.add(oBoardSzerokoscTextfieldContainer);
-		oBoardSzerokoscContainer2.add(oBoardSzerokoscContainer);
-		oPanelLewy.add(oBoardSzerokoscContainer2);
+		JPanel oBoardWidthContainer2 = new JPanel();
+		JPanel oBoardWidthContainer = new JPanel();
+		oBoardWidthContainer.setLayout(new GridLayout(3, 1));
+		oBoardWidthContainer.add(oBoardWidthLabel);
+		JPanel oBoardWidthTextfieldContainer = new JPanel();
+		oBoardWidthTextfieldContainer.add(oBoardWidth);
+		oBoardWidthContainer.add(oBoardWidthSlider);
+		oBoardWidthContainer.add(oBoardWidthTextfieldContainer);
+		oBoardWidthContainer2.add(oBoardWidthContainer);
+		oPanelLewy.add(oBoardWidthContainer2);
 		
-		JPanel oBoardWysokoscContainer2 = new JPanel();
-		JPanel oBoardWysokoscContainer = new JPanel();
-		oBoardWysokoscContainer.setLayout(new GridLayout(3, 1));
-		oBoardWysokoscContainer.add(oBoardWysokoscLabel);
-		JPanel oBoardWysokoscTextfieldContainer = new JPanel();
-		oBoardWysokoscTextfieldContainer.add(oBoardWysokosc);
-		oBoardWysokoscContainer.add(oBoardWysokoscSlider);
-		oBoardWysokoscContainer.add(oBoardWysokoscTextfieldContainer);
-		oBoardWysokoscContainer2.add(oBoardWysokoscContainer);
-		oPanelLewy.add(oBoardWysokoscContainer2);
+		JPanel oBoardHeightContainer2 = new JPanel();
+		JPanel oBoardHeightContainer = new JPanel();
+		oBoardHeightContainer.setLayout(new GridLayout(3, 1));
+		oBoardHeightContainer.add(oBoardHeightLabel);
+		JPanel oBoardHeightTextfieldContainer = new JPanel();
+		oBoardHeightTextfieldContainer.add(oBoardHeight);
+		oBoardHeightContainer.add(oBoardHeightSlider);
+		oBoardHeightContainer.add(oBoardHeightTextfieldContainer);
+		oBoardHeightContainer2.add(oBoardHeightContainer);
+		oPanelLewy.add(oBoardHeightContainer2);
 		
 		JPanel oPoziomTrudnosciContainer2 = new JPanel();
 		JPanel oPoziomTrudnosciContainer = new JPanel();
@@ -307,7 +307,7 @@ public class JDialogSettings
 		
 		
 		//pozostale ustawienia
-		setMinimumSize(new Dimension(SZEROKOSC, WYSOKOSC));
+		setMinimumSize(new Dimension(Width, Height));
 		setTitle(JFrameGameWindowSettings.LANG.getProperty("settingsWindow.title"));
 		setLocationRelativeTo(null);
 		setResizable(true);
@@ -318,14 +318,14 @@ public class JDialogSettings
 	public void reset()
 		{
 		//rest pozycji okna
-		int iPositionX = oOknoGlowne.getX() + (oOknoGlowne.getWidth() - SZEROKOSC) / 2;
-		int iPositionY = oOknoGlowne.getY() + (oOknoGlowne.getHeight() - WYSOKOSC) / 2;
-		setBounds(iPositionX, iPositionY, SZEROKOSC, WYSOKOSC);
+		int iPositionX = oOknoGlowne.getX() + (oOknoGlowne.getWidth() - Width) / 2;
+		int iPositionY = oOknoGlowne.getY() + (oOknoGlowne.getHeight() - Height) / 2;
+		setBounds(iPositionX, iPositionY, Width, Height);
 		//reset ustawien
-		oBoardSzerokosc.setText(String.valueOf(oUstawienia.getBoardWidth()));
-		oBoardSzerokoscSlider.setValue(oUstawienia.getBoardWidth());
-		oBoardWysokosc.setText(String.valueOf(oUstawienia.getBoardHeight()));
-		oBoardWysokoscSlider.setValue(oUstawienia.getBoardHeight());
+		oBoardWidth.setText(String.valueOf(oUstawienia.getBoardWidth()));
+		oBoardWidthSlider.setValue(oUstawienia.getBoardWidth());
+		oBoardHeight.setText(String.valueOf(oUstawienia.getBoardHeight()));
+		oBoardHeightSlider.setValue(oUstawienia.getBoardHeight());
 		oPoziomTrudnosci.setValue(oUstawienia.getDifficultyLevel());
 		if (oUstawienia.getStraightLines() == true)
 			oShipsProsteLinie.setSelected(true);

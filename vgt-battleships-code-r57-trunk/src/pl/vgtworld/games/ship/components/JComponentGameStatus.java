@@ -25,8 +25,8 @@ import pl.vgtworld.games.ship.GameStatus;
 public class JComponentGameStatus
 	extends JComponent
 	{
-	private static final int ETYKIETY_FONT_WIELKOSC = 16;
-	private static final int WARTOSCI_FONT_WIELKOSC = 14;
+	private static final int ETYKIETY_FONT_Size = 16;
+	private static final int WARTOSCI_FONT_Size = 14;
 	private static final Color KOLOR_INFO = Color.WHITE;
 	private static final Color KOLOR_NEUTRALNY = Color.white;
 	private static final Color KOLOR_POZYTYWNY = Color.GREEN;
@@ -38,7 +38,7 @@ public class JComponentGameStatus
 	private JComponentShipGameStatus oListaStatkowKomputer;
 	private JLabel oPunktyGracz;
 	private JLabel oPunktyKomputer;
-	private Image oImgTlo;
+	private Image oBackgroundImg;
 	/**
 	 * Konstruktor.
 	 * 
@@ -52,23 +52,23 @@ public class JComponentGameStatus
 		setLayout(new BorderLayout());
 		oShipsGracz = null;
 		oShipsKomputer = null;
-		Font oFontEtykiety = new Font("Arial", Font.BOLD, ETYKIETY_FONT_WIELKOSC);
-		Font oFontWartosci = new Font("Arial", Font.BOLD, WARTOSCI_FONT_WIELKOSC);
+		Font oFontEtykiety = new Font("Arial", Font.BOLD, ETYKIETY_FONT_Size);
+		Font oFontWartosci = new Font("Arial", Font.BOLD, WARTOSCI_FONT_Size);
 		//tlo img
 		URL oImgUrl = getClass().getResource("/pl/vgtworld/games/ship/img/game-status-bg.png");
 		if (oImgUrl != null)
 			{
 			try
 				{
-				oImgTlo = ImageIO.read(oImgUrl);
+				oBackgroundImg = ImageIO.read(oImgUrl);
 				}
 			catch (IOException e)
 				{
-				oImgTlo = null;
+				oBackgroundImg = null;
 				}
 			}
 		else
-			oImgTlo = null;
+			oBackgroundImg = null;
 		//etykiety
 		oPunktyGracz = new JLabel("" + oStatusGry.getPlayerPoints(), JLabel.CENTER);
 		oPunktyKomputer = new JLabel("" + oStatusGry.getPlayerPoints(), JLabel.CENTER);
@@ -178,19 +178,19 @@ public class JComponentGameStatus
 		repaint();
 		}
 	/**
-	 * Przeciazona metoda rysujaca panel.
+	 * Przeciazona metoda drawaca panel.
 	 */
 	@Override public void paintComponent(Graphics g)
 		{
 		g.setColor(new Color(0, 0, 0));
 		g.fillRect(0, 0, getWidth()-1, getHeight()-1);
-		if (oImgTlo != null)
+		if (oBackgroundImg != null)
 			{
 			int iStartX = 0;
 			while (iStartX < getWidth())
 				{
-				g.drawImage(oImgTlo, iStartX, 0, null);
-				iStartX+= oImgTlo.getWidth(null);
+				g.drawImage(oBackgroundImg, iStartX, 0, null);
+				iStartX+= oBackgroundImg.getWidth(null);
 				}
 			}
 		}

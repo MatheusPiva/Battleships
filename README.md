@@ -93,25 +93,6 @@ This are the tech stack and tools utilized to develop this project:
 
 ---
 
----
-
-<!-- Tools used on this project development -->
-<h2 id="technologies">
-    📜 Code documentation
-</h2>
-
-This are the impotant classes and its funcionalities
-
-ships - consiste grarnde parte funcional do codigo
-
-stakti.ai - consiste na inteligencia artificial do oponente
-
-- [Java](https://www.java.com).
-- [Git](https://git-scm.com/).
-- [NetBeans](https://netbeans.apache.org/download/index.html).
-
----
-
 <h2 id="license">
     📝 License 
 </h2>

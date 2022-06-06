@@ -10,7 +10,7 @@ import pl.vgtworld.tools.Position;
  * <p>
  * aktualizacje:<br />
  * 1.2<br />
- * - dodanie parametru bProsteLinie do metody {@link #weryfikujRozmieszczenie(boolean)}.<br />
+ * - dodanie parametru bStraightLines do metody {@link #verifyApplication(boolean)}.<br />
  * </p>
  * 
  * @author VGT
@@ -21,91 +21,91 @@ public class ShipIterator
 	/**
 	 * Referencja do obiektu planszy, na ktorej umieszczone sa przechowywane statki.
 	 */
-	private Board oPlansza;
+	private Board oBoard;
 	/**
 	 * Tablica przechowujaca statki.
 	 */
-	private Ship[] aStatki;
+	private Ship[] aShips;
 	/**
 	 * Ilosc statkow przechowywana aktualnie w obiekcie.
 	 */
-	private int iIloscStatkow;
+	private int iNumberOfShips;
 	/**
-	 * Obiekt przechowujacy wspolrzedne ostatniego obslugiwanego strzalu.
+	 * Obiekt przechowujacy wspolrzedne ostatniego obslugiwanego shotu.
 	 */
-	private Position oOstatniStrzal;
+	private Position oLastShot;
 	/**
 	 * Konstruktor domyslny.
 	 * 
-	 * @param oPlansza Referencja do obiektu planszy, na ktorej umieszczone zostana statki.
+	 * @param oBoard Referencja do obiektu planszy, na ktorej umieszczone zostana statki.
 	 */
-	public ShipIterator(Board oPlansza)
+	public ShipIterator(Board oBoard)
 		{
-		this.oPlansza = oPlansza;
-		aStatki = new Ship[0];
-		iIloscStatkow = 0;
-		oOstatniStrzal = new Position(2);
-		oOstatniStrzal.setX(-1);
-		oOstatniStrzal.setY(-1);
+		this.oBoard = oBoard;
+		aShips = new Ship[0];
+		iNumberOfShips = 0;
+		oLastShot = new Position(2);
+		oLastShot.setX(-1);
+		oLastShot.setY(-1);
 		}
 	/**
 	 * Wyswietlenie listy statkow przechowywanych przez obiekt na standardowym wyjsciu.
 	 */
 	@Override public String toString()
 		{
-		String sReturn = "StatekIterator\n";
-		sReturn+= "Ilosc statkow: " + iIloscStatkow + "\n";
+		String sReturn = "Ship Iterator\n";
+		sReturn+= "Number of Ships: " + iNumberOfShips + "\n";
 		sReturn+= "=================\n";
-		for (int i = 0; i < iIloscStatkow; ++i)
-			sReturn+= aStatki[i] + "\n";
+		for (int i = 0; i < iNumberOfShips; ++i)
+			sReturn+= aShips[i] + "\n";
 		return sReturn;
 		}
 	/**
 	 * Metoda zwraca referencje do obiektu statku o podanym numerze.
 	 * 
-	 * @param iNumer Numer statku, ktory ma byc zwrocony (liczone od 1).
+	 * @param iNumber Numer statku, ktory ma byc zwrocony (liczone od 1).
 	 * @return Zwraca referencje do statku o podanym numerze.
 	 * @throws ParameterException Wyrzuca wyjatek, jesli numer statku jest mniejszy, lub rowny 0,
 	 * lub wiekszy od ilosci statkow przechowywanych w obiekcie.
 	 */
-	public Ship getStatek(int iNumer) throws ParameterException
+	public Ship getShip(int iNumber) throws ParameterException
 		{
-		if (iNumer > iIloscStatkow || iNumer <= 0)
-			throw new ParameterException("iNumer = " + iNumer);
-		return aStatki[iNumer - 1];
+		if (iNumber > iNumberOfShips || iNumber <= 0)
+			throw new ParameterException("iNumber = " + iNumber);
+		return aShips[iNumber - 1];
 		}
 	/**
 	 * Zwraca wspolrzedne na ktorych jest umieszczone pole o numerze przekazanym w drugim parametrze
 	 * nalezace do statku o numerze przekazanym w pierwszym parametrze.
 	 * 
-	 * @param iNrStatku Numer statku, ktorego pole ma byc zwrocone (liczone od 1).
-	 * @param iNrPola Numer pola, ktore ma byc zwrocone (liczone od 1).
+	 * @param iShipNumber Numer statku, ktorego pole ma byc zwrocone (liczone od 1).
+	 * @param iFieldNumber Numer pola, ktore ma byc zwrocone (liczone od 1).
 	 * @return Zwraca obiekt zawierajacy wspolrzedne pobieranego pola.
 	 * @throws ParameterException Wyrzuca wyjatek, jesli numer statku, lub nr pola sa poza dostepnym zakresem.
 	 */
-	public Position getPole(int iNrStatku, int iNrPola) throws ParameterException
+	public Position getField(int iShipNumber, int iFieldNumber) throws ParameterException
 		{
-		if (iNrStatku > iIloscStatkow || iNrStatku <= 0)
-			throw new ParameterException("iNrStatku = " + iNrStatku);
-		return aStatki[ iNrStatku - 1 ].getPole(iNrPola);
+		if (iShipNumber > iNumberOfShips || iShipNumber <= 0)
+			throw new ParameterException("iShipNumber = " + iShipNumber);
+		return aShips[ iShipNumber - 1 ].getField(iFieldNumber);
 		}
 	/**
 	 * Zwraca referencje do obiektu planszy, na ktorej sa umieszczone statki przechowywane przez obiekt.
 	 * 
 	 * @return Referencja do planszy.
 	 */
-	public Board getPlansza()
+	public Board getBoard()
 		{
-		return oPlansza;
+		return oBoard;
 		}
 	/**
-	 * Zwraca wspolrzedne ostatniego strzalu.
+	 * Zwraca wspolrzedne ostatniego shotu.
 	 * 
-	 * @return Wspolrzedne ostatniego strzalu.
+	 * @return Wspolrzedne ostatniego shotu.
 	 */
-	public Position getOstatniStrzal()
+	public Position getLastShot()
 		{
-		return oOstatniStrzal;
+		return oLastShot;
 		}
 	/**
 	 * Zwraca ilosc statkow przechowywanych aktualnie w obiekcie
@@ -113,54 +113,54 @@ public class ShipIterator
 	 * 
 	 * @return Ilosc statkow.
 	 */
-	public int getIloscStatkow()
+	public int getNumberOfShips()
 		{
-		return iIloscStatkow;
+		return iNumberOfShips;
 		}
 	/**
-	 * Zwraca ilosc statkow przechowywanych aktualnie w obiekcie o rozmiarze podanym w parametrze
+	 * Zwraca ilosc statkow przechowywanych aktualnie w obiekcie o Sizeze podanym w parametrze
 	 * (nie ma znaczenia, czy statki zostaly umieszczone na planszy).
 	 * 
-	 * @param iRozmiar Rozmiar statkow, ktore maja byc policzone.
-	 * @return Ilosc statkow o podanym rozmiarze.
+	 * @param iSize Size statkow, ktore maja byc policzone.
+	 * @return Ilosc statkow o podanym Sizeze.
 	 */
-	public int getIloscStatkow(int iRozmiar)
+	public int getNumberOfShips(int iSize)
 		{
-		int iIlosc = 0;
-		for (int i = 0; i < iIloscStatkow; ++i)
-			if (aStatki[i].getRozmiar() == iRozmiar)
-				++iIlosc;
-		return iIlosc;
+		int iQuantity = 0;
+		for (int i = 0; i < iNumberOfShips; ++i)
+			if (aShips[i].getSize() == iSize)
+				++iQuantity;
+		return iQuantity;
 		}
 	/**
 	 * Metoda zwraca ilosc trafionych, ale nie zatopionych statkow.
 	 * 
 	 * @return Ilosc trafionych, ale nie zatopionych statkow.
 	 */
-	public int getIloscTrafionychStatkow()
+	public int getNumberOfShipsHit()
 		{
-		int iTrafioneNiezatopione = 0;
-		for (Ship oStatek: aStatki)
+		int iHitNotSunk = 0;
+		for (Ship oShip: aShips)
 			{
-			if (oStatek.getTrafiony() == true && oStatek.getZatopiony() == false)
-				++iTrafioneNiezatopione;
+			if (oShip.getHits() == true && oShip.getSunk() == false)
+				++iHitNotSunk;
 			}
-		return iTrafioneNiezatopione;
+		return iHitNotSunk;
 		}
 	/**
 	 * Metoda zwraca ilosc zatopionych statkow.
 	 * 
 	 * @return Ilosc zatopionych statkow.
 	 */
-	public int getIloscZatopionychStatkow()
+	public int getNumberOfSunkenShips()
 		{
-		int iZatopione = 0;
-		for (Ship oStatek: aStatki)
+		int iSunken = 0;
+		for (Ship oShip: aShips)
 			{
-			if (oStatek.getZatopiony() == true)
-				++iZatopione;
+			if (oShip.getSunk() == true)
+				++iSunken;
 			}
-		return iZatopione;
+		return iSunken;
 		}
 	/**
 	 * Zwraca informacje o ilosci statkow, ktore jeszcze nie zostaly trafione.
@@ -168,19 +168,19 @@ public class ShipIterator
 	 * @return Ilosc nietrafionych statkow.
 	 * @since 1.1 
 	 */
-	public int getIloscNieuszkodzonychStatkow()
+	public int getNumberOfUndamagedShips()
 		{
-		return getIloscStatkow() - getIloscTrafionychStatkow() - getIloscZatopionychStatkow();
+		return getNumberOfShips() - getNumberOfShipsHit() - getNumberOfSunkenShips();
 		}
 	/**
-	 * Zwraca rozmiar, jaki ma najwiekszy statek aktualnie przechowywany w kontenerze.
+	 * Zwraca Size, jaki ma najwiekszy statek aktualnie przechowywany w kontenerze.
 	 */
-	public int getMaxRozmiarStatku()
+	public int getMaxShipSize()
 		{
 		int iMax = 0;
-		for (int i = 0; i < iIloscStatkow; ++i)
-			if (aStatki[i].getRozmiar() > iMax)
-				iMax = aStatki[i].getRozmiar();
+		for (int i = 0; i < iNumberOfShips; ++i)
+			if (aShips[i].getSize() > iMax)
+				iMax = aShips[i].getSize();
 		return iMax;
 		}
 	/**
@@ -189,16 +189,16 @@ public class ShipIterator
 	 * Nie ma znaczenia, czy pola zostaly umieszczone na planszy - metoda oblicza wymagana a nie rzeczywista ilosc pol na planszy
 	 * zajmowana przez statki.
 	 * 
-	 * @return Laczny rozmiar wszystkich statkow.
+	 * @return Laczny Size wszystkich statkow.
 	 */
-	public int getLacznyRozmiarStatkow()
+	public int getTotalShipSize()
 		{
 		try
 			{
-			int iRozmiar = 0;
-			for (int i = 1; i <= getIloscStatkow(); ++i)
-				iRozmiar+= getStatek(i).getRozmiar();
-			return iRozmiar;
+			int iSize = 0;
+			for (int i = 1; i <= getNumberOfShips(); ++i)
+				iSize+= getShip(i).getSize();
+			return iSize;
 			}
 		catch (ParameterException e)
 			{
@@ -210,118 +210,118 @@ public class ShipIterator
 	 * 
 	 * @return Laczna ilosc trafionych pol we wszystkich statkach.
 	 */
-	public int getLacznaIloscTrafien()
+	public int getTotalHits()
 		{
-		int iTrafienia = 0;
+		int iHits = 0;
 		try
 			{
-			for (int i = 1; i <= iIloscStatkow; ++i)
-				iTrafienia+= getStatek(i).getIloscTrafien();
+			for (int i = 1; i <= iNumberOfShips; ++i)
+				iHits+= getShip(i).getNumberOfHits();
 			}
 		catch (ParameterException e)
 			{
 			throw new DeveloperException(e);
 			}
-		return iTrafienia;
+		return iHits;
 		}
 	/**
 	 * Metoda pozwala ustawic wspolrzedne na planszy dla wskazanego pola statku.
 	 * 
-	 * @param iNrStatku Numer statku, dla ktorego sa ustawiane wspolrzedne pola (liczone od 1).
-	 * @param iNrPola Numer pola danego statku, dla ktorego sa ustawiane wspolrzedne (liczone od 1).
+	 * @param iShipNumber Numer statku, dla ktorego sa ustawiane wspolrzedne pola (liczone od 1).
+	 * @param iFieldNumber Numer pola danego statku, dla ktorego sa ustawiane wspolrzedne (liczone od 1).
 	 * @param iX Wspolrzedna X pozycji na planszy, na ktora ma byc ustawione pole (liczone od 0).
 	 * @param iY Wspolrzedna Y pozycji na planszy, na ktora ma byc ustawione pole (liczone od 0).
 	 * @throws ParameterException Wyrzuca wyjatek w przypadku przekroczenia zakresu numeracji statkow, pol danego statku, lub podania
 	 * wspolrzednych poza zakresem planszy.
 	 */
-	public void setPole(int iNrStatku, int iNrPola, int iX, int iY) throws ParameterException
+	public void setField(int iShipNumber, int iFieldNumber, int iX, int iY) throws ParameterException
 		{
-		if (iNrStatku > iIloscStatkow || iNrStatku <= 0)
-			throw new ParameterException("iNrStatku = " + iNrStatku);
-		if (iX >= oPlansza.getWidth() || iX < -1)
+		if (iShipNumber > iNumberOfShips || iShipNumber <= 0)
+			throw new ParameterException("iShipNumber = " + iShipNumber);
+		if (iX >= oBoard.getWidth() || iX < -1)
 			throw new ParameterException("iX = " + iX);
-		if (iY >= oPlansza.getHeight() || iY < -1)
+		if (iY >= oBoard.getHeight() || iY < -1)
 			throw new ParameterException("iY = " + iY);
-		aStatki[ iNrStatku - 1 ].setPole(iNrPola, iX, iY);
+		aShips[ iShipNumber - 1 ].setField(iFieldNumber, iX, iY);
 		}
 	/**
 	 * Metoda ustawia wszystkie pola dla wszystkich statkow na pozycje startowa (-1, -1).
 	 */
-	public void resetujPola()
+	public void resetFields()
 		{
-		for (int i = 0; i < iIloscStatkow; ++i)
-			aStatki[i].resetujPola();
+		for (int i = 0; i < iNumberOfShips; ++i)
+			aShips[i].resetFields();
 		}
 	/**
-	 * Glowna metoda przekazujaca informacje o strzale do wszystkich obiektow ktore tego wymagaja.<br />
+	 * Glowna metoda przekazujaca informacje o shote do wszystkich obiektow ktore tego wymagaja.<br />
 	 * 
-	 * Informacja o strzale jest przekazywana kolejno do wszystkich statkow znajdujacych sie w kontenerze, dopoki ktorys
+	 * Informacja o shote jest przekazywana kolejno do wszystkich statkow znajdujacych sie w kontenerze, dopoki ktorys
 	 * nie przekaze informacji o udanym trafieniu. Obiekty statkow zajmuja sie obsluga tej informacji na swoje potrzeby,
 	 * a takze dokonuja odpowiednich oznaczen na planszy.
 	 * 
-	 * @param iX Wspolrzedna X pola na planszy, na ktore jest oddany strzal.
-	 * @param iY Wspolrzedna Y pola na planszy, na ktore jest oddany strzal.
-	 * @return Zwraca TRUE, jesli ktorys statek zostal trafiony, lub FALSE, jesli strzal byl niecelny.
+	 * @param iX Wspolrzedna X pola na planszy, na ktore jest oddany shot.
+	 * @param iY Wspolrzedna Y pola na planszy, na ktore jest oddany shot.
+	 * @return Zwraca TRUE, jesli ktorys statek zostal trafiony, lub FALSE, jesli shot byl niecelny.
 	 * @throws ParameterException Wyrzuca wyjatek, jesli podane wspolrzedne znajduja sie poza wymiarami planszy.
 	 */
-	public boolean strzal(int iX, int iY) throws ParameterException
+	public boolean shot(int iX, int iY) throws ParameterException
 		{
-		if (iX >= oPlansza.getWidth() || iX < 0)
+		if (iX >= oBoard.getWidth() || iX < 0)
 			throw new ParameterException("Ix = " + iX);
-		if (iY >= oPlansza.getHeight() || iY < 0)
+		if (iY >= oBoard.getHeight() || iY < 0)
 			throw new ParameterException("iY = " + iY);
-		if (oPlansza.getPole(iX, iY) != FieldTypeBoard.BOARD_FIELD_EMPTY && oPlansza.getPole(iX, iY) != FieldTypeBoard.SHIP_BOARD)
+		if (oBoard.getField(iX, iY) != FieldTypeBoard.BOARD_FIELD_EMPTY && oBoard.getField(iX, iY) != FieldTypeBoard.SHIP_BOARD)
 			throw new DeveloperException();
-		oOstatniStrzal.setX(iX);
-		oOstatniStrzal.setY(iY);
-		for (int i = 0; i < iIloscStatkow; ++i)
-			if (aStatki[i].strzal(iX, iY) == true)
+		oLastShot.setX(iX);
+		oLastShot.setY(iY);
+		for (int i = 0; i < iNumberOfShips; ++i)
+			if (aShips[i].shot(iX, iY) == true)
 				return true;
 		return false;
 		}
 	/**
-	 * Dodaje do kontenera statek o podanej wielkosci.<br />
+	 * Dodaje do kontenera statek o podanej Sizei.<br />
 	 * 
 	 * Po utworzeniu statku wszystkie jego pola sa ustawione na domyslna pozycje (-1, -1).
 	 * 
-	 * @param iRozmiar Rozmiar tworzonego statku.
+	 * @param iSize Size tworzonego statku.
 	 */
-	public void dodajStatek(int iRozmiar)
+	public void addAShip(int iSize)
 		{
 		//utworzenie nowej tablicy statkow i przepisanie referek dotychczasowych do nowej tablicy
-		Ship[] aNoweStatki = new Ship[ iIloscStatkow + 1 ];
-		for (int i = 0; i < iIloscStatkow; ++i)
-			aNoweStatki[i] = aStatki[i];
+		Ship[] aNewShips = new Ship[ iNumberOfShips + 1 ];
+		for (int i = 0; i < iNumberOfShips; ++i)
+			aNewShips[i] = aShips[i];
 		//utworzenie nowego statku
-		Ship oObj = new Ship(iRozmiar, oPlansza);
-		aNoweStatki[iIloscStatkow] = oObj;
-		++iIloscStatkow;
-		aStatki = null;
-		aStatki = aNoweStatki;
+		Ship oObj = new Ship(iSize, oBoard);
+		aNewShips[iNumberOfShips] = oObj;
+		++iNumberOfShips;
+		aShips = null;
+		aShips = aNewShips;
 		}
 	/**
 	 * Usuwa statek o podanym numerze.
 	 * 
-	 * @param iNumer Numer statku do usuniecia (liczone od 1).
+	 * @param iNumber Numer statku do usuniecia (liczone od 1).
 	 * @throws ParameterException Wyrzuca wyjatek, jesli numer statku jest poza zakresem dostepnych statkow.
 	 */
-	public void usunStatek(int iNumer) throws ParameterException
+	public void removeShip(int iNumber) throws ParameterException
 		{
-		if (iNumer > iIloscStatkow || iNumer <= 0)
-			throw new ParameterException("iNumer = " + iNumer);
+		if (iNumber > iNumberOfShips || iNumber <= 0)
+			throw new ParameterException("iNumber = " + iNumber);
 		//utworzenie nowej tablicy statkow i przepisanie referek z pominieciem usuwanego
-		Ship[] aNoweStatki = new Ship[ iIloscStatkow - 1 ];
+		Ship[] aNewShips = new Ship[ iNumberOfShips - 1 ];
 		int iLocalIndex = 0;
-		for (int i = 0; i < iIloscStatkow; ++i)
+		for (int i = 0; i < iNumberOfShips; ++i)
 			{
-			if (i + 1 == iNumer)
-				aStatki[i] = null;
+			if (i + 1 == iNumber)
+				aShips[i] = null;
 			else
-				aNoweStatki[iLocalIndex++] = aStatki[i];
+				aNewShips[iLocalIndex++] = aShips[i];
 			}
-		--iIloscStatkow;
-		aStatki = null;
-		aStatki = aNoweStatki;
+		--iNumberOfShips;
+		aShips = null;
+		aShips = aNewShips;
 		}
 	/**
 	 * Metoda sprawdza, czy wszystkie statki zostaly umieszczone na planszy i czy ich rozmieszczenie jest zgodne z zasadami gry.<br />
@@ -333,27 +333,27 @@ public class ShipIterator
 	 * 
 	 * 1.2 - dodanie pierwszego parametru
 	 * 
-	 * @param bProsteLinie Okresla, czy statki moga byc tylko pionowymi/poziomymi liniami.
+	 * @param bStraightLines Okresla, czy statki moga byc tylko pionowymi/poziomymi liniami.
 	 * @return Zwraca TRUE w przypadku prawidlowego rozmieszczenia statkow, lub FALSE, jesli zostal znaleziony blad.
 	 */
-	public boolean weryfikujRozmieszczenie(boolean bProsteLinie)
+	public boolean verifyApplication(boolean bStraightLines)
 		{
 		try
 			{
 			//petla wykonywana dla kazdego kolejnego statku
-			for (int iNrStatku = 1; iNrStatku <= iIloscStatkow; ++iNrStatku)
+			for (int iShipNumber = 1; iShipNumber <= iNumberOfShips; ++iShipNumber)
 				{
-				Ship oStatek = getStatek(iNrStatku);
-				ShipVerification oWeryfikator = new ShipVerification();
-				oWeryfikator.importujStatek(oStatek);
+				Ship oShip = getShip(iShipNumber);
+				ShipVerification oVerifier = new ShipVerification();
+				oVerifier.importShip(oShip);
 				//sprawdzenie, czy wszystkie pola znajduja sie na planszy
-				if (oWeryfikator.polaNaPlanszy() == false)
+				if (oVerifier.spacesOnBoard() == false)
 					return false;
 				//sprawdzenie, czy wszystkie pola tworza jednolita strukture (stykaja sie ze soba)
-				if (oWeryfikator.polaPolaczone(bProsteLinie) == false)
+				if (oVerifier.fieldsConnected(bStraightLines) == false)
 					return false;
 				//sprawdzenie, czy statek nie styka sie bokiem, lub naroznikiem z innym statkiem
-				if (oWeryfikator.brakSasiadow() == false)
+				if (oVerifier.NoNeighbors() == false)
 					return false;
 				}
 			}

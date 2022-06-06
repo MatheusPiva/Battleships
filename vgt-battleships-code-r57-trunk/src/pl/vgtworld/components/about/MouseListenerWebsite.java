@@ -8,8 +8,8 @@ import java.net.URI;
 import javax.swing.JComponent;
 
 /**
- * Implementacja interface'u nasluchujacego zdarzen zwiazanych z mysza
- * realizujaca funkcjonalnosc linka html'owego otwierajacego adres www.
+ * Implementation of an interface that listens for events related to the mouse
+ * implementing the functionality of an html link that opens a web address.
  * 
  * @author VGT
  */
@@ -21,21 +21,21 @@ public class MouseListenerWebsite
 	private Color oHoverColor;
 	private Color oDefaultColor;
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 * 
-	 * @param oComponent Referencja do komponentu, dla ktorego wykorzystany bedzie listener.
-	 * @param sWebsiteAddress Adres www, ktory ma zostac otwarty po kliknieciu na komponent.
+	 * @param oComponent Reference to the component for which the listener will be used.
+	 * @param sWebsiteAddress The web address that is to be opened after clicking on the component..
 	 */
 	public MouseListenerWebsite(JComponent oComponent, String sWebsiteAddress)
 		{
 		this(oComponent, sWebsiteAddress, Color.RED);
 		}
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 * 
-	 * @param oComponent Referencja do komponentu, dla ktorego wykorzystany bedzie listener.
-	 * @param sWebsiteAddress Adres www, ktory ma zostac otwart po kliknieciu na komponent.
-	 * @param oHoverColor Kolor Foreground dla komponentu realizujacy efekt hover.
+	 * @param oComponent Reference to the component for which the listener will be used.
+	 * @param sWebsiteAddress The web address that is to be opened after clicking on the component.
+	 * @param oHoverColor Foreground color for the component executing the hover effect.
 	 */
 	public MouseListenerWebsite(JComponent oComponent, String sWebsiteAddress, Color oHoverColor)
 		{
@@ -51,21 +51,21 @@ public class MouseListenerWebsite
 		{
 		}
 	/**
-	 * Zmienia kolor foreground komponentu.
+	 * Changes the color of a component's foreground.
 	 */
 	public void mouseEntered(MouseEvent arg0)
 		{
 		oComponent.setForeground(oHoverColor);
 		}
 	/**
-	 * Zmienia kolor foreground komponenty.
+	 * Changes the color of the foreground components.
 	 */
 	public void mouseExited(MouseEvent arg0)
 		{
 		oComponent.setForeground(oDefaultColor);
 		}
 	/**
-	 * Wywolanie adresu www w domyslnej przegladarce.
+	 * The web address that is to be opened after clicking on the component..
 	 */
 	public void mousePressed(MouseEvent arg0)
 		{

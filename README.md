@@ -93,7 +93,6 @@ This are the tech stack and tools utilized to develop this project:
 
 ---
 
-
 <!-- Tools used on this project development -->
 <h2 id="technologies">
     📜 Code documentation
@@ -104,7 +103,7 @@ This are the main classes and its funcionalities to the project
 </br>
 ships - Consists in the mai functional side od the project
 
-stakti.ai - This is the class that cares about the oponnents AI
+ships.ai - This is the class that cares about the oponnents AI
 
 ---
 

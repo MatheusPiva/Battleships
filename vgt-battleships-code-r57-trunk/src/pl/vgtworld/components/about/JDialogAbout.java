@@ -19,7 +19,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 
 /**
- * Klasa wyswietlajaca okno dialogowe z informacjami kontaktowymi.
+ * Class displaying a dialog box with contact information.
  * 
  * @author VGT
  */
@@ -28,14 +28,14 @@ public class JDialogAbout
 	{
 	private String sSoftwareName;
 	private Frame oOwner;
-	private ArrayList<JLabel> oEtykiety;
-	private ArrayList<JLabel> oWartosci;
+	private ArrayList<JLabel> oAboutLabels;
+	private ArrayList<JLabel> oValues;
 	private Font oFontName;
 	private JButton oCloseButton;
 	private JLabel oVersion;
 	private Image oLogo;
 	/**
-	 * Klasa implementujaca akcje wcisniecia klawisza zamykajacego okno
+	 * Class implementing the action of pressing the key to close the window
 	 * 
 	 * @author VGT
 	 */
@@ -52,18 +52,18 @@ public class JDialogAbout
 			}
 		}
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 * 
-	 * @param oOwner Okno nadrzedne wzgledem tworzonego okna dialogowego.
-	 * @param sSoftName Nazwa programu, dla ktorego tworzone jest okno dialogowe.
+         * @param oOwner Window for creating a dialog
+	 * @param sSoftName Name of the program for which the dialog is created.
 	 */
 	public JDialogAbout(Frame oOwner, String sSoftName)
 		{
 		super(oOwner, true);
 		this.sSoftwareName = sSoftName;
 		this.oOwner = oOwner;
-		oEtykiety = new ArrayList<JLabel>();
-		oWartosci = new ArrayList<JLabel>();
+		oAboutLabels = new ArrayList<JLabel>();
+		oValues = new ArrayList<JLabel>();
 		oFontName = new Font("Serif", Font.BOLD, 18);
 		oCloseButton = new JButton(new CloseAction());
 		oVersion = null;
@@ -106,38 +106,38 @@ public class JDialogAbout
 		pack();
 		}
 	/**
-	 * Pozwala ustawic wersje programu, ktora bedzie wyswietlana, jako informacja w oknie dialogowym.
+	 * It allows you to set the version of the program that will be displayed as information in the dialog box.
 	 * 
-	 * @param sVersion Wersja programu.
+	 * @param sVersion The version of the program.
 	 */
 	public void setVersion(String sVersion)
 		{
 		oVersion = new JLabel("ver. " + sVersion);
 		}
 	/**
-	 * Wykonuje wszystkie czynnosci zwiazane z rozmiesczeniem informacji w oknie dialogowym.
+	 * Performs all the tasks of arranging information in a dialog box.
 	 * 
-	 * Metoda jest wywolywana automatycznie po dodaniu elementow za pomoca metod {@link #addElement(String, String)} i {@link #addElement(JLabel, JLabel)}.
-	 * Jesli dodawane jest wiele elementow, jest to nie wskazane z powodow wydajnosciowych. Wtedy nalezy skorzystac z metod
-	 * {@link #addElement(String, String, boolean)} i {@link #addElement(JLabel, JLabel, boolean)} przekazujac w trzecim parametrze FALSE
-	 * i dopiero po dodaniu wszystkiech elementow wywolac metode rebuild.
+	 * The method is called automatically when elements are added using the {@link #addElement (String, String)} and {@link #addElement (JLabel, JLabel)} methods.
+	 * If multiple items are added it is not recommended for performance reasons. Then you should use the methods
+	 * {@link #addElement (String, String, boolean)} and {@link #addElement (JLabel, JLabel, boolean)} passing in the third parameter FALSE
+	 * and only after adding all elements call the rebuild method.
 	 */
 	public void rebuild()
 		{
-		JLabel oNazwaLabel = new JLabel(sSoftwareName, JLabel.CENTER);
-		GridBagConstraints oNazwaGBC = new GridBagConstraints();
-		oNazwaGBC.gridx = 0;
-		oNazwaGBC.gridy = 0;
-		oNazwaGBC.gridwidth = 3;
-		oNazwaGBC.gridheight = 1;
-		oNazwaGBC.weightx = 100;
-		oNazwaGBC.weighty = 100;
-		oNazwaGBC.anchor = GridBagConstraints.CENTER;
-		oNazwaGBC.insets = new Insets(10, 10, 10, 10);
-		oNazwaLabel.setFont(oFontName);
-		add(oNazwaLabel, oNazwaGBC);
+		JLabel oNameLabel = new JLabel(sSoftwareName, JLabel.CENTER);
+		GridBagConstraints oNameGBC = new GridBagConstraints();
+		oNameGBC.gridx = 0;
+		oNameGBC.gridy = 0;
+		oNameGBC.gridwidth = 3;
+		oNameGBC.gridheight = 1;
+		oNameGBC.weightx = 100;
+		oNameGBC.weighty = 100;
+		oNameGBC.anchor = GridBagConstraints.CENTER;
+		oNameGBC.insets = new Insets(10, 10, 10, 10);
+		oNameLabel.setFont(oFontName);
+		add(oNameLabel, oNameGBC);
 		
-		for (int i = 0; i < oEtykiety.size(); ++i)
+		for (int i = 0; i < oAboutLabels.size(); ++i)
 			{
 			GridBagConstraints oItemLabelGBC = new GridBagConstraints();
 			oItemLabelGBC.gridx = 1;
@@ -160,13 +160,13 @@ public class JDialogAbout
 			oItemGBC.anchor = GridBagConstraints.WEST;
 			oItemGBC.insets = new Insets(2, 0, 2, 15);
 			
-			add(oEtykiety.get(i), oItemLabelGBC);
-			add(oWartosci.get(i), oItemGBC);
+			add(oAboutLabels.get(i), oItemLabelGBC);
+			add(oValues.get(i), oItemGBC);
 			}
 		
 		GridBagConstraints oButtonCloseGBC = new GridBagConstraints();
 		oButtonCloseGBC.gridx = 1;
-		oButtonCloseGBC.gridy = oEtykiety.size() + 1;
+		oButtonCloseGBC.gridy = oAboutLabels.size() + 1;
 		oButtonCloseGBC.gridwidth = 2;
 		oButtonCloseGBC.gridheight = 1;
 		oButtonCloseGBC.weightx = 100;
@@ -179,7 +179,7 @@ public class JDialogAbout
 			{
 			GridBagConstraints oVersionGBC = new GridBagConstraints();
 			oVersionGBC.gridx = 1;
-			oVersionGBC.gridy = oEtykiety.size() + 2;
+			oVersionGBC.gridy = oAboutLabels.size() + 2;
 			oVersionGBC.gridwidth = 2;
 			oVersionGBC.gridheight = 1;
 			oVersionGBC.weightx = 100;
@@ -198,9 +198,9 @@ public class JDialogAbout
 			oLogoGBC.gridy = 1;
 			oLogoGBC.gridwidth = 1;
 			if (oVersion != null)
-				oLogoGBC.gridheight = oEtykiety.size() + 2;
+				oLogoGBC.gridheight = oAboutLabels.size() + 2;
 			else
-				oLogoGBC.gridheight = oEtykiety.size() + 1;
+				oLogoGBC.gridheight = oAboutLabels.size() + 1;
 			oLogoGBC.weightx = 0;
 			oLogoGBC.weighty = 100;
 			oLogoGBC.anchor = GridBagConstraints.NORTH;
@@ -209,8 +209,8 @@ public class JDialogAbout
 			}
 		}
 	/**
-	 * Wykonuje centrowanie okna wzgledem okna nadrzednego.
-	 * Metode nalezy wywolac w akcji wyswietlajacej okno dialogowe bezposrednio przed ustwieniem widocznosci.
+	 * Performs centering of the window with respect to the parent window.
+	 * The method should be called in the action displaying the dialog box immediately before setting the visibility.
 	 */
 	public void centerPosition()
 		{
@@ -219,53 +219,53 @@ public class JDialogAbout
 		setBounds(iX, iY, getWidth(), getHeight());
 		}
 	/**
-	 * Dodaje nowy element do listy prezentowanych informacji.
+	 * Add a new item to the list of information presented..
 	 * 
-	 * Metoda po dodaniu elementu automatycznie wywoluje metode {@link #rebuild()} w celu aktualizacji widoku okna.
-	 * Jesli jest to niewskazane, nalezy skorzystac z metody {@link #addElement(String, String, boolean)}.
+	 * After adding an item, the method automatically calls the {@link #rebuild ()} method to update the window view.
+	 * If it is inappropriate, use the {@link #addElement (String, String, boolean)} method.
 	 * 
-	 * @param sLabel Nazwa dodawanej wlasnosci.
-	 * @param sValue Wartosc dodawanej wlasnosci.
+	 * @param sLabel The name of the property to be added.
+	 * @param sValue Value of the property to be added.
 	 */
 	public void addElement(String sLabel, String sValue)
 		{
 		addElement(new JLabel(sLabel), new JLabel(sValue), true);
 		}
 	/**
-	 * Dodaje nowy element do listy prezentowanych informacji.
+	 * Add a new item to the list of information presented.
 	 * 
-	 * @param sLabel Nazwa dodawanej wlasnosci.
-	 * @param sValue Wartosc dodawanej wlasnosci.
-	 * @param bRebuild Okresla, czy po dodaniu elementu ma byc wywolana metoda rebuild.
+	 * @param sLabel The name of the property to be added.
+	 * @param sValue Value of the property to be added.
+	 * @param bRebuild Determines whether the rebuild method should be called after adding an item.
 	 */
 	public void addElement(String sLabel, String sValue, boolean bRebuild)
 		{
 		addElement(new JLabel(sLabel), new JLabel(sValue), bRebuild);
 		}
 	/**
-	 * Dodaje nowy element do listy prezentowanych informacji.
+	 * Add a new item to the list of information presented.
 	 * 
-	 * Metoda po dodaniu elementu automatycznie wywoluje metode {@link #rebuild()} w celu aktualizacji widoku okna.
-	 * Jesli jest to niewskazane. nalezy skorzystac z metody {@link #addElement(JLabel, JLabel, boolean)}.
+	 * After adding an item, the method automatically calls the {@link #rebuild ()} method to update the window view.
+	 * If it is inappropriate. use the method {@link #addElement (JLabel, JLabel, boolean)}.
 	 * 
-	 * @param oLabel Nazwa Dodawanej wlasnosci.
-	 * @param oValue Wartosc dodawanej wlasnosci.
+	 * @param oLabel Name of the Property being Added.
+	 * @param oValue Value of the added property.
 	 */
 	public void addElement(JLabel oLabel, JLabel oValue)
 		{
 		addElement(oLabel, oValue, true);
 		}
 	/**
-	 * Dodaje nowy element do listy prezentowanych informacji.
+	 * Adds a new item to the list of information presented.
 	 * 
-	 * @param oLabel Nazwa dodawanej wlasnosci.
-	 * @param oValue Wartosc dodawanej wlasnosci.
-	 * @param bRebuild Okresla, czy po dodaniu elementu ma byc wywolana metoda rebuild.
+	 * @param oLabel The name of the property being added.
+	 * @param oValue Value of the added property.
+	 * @param bRebuild Specifies whether to call the rebuild method after adding an item.
 	 */
 	public void addElement(JLabel oLabel, JLabel oValue, boolean bRebuild)
 		{
-		oEtykiety.add(oLabel);
-		oWartosci.add(oValue);
+		oAboutLabels.add(oLabel);
+		oValues.add(oValue);
 		if (bRebuild == true)
 			rebuild();
 		}

@@ -17,19 +17,19 @@ public class JListShipListSettings
 	/**
 	 * Tablica przechowujaca Sizey statkow.
 	 */
-	private ArrayList<Integer> oListaInt;
+	private ArrayList<Integer> oListInt;
 	/**
 	 * Model listy przechowujacy Sizey statkow.
 	 */
-	private DefaultListModel oJListLista;
+	private DefaultListModel oJListList;
 	/**
 	 * Konstruktor domyslny.
 	 */
 	public JListShipListSettings()
 		{
-		oListaInt = new ArrayList<Integer>();
-		oJListLista = new DefaultListModel();
-		setModel(oJListLista);
+		oListInt = new ArrayList<Integer>();
+		oJListList = new DefaultListModel();
+		setModel(oJListList);
 		}
 	/**
 	 * Zwraca ilosc statkow przechowywana na liscie.
@@ -38,18 +38,18 @@ public class JListShipListSettings
 	 */
 	public int getNumberOfShips()
 		{
-		return oListaInt.size();
+		return oListInt.size();
 		}
 	/**
 	 * Zwraca tablice int zawierajaca Size wszystkich statkow przechowywanych w liscie.
 	 * 
 	 * @return Tablica z Sizeami statkow przechowywanych w liscie.
 	 */
-	public int[] getListaStatkow()
+	public int[] getShipList()
 		{
-		int[] aLista = new int[ oListaInt.size() ];
-		for (int i = 0; i < oListaInt.size(); ++i)
-			aLista[i] = oListaInt.get(i);
+		int[] aLista = new int[ oListInt.size() ];
+		for (int i = 0; i < oListInt.size(); ++i)
+			aLista[i] = oListInt.get(i);
 		return aLista;
 		}
 	/**
@@ -58,12 +58,12 @@ public class JListShipListSettings
 	 * @param iSize Size dodawanego statku.
 	 * @throws ParameterException Wyrzuca wyjatek, jesli podany Size jest mniejszy od 1.
 	 */
-	public void listaDodaj(int iSize) throws ParameterException
+	public void addList(int iSize) throws ParameterException
 		{
 		if (iSize < 1)
 			throw new ParameterException("iSize = " + iSize);
-		oListaInt.add(iSize);
-		oJListLista.addElement(JListShipListSettings.statekNazwa(iSize));
+		oListInt.add(iSize);
+		oJListList.addElement(JListShipListSettings.shipName(iSize));
 		}
 	/**
 	 * Zmienia Size statku o podanym indexie.
@@ -72,14 +72,14 @@ public class JListShipListSettings
 	 * @param iSize Nowy Size statku.
 	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow, lub Size jest mniejszy od 1.
 	 */
-	public void listaZmien(int iIndex, int iSize) throws ParameterException
+	public void changeList(int iIndex, int iSize) throws ParameterException
 		{
-		if (iIndex < 0 || iIndex >= oListaInt.size())
+		if (iIndex < 0 || iIndex >= oListInt.size())
 			throw new ParameterException("iIndex = " + iIndex);
 		if (iSize < 1)
 			throw new ParameterException("iSize = " + iSize);
-		oListaInt.set(iIndex, iSize);
-		oJListLista.set(iIndex, JListShipListSettings.statekNazwa(iSize));
+		oListInt.set(iIndex, iSize);
+		oJListList.set(iIndex, JListShipListSettings.shipName(iSize));
 		}
 	/**
 	 * Powieksza o 1 Size statku o podanym indexie.
@@ -87,12 +87,12 @@ public class JListShipListSettings
 	 * @param iIndex Index statku na liscie (liczone od 0).
 	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
 	 */
-	public void listaPowieksz(int iIndex) throws ParameterException
+	public void zoomList(int iIndex) throws ParameterException
 		{
-		if (iIndex < 0 || iIndex >= oListaInt.size())
+		if (iIndex < 0 || iIndex >= oListInt.size())
 			throw new ParameterException("iIndex = " + iIndex);
-		oListaInt.set(iIndex, oListaInt.get(iIndex) + 1);
-		oJListLista.set(iIndex, JListShipListSettings.statekNazwa(oListaInt.get(iIndex)));
+		oListInt.set(iIndex, oListInt.get(iIndex) + 1);
+		oJListList.set(iIndex, JListShipListSettings.shipName(oListInt.get(iIndex)));
 		}
 	/**
 	 * Pomniejsza o 1 Size statku o podanym indexie.
@@ -100,14 +100,14 @@ public class JListShipListSettings
 	 * @param iIndex Index statku na liscie (liczone od 0).
 	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
 	 */
-	public void listaPomniejsz(int iIndex) throws ParameterException
+	public void zoomOutList(int iIndex) throws ParameterException
 		{
-		if (iIndex < 0 || iIndex >= oListaInt.size())
+		if (iIndex < 0 || iIndex >= oListInt.size())
 			throw new ParameterException("iIndex = " + iIndex);
-		if (oListaInt.get(iIndex) > 1)
+		if (oListInt.get(iIndex) > 1)
 			{
-			oListaInt.set(iIndex, oListaInt.get(iIndex) - 1);
-			oJListLista.set(iIndex, JListShipListSettings.statekNazwa(oListaInt.get(iIndex)));
+			oListInt.set(iIndex, oListInt.get(iIndex) - 1);
+			oJListList.set(iIndex, JListShipListSettings.shipName(oListInt.get(iIndex)));
 			}
 		}
 	/**
@@ -116,20 +116,20 @@ public class JListShipListSettings
 	 * @param iIndex Index statku na liscie (liczone od 0).
 	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
 	 */
-	public void listaUsun(int iIndex) throws ParameterException
+	public void deleteLista(int iIndex) throws ParameterException
 		{
-		if (iIndex < 0 || iIndex >= oListaInt.size())
+		if (iIndex < 0 || iIndex >= oListInt.size())
 			throw new ParameterException("iIndex = " + iIndex);
-		oListaInt.remove(iIndex);
-		oJListLista.remove(iIndex);
+		oListInt.remove(iIndex);
+		oJListList.remove(iIndex);
 		}
 	/**
 	 * Usuwa z listy wszystkie statki.
 	 */
-	public void listaWyczysc()
+	public void clearList()
 		{
-		oListaInt.clear();
-		oJListLista.clear();
+		oListInt.clear();
+		oJListList.clear();
 		}
 	/**
 	 * Metoda generujaca nazwe statku do wyswietlania na liscie na podstawie podanego Sizeu.
@@ -137,11 +137,11 @@ public class JListShipListSettings
 	 * @param iSize Size statku.
 	 * @return Nazwa statku.
 	 */
-	private static String statekNazwa(int iSize) throws ParameterException
+	private static String shipName(int iSize) throws ParameterException
 		{
 		if (iSize < 1)
 			throw new ParameterException("iSize = " + iSize);
-		int iKlasaStatku = iSize > 5 ? 5 : iSize;
-		return JFrameGameWindowSettings.LANG.getProperty("shipName.size" + iKlasaStatku) + " ( " + iSize + " )";
+		int iShipClass = iSize > 5 ? 5 : iSize;
+		return JFrameGameWindowSettings.LANG.getProperty("shipName.size" + iShipClass) + " ( " + iSize + " )";
 		}
 	}

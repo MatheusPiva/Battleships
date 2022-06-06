@@ -80,7 +80,7 @@ public abstract class DrawingCoordinatesOnBoard
 	 * @param iBoardHeight Height planszy w polach.
 	 * @param iXField Wspolrzedna X konwertowanego pola (liczone od 0).
 	 * @param iYField Wspolrzedna Y konwertowanego pola (liczone od 0).
-	 * @return Wspolrzedne pixela znajdujacego sie przy lewym gornym rogu rysowanego pola.
+	 * @return Wspolrzedne pixela znajdujacego sie przy Leftm gornym rogu rysowanego pola.
 	 */
 	public static Position fieldToPixTopLeft(int iPanelWidth, int iPanelHeight, int iBoardWidth, int iBoardHeight, int iXField, int iYField)
 		{

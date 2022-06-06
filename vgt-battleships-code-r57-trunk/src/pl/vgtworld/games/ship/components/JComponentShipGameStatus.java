@@ -17,44 +17,44 @@ public class JComponentShipGameStatus
 	{
 	private static final int MARGINES = 5;
 	private ShipIterator oShips;
-	private Image oImgStatekNieuszkodzony;
-	private Image oImgStatekUszkodzony;
-	public JComponentShipGameStatus(ShipIterator oKontener) throws IOException
+	private Image oUndamagedShipImg;
+	private Image oDamagedShipImg;
+	public JComponentShipGameStatus(ShipIterator oContainer) throws IOException
 		{
-		oShips = oKontener;
-		URL oImgUrlStatekNieuszkodzony = getClass().getResource("/pl/vgtworld/games/ship/img/ship-0.png");
-		URL oImgUrlStatekUszkodzony = getClass().getResource("/pl/vgtworld/games/ship/img/ship-1.png");
-		if (oImgUrlStatekNieuszkodzony != null && oImgUrlStatekUszkodzony != null)
+		oShips = oContainer;
+		URL oImgUrlUndamagedShip = getClass().getResource("/pl/vgtworld/games/ship/img/ship-0.png");
+		URL oImgUrlDamagedShip = getClass().getResource("/pl/vgtworld/games/ship/img/ship-1.png");
+		if (oImgUrlUndamagedShip != null && oImgUrlDamagedShip != null)
 			{
-			oImgStatekNieuszkodzony = ImageIO.read(oImgUrlStatekNieuszkodzony);
-			oImgStatekUszkodzony = ImageIO.read(oImgUrlStatekUszkodzony);
+			oUndamagedShipImg = ImageIO.read(oImgUrlUndamagedShip);
+			oDamagedShipImg = ImageIO.read(oImgUrlDamagedShip);
 			}
 		else
 			{
-			oImgStatekNieuszkodzony = null;
-			oImgStatekUszkodzony = null;
+			oUndamagedShipImg = null;
+			oDamagedShipImg = null;
 			}
 		}
-	public void setStatki(ShipIterator oShips)
+	public void setShips(ShipIterator oShips)
 		{
 		this.oShips = oShips;
 		}
 	@Override public void paintComponent(Graphics g)
 		{
-		if (oImgStatekNieuszkodzony != null && oImgStatekUszkodzony != null && oShips != null)
+		if (oUndamagedShipImg != null && oDamagedShipImg != null && oShips != null)
 			{
-			int iNieuszkodzone = oShips.getNumberOfUndamagedShips();
-			int iUszkodzone = oShips.getNumberOfShipsHit();
+			int iUndamaged = oShips.getNumberOfUndamagedShips();
+			int iDamaged = oShips.getNumberOfShipsHit();
 			int iX = 0;
-			for (int i = 1; i <= iNieuszkodzone; ++i)
+			for (int i = 1; i <= iUndamaged; ++i)
 				{
-				g.drawImage(oImgStatekNieuszkodzony, iX, 0, null);
-				iX+= oImgStatekNieuszkodzony.getWidth(null) + MARGINES;
+				g.drawImage(oUndamagedShipImg, iX, 0, null);
+				iX+= oUndamagedShipImg.getWidth(null) + MARGINES;
 				}
-			for (int i = 1; i <= iUszkodzone; ++i)
+			for (int i = 1; i <= iDamaged; ++i)
 				{
-				g.drawImage(oImgStatekUszkodzony, iX, 0, null);
-				iX+= oImgStatekUszkodzony.getWidth(null) + MARGINES;
+				g.drawImage(oDamagedShipImg, iX, 0, null);
+				iX+= oDamagedShipImg.getWidth(null) + MARGINES;
 				}
 			}
 		}

@@ -48,23 +48,23 @@ public class JComponentEvents
 	/**
 	 * Obiekt czcionki komunikatow.
 	 */
-	private Font oCzcionka;
+	private Font oFont;
 	/**
 	 * Obiekt komunikatow gracza lewego.
 	 */
-	private JLabel oGraczLewy;
+	private JLabel oLeftPlayer;
 	/**
 	 * Obiekt komunikatow gracza prawego.
 	 */
-	private JLabel oGraczPrawy;
+	private JLabel oRightPlayer;
 	/**
 	 * Timer ukrywajacy komunikat gracza lewego.
 	 */
-	private Timer oTimerLewy;
+	private Timer oTimerLeft;
 	/**
 	 * Timer ukrywajacy komunikat gracza prawego.
 	 */
-	private Timer oTimerPrawy;
+	private Timer oTimerRight;
 	/**
 	 * Tlo graficzne komponentu.
 	 */
@@ -72,25 +72,25 @@ public class JComponentEvents
 	/**
 	 * Klasa prywatna obslugujaca akcje ukrywania komunikatu dla lewego gracza.
 	 */
-	private class ActionWyczyscLewy
+	private class ActionClearLeft
 		extends AbstractAction
 		{
 		public void actionPerformed(ActionEvent oEvent)
 			{
-			oGraczLewy.setText("");
-			oGraczLewy.repaint();
+			oLeftPlayer.setText("");
+			oLeftPlayer.repaint();
 			}
 		}
 	/**
 	 * Klasa prywatna obslugujaca akcje ukrywania komunikatu dla prawego gracza.
 	 */
-	private class ActionWyczyscPrawy
+	private class ActionClearRight
 		extends AbstractAction
 		{
 		public void actionPerformed(ActionEvent oEvent)
 			{
-			oGraczPrawy.setText("");
-			oGraczPrawy.repaint();
+			oRightPlayer.setText("");
+			oRightPlayer.repaint();
 			}
 		}
 	/**
@@ -115,52 +115,52 @@ public class JComponentEvents
 			oBackgroundImg = null;
 		oColorBackground = new Color(255, 255, 255);
 		oColorFont = new Color(255, 255, 255);
-		oCzcionka = new Font("Serif", Font.BOLD, FONT_Size);
-		oGraczLewy = new JLabel("", JLabel.CENTER);
-		oGraczLewy.setFont(oCzcionka);
-		oGraczLewy.setVerticalAlignment(JLabel.CENTER);
-		oGraczLewy.setForeground(oColorFont);
-		JPanel oGraczLewyContainer = new JPanel();
-		oGraczLewyContainer.setOpaque(false);
-		oGraczLewyContainer.add(oGraczLewy);
-		oGraczPrawy = new JLabel("", JLabel.CENTER);
-		oGraczPrawy.setVerticalAlignment(JLabel.CENTER);
-		oGraczPrawy.setFont(oCzcionka);
-		oGraczPrawy.setForeground(oColorFont);
-		JPanel oGraczPrawyContainer = new JPanel();
-		oGraczPrawyContainer.setOpaque(false);
-		oGraczPrawyContainer.add(oGraczPrawy);
-		oTimerLewy = new Timer(1000, new ActionWyczyscLewy());
-		oTimerLewy.setRepeats(false);
-		oTimerPrawy = new Timer(1000, new ActionWyczyscPrawy());
-		oTimerPrawy.setRepeats(false);
+		oFont = new Font("Serif", Font.BOLD, FONT_Size);
+		oLeftPlayer = new JLabel("", JLabel.CENTER);
+		oLeftPlayer.setFont(oFont);
+		oLeftPlayer.setVerticalAlignment(JLabel.CENTER);
+		oLeftPlayer.setForeground(oColorFont);
+		JPanel oLeftPlayerContainer = new JPanel();
+		oLeftPlayerContainer.setOpaque(false);
+		oLeftPlayerContainer.add(oLeftPlayer);
+		oRightPlayer = new JLabel("", JLabel.CENTER);
+		oRightPlayer.setVerticalAlignment(JLabel.CENTER);
+		oRightPlayer.setFont(oFont);
+		oRightPlayer.setForeground(oColorFont);
+		JPanel oRightPlayerContainer = new JPanel();
+		oRightPlayerContainer.setOpaque(false);
+		oRightPlayerContainer.add(oRightPlayer);
+		oTimerLeft = new Timer(1000, new ActionClearLeft());
+		oTimerLeft.setRepeats(false);
+		oTimerRight = new Timer(1000, new ActionClearRight());
+		oTimerRight.setRepeats(false);
 		
 		setMinimumSize(new Dimension(Width, Height));
 		setPreferredSize(new Dimension(Width, Height));
 		setLayout(new GridLayout());
 		
-		add(oGraczLewyContainer);
-		add(oGraczPrawyContainer);
+		add(oLeftPlayerContainer);
+		add(oRightPlayerContainer);
 		}
 	/**
 	 * Metoda wyswietla komunikat dla lewego gracza i wywoluje timer ukrywajacy komunikat po jednej sekundzie.
 	 * 
-	 * @param sTekst Tresc wyswietlanego komunikatu.
+	 * @param sText Tresc wyswietlanego komunikatu.
 	 */
-	public void ustawLewyKomunikat(String sTekst)
+	public void setLeftMessage(String sText)
 		{
-		oGraczLewy.setText(sTekst);
-		oTimerLewy.start();
+		oLeftPlayer.setText(sText);
+		oTimerLeft.start();
 		}
 	/**
 	 * Metoda wyswietla komunikat dla prawego gracza i wywoluje timer ukrywajacy komunikat po jednej sekundzie.
 	 * 
-	 * @param sTekst Tresc wyswietlanego komunikatu.
+	 * @param sText Tresc wyswietlanego komunikatu.
 	 */
-	public void ustawPrawyKomunikat(String sTekst)
+	public void setRightMessage(String sText)
 		{
-		oGraczPrawy.setText(sTekst);
-		oTimerPrawy.start();
+		oRightPlayer.setText(sText);
+		oTimerRight.start();
 		}
 	/**
 	 * Przeciazona metoda drawaca komponent.

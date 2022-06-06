@@ -21,7 +21,7 @@ import pl.vgtworld.exceptions.DeveloperException;
 import pl.vgtworld.games.ship.Settings;
 
 /**
- * Okno ustawien gry.
+ * Window ustawien gry.
  * 
  * @author VGT
  * @version 1.0
@@ -40,11 +40,11 @@ public class JDialogSettings
 	/**
 	 * Referencja do glownego okna gry.
 	 */
-	private JFrameGameWindowSettings oOknoGlowne;
+	private JFrameGameWindowSettings oMainWindow;
 	/**
 	 * Obiekt przechowujacy ustawienia rozgrywki.
 	 */
-	private Settings oUstawienia;
+	private Settings oSettings;
 	/**
 	 * Slider pozwalajacy ustawic Width planszy.
 	 */
@@ -56,35 +56,35 @@ public class JDialogSettings
 	/**
 	 * Slider pozwalajacy ustawic poziom trudnosci komputera.
 	 */
-	private JSlider oPoziomTrudnosci;
+	private JSlider oDifficultyLevel;
 	/**
-	 * Pole tekstowe przechowujace Width planszy.
+	 * Pole Textowe przechowujace Width planszy.
 	 */
 	private JTextField oBoardWidth;
 	/**
-	 * Pole tekstowe przechowujace Height planszy.
+	 * Pole Textowe przechowujace Height planszy.
 	 */
 	private JTextField oBoardHeight;
 	/**
 	 * Checkbox zawierajacy informacje, czy statki moga byc tylko prostymi liniami.
 	 */
-	private JCheckBox oShipsProsteLinie;
+	private JCheckBox oShipsStraightLines;
 	/**
 	 * Przycisk zapisujacy zmiany w ustawieniach.
 	 */
-	private JButton oButtonZapisz;
+	private JButton oButtonSave;
 	/**
 	 * Przycisk anulujacy zmiany w ustawieniach.
 	 */
-	private JButton oButtonAnuluj;
+	private JButton oButtonCancel;
 	/**
 	 * Panel do obslugi tworzenia listy statkow.
 	 */
-	private JPanelShipListSettings oListaStatkow;
+	private JPanelShipListSettings oShipList;
 	/**
 	 * Checkbox okreslajacy, czy zapisac aktualne ustawienia, jako domyslne.
 	 */
-	private JCheckBox oZapiszUstawienia;
+	private JCheckBox oSaveSettings;
 	/**
 	 * Klasa prywatna zawierajaca obsluge akcji przesuniecia slidera okreslajacego Width planszy.
 	 */
@@ -112,10 +112,10 @@ public class JDialogSettings
 	/**
 	 * Klasa prywatna zawierajaca obsluge akcji wcisniecia przycisku anulujacego zmiany w ustawieniach. 
 	 */
-	private class ActionAnuluj
+	private class ActionCancel
 		extends AbstractAction
 		{
-		public ActionAnuluj()
+		public ActionCancel()
 			{
 			putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.settings.cancel"));
 			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.cancel.desc"));
@@ -128,10 +128,10 @@ public class JDialogSettings
 	/**
 	 * Klasa prywatna zawierajaca obsluge akcji wcisniecia przycisku zatwierdzajacego zmiany w ustawieniach.
 	 */
-	private class ActionZapisz
+	private class ActionSave
 		extends AbstractAction
 		{
-		public ActionZapisz()
+		public ActionSave()
 			{
 			putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.settings.save"));
 			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.save.desc"));
@@ -140,7 +140,7 @@ public class JDialogSettings
 			{
 			try
 				{
-				//sprawdzenie blednych danych w wartosciach ustawien
+				//sprawdzenie blednych danych w Valuesach ustawien
 				int iBoardWidth;
 				int iBoardHeight;
 				try
@@ -158,28 +158,28 @@ public class JDialogSettings
 					JOptionPane.showMessageDialog(JDialogSettings.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.settings.invalidBoardSize"));
 					return;
 					}
-				if (oListaStatkow.getListaStatkow().getNumberOfShips() == 0)
+				if (oShipList.getShipList().getNumberOfShips() == 0)
 					{
 					JOptionPane.showMessageDialog(JDialogSettings.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.settings.noShip"));
 					return;
 					}
 				//zapisanie ustawien
-				oUstawienia.setBoardWidth(iBoardWidth);
-				oUstawienia.setBoardHeight(iBoardHeight);
-				oUstawienia.setDifficultyLevel(oPoziomTrudnosci.getValue());
-				if (oShipsProsteLinie.isSelected() == true)
-					oUstawienia.setStraightLines(true);
+				oSettings.setBoardWidth(iBoardWidth);
+				oSettings.setBoardHeight(iBoardHeight);
+				oSettings.setDifficultyLevel(oDifficultyLevel.getValue());
+				if (oShipsStraightLines.isSelected() == true)
+					oSettings.setStraightLines(true);
 				else
-					oUstawienia.setStraightLines(false);
-				oUstawienia.removeAllShips();
-				int[] aLista = oListaStatkow.getListaStatkow().getListaStatkow();
+					oSettings.setStraightLines(false);
+				oSettings.removeAllShips();
+				int[] aLista = oShipList.getShipList().getShipList();
 				for (int iSize: aLista)
-					oUstawienia.addShip(iSize);
+					oSettings.addShip(iSize);
 				
-				oOknoGlowne.zmianaUstawien();
+				oMainWindow.changeSettings();
 				
-				if (oZapiszUstawienia.isSelected())
-					oUstawienia.saveDefaultSettings();
+				if (oSaveSettings.isSelected())
+					oSettings.saveDefaultSettings();
 				}
 			catch (ParameterException e)
 				{
@@ -191,40 +191,40 @@ public class JDialogSettings
 	/**
 	 * Konstruktor.
 	 */
-	public JDialogSettings(JFrameGameWindowSettings oOknoGlowne, Settings oUstawienia)
+	public JDialogSettings(JFrameGameWindowSettings oMainWindow, Settings oSettings)
 		{
-		super(oOknoGlowne, true);
-		this.oOknoGlowne = oOknoGlowne;
-		this.oUstawienia = oUstawienia;
+		super(oMainWindow, true);
+		this.oMainWindow = oMainWindow;
+		this.oSettings = oSettings;
 		//Width planszy
 		JLabel oBoardWidthLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardWidth"), JLabel.CENTER);
-		oBoardWidthSlider = new JSlider(5, 25, oUstawienia.getBoardWidth());
+		oBoardWidthSlider = new JSlider(5, 25, oSettings.getBoardWidth());
 		oBoardWidthSlider.addChangeListener(new ActionWidthSlider());
 		oBoardWidth = new JTextField(5);
 		oBoardWidth.setHorizontalAlignment(JTextField.RIGHT);
 		oBoardWidth.setText(String.valueOf(oBoardWidthSlider.getValue()));
 		//Height planszy
 		JLabel oBoardHeightLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardHeight"), JLabel.CENTER);
-		oBoardHeightSlider = new JSlider(5, 25, oUstawienia.getBoardHeight());
+		oBoardHeightSlider = new JSlider(5, 25, oSettings.getBoardHeight());
 		oBoardHeightSlider.addChangeListener(new ActionHeightSlider());
 		oBoardHeight = new JTextField(5);
 		oBoardHeight.setHorizontalAlignment(JTextField.RIGHT);
 		oBoardHeight.setText(String.valueOf(oBoardHeightSlider.getValue()));
 		//poziom trudnosci
-		JLabel oPoziomTrudnosciLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.difficulty"), JLabel.CENTER);
-		oPoziomTrudnosci = new JSlider(1, 100, oUstawienia.getDifficultyLevel());
+		JLabel oDifficultyLevelLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.difficulty"), JLabel.CENTER);
+		oDifficultyLevel = new JSlider(1, 100, oSettings.getDifficultyLevel());
 		//ksztalkt statkow
-		JLabel oShipsProsteLinieLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.shipsShape"), JLabel.CENTER);
-		oShipsProsteLinie = new JCheckBox(JFrameGameWindowSettings.LANG.getProperty("settings.shipsShapeCheckbox"));
-		if (oUstawienia.getStraightLines() == true)
-			oShipsProsteLinie.setSelected(true);
+		JLabel oShipsStraightLinesLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.shipsShape"), JLabel.CENTER);
+		oShipsStraightLines = new JCheckBox(JFrameGameWindowSettings.LANG.getProperty("settings.shipsShapeCheckbox"));
+		if (oSettings.getStraightLines() == true)
+			oShipsStraightLines.setSelected(true);
 		//lista statkow
-		oListaStatkow = new JPanelShipListSettings();
-		int[] aShips = oUstawienia.getShips();
+		oShipList = new JPanelShipListSettings();
+		int[] aShips = oSettings.getShips();
 		try
 			{
 			for (int iSize: aShips)
-				oListaStatkow.getListaStatkow().listaDodaj(iSize);
+				oShipList.getShipList().addList(iSize);
 			}
 		catch (ParameterException e)
 			{
@@ -233,8 +233,8 @@ public class JDialogSettings
 		
 		//wstawienie elementow do frame'a
 		setLayout(new BorderLayout());
-		JPanel oPanelLewy = new JPanel();
-		oPanelLewy.setLayout(new GridLayout(4, 1));
+		JPanel oPanelLeft = new JPanel();
+		oPanelLeft.setLayout(new GridLayout(4, 1));
 		
 		JPanel oBoardWidthContainer2 = new JPanel();
 		JPanel oBoardWidthContainer = new JPanel();
@@ -245,7 +245,7 @@ public class JDialogSettings
 		oBoardWidthContainer.add(oBoardWidthSlider);
 		oBoardWidthContainer.add(oBoardWidthTextfieldContainer);
 		oBoardWidthContainer2.add(oBoardWidthContainer);
-		oPanelLewy.add(oBoardWidthContainer2);
+		oPanelLeft.add(oBoardWidthContainer2);
 		
 		JPanel oBoardHeightContainer2 = new JPanel();
 		JPanel oBoardHeightContainer = new JPanel();
@@ -256,54 +256,54 @@ public class JDialogSettings
 		oBoardHeightContainer.add(oBoardHeightSlider);
 		oBoardHeightContainer.add(oBoardHeightTextfieldContainer);
 		oBoardHeightContainer2.add(oBoardHeightContainer);
-		oPanelLewy.add(oBoardHeightContainer2);
+		oPanelLeft.add(oBoardHeightContainer2);
 		
-		JPanel oPoziomTrudnosciContainer2 = new JPanel();
-		JPanel oPoziomTrudnosciContainer = new JPanel();
-		oPoziomTrudnosciContainer.setLayout(new GridLayout(2,1));
-		oPoziomTrudnosciContainer.add(oPoziomTrudnosciLabel);
-		JPanel oPoziomTrudnosciSliderContainer = new JPanel();
-		oPoziomTrudnosciSliderContainer.add(oPoziomTrudnosci);
-		oPoziomTrudnosciContainer.add(oPoziomTrudnosciSliderContainer);
-		oPoziomTrudnosciContainer2.add(oPoziomTrudnosciContainer);
-		oPanelLewy.add(oPoziomTrudnosciContainer2);
+		JPanel oDifficultyLevelContainer2 = new JPanel();
+		JPanel oDifficultyLevelContainer = new JPanel();
+		oDifficultyLevelContainer.setLayout(new GridLayout(2,1));
+		oDifficultyLevelContainer.add(oDifficultyLevelLabel);
+		JPanel oDifficultyLevelSliderContainer = new JPanel();
+		oDifficultyLevelSliderContainer.add(oDifficultyLevel);
+		oDifficultyLevelContainer.add(oDifficultyLevelSliderContainer);
+		oDifficultyLevelContainer2.add(oDifficultyLevelContainer);
+		oPanelLeft.add(oDifficultyLevelContainer2);
 		
-		JPanel oShipsKsztaltContainer2 = new JPanel();
-		JPanel oShipsKsztaltContainer = new JPanel();
-		oShipsKsztaltContainer.setLayout(new GridLayout(2, 1));
+		JPanel oShipsShapeContainer2 = new JPanel();
+		JPanel oShipsShapeContainer = new JPanel();
+		oShipsShapeContainer.setLayout(new GridLayout(2, 1));
 		
                 // REMOVIDA OPÇÃO QUE PERMITE O POSICIONAMENTO DOS NAVIOS DE FORMA QUE NÃO SEJA VERTICAL OU HORIZONTAL
-                //oShipsKsztaltContainer.add(oShipsProsteLinieLabel);
-		//oShipsKsztaltContainer.add(oShipsProsteLinie);
+                //oShipsShapeContainer.add(oShipsStraightLinesLabel);
+		//oShipsShapeContainer.add(oShipsStraightLines);
                 
-		oShipsKsztaltContainer2.add(oShipsKsztaltContainer);
-		oPanelLewy.add(oShipsKsztaltContainer2);
+		oShipsShapeContainer2.add(oShipsShapeContainer);
+		oPanelLeft.add(oShipsShapeContainer2);
 		
-		JPanel oPanelPrawy = new JPanel();
-		oPanelPrawy.setLayout(new BorderLayout());
-		oPanelPrawy.add(oListaStatkow, BorderLayout.CENTER);
+		JPanel oPanelRight = new JPanel();
+		oPanelRight.setLayout(new BorderLayout());
+		oPanelRight.add(oShipList, BorderLayout.CENTER);
 		
-		JPanel oPanele = new JPanel();
-		oPanele.setLayout(new GridLayout(1, 2));
-		oPanele.add(oPanelLewy);
-		oPanele.add(oPanelPrawy);
-		add(oPanele, BorderLayout.CENTER);
-		JPanel oButtony = new JPanel();
-		oButtonAnuluj = new JButton(new ActionAnuluj());
-		oButtonZapisz = new JButton(new ActionZapisz());
-		oButtony.add(oButtonZapisz);
-		oButtony.add(oButtonAnuluj);
+		JPanel oPanels = new JPanel();
+		oPanels.setLayout(new GridLayout(1, 2));
+		oPanels.add(oPanelLeft);
+		oPanels.add(oPanelRight);
+		add(oPanels, BorderLayout.CENTER);
+		JPanel oButtons = new JPanel();
+		oButtonCancel = new JButton(new ActionCancel());
+		oButtonSave = new JButton(new ActionSave());
+		oButtons.add(oButtonSave);
+		oButtons.add(oButtonCancel);
 		
-		JPanel oPanelZapiszUstawienia = new JPanel();
-		oZapiszUstawienia = new JCheckBox(JFrameGameWindowSettings.LANG.getProperty("settings.saveAsDefault"));
-		oPanelZapiszUstawienia.add(oZapiszUstawienia);
+		JPanel oSaveSettingsPanel = new JPanel();
+		oSaveSettings = new JCheckBox(JFrameGameWindowSettings.LANG.getProperty("settings.saveAsDefault"));
+		oSaveSettingsPanel.add(oSaveSettings);
 		
-		JPanel oPanelOpcjeDolne = new JPanel();
-		oPanelOpcjeDolne.setLayout(new GridLayout(2, 1));
-		oPanelOpcjeDolne.add(oPanelZapiszUstawienia);
-		oPanelOpcjeDolne.add(oButtony);
+		JPanel oBottomOptionsPanel = new JPanel();
+		oBottomOptionsPanel.setLayout(new GridLayout(2, 1));
+		oBottomOptionsPanel.add(oSaveSettingsPanel);
+		oBottomOptionsPanel.add(oButtons);
 		
-		add(oPanelOpcjeDolne, BorderLayout.PAGE_END);
+		add(oBottomOptionsPanel, BorderLayout.PAGE_END);
 		
 		
 		//pozostale ustawienia
@@ -313,30 +313,30 @@ public class JDialogSettings
 		setResizable(true);
 		}
 	/**
-	 * Metoda przywraca ustawienia wszystkich sliderow i pol tekstowych na wartosci z obiektu ustawien.
+	 * Metoda przywraca ustawienia wszystkich sliderow i pol Textowych na Values z obiektu ustawien.
 	 */
 	public void reset()
 		{
 		//rest pozycji okna
-		int iPositionX = oOknoGlowne.getX() + (oOknoGlowne.getWidth() - Width) / 2;
-		int iPositionY = oOknoGlowne.getY() + (oOknoGlowne.getHeight() - Height) / 2;
+		int iPositionX = oMainWindow.getX() + (oMainWindow.getWidth() - Width) / 2;
+		int iPositionY = oMainWindow.getY() + (oMainWindow.getHeight() - Height) / 2;
 		setBounds(iPositionX, iPositionY, Width, Height);
 		//reset ustawien
-		oBoardWidth.setText(String.valueOf(oUstawienia.getBoardWidth()));
-		oBoardWidthSlider.setValue(oUstawienia.getBoardWidth());
-		oBoardHeight.setText(String.valueOf(oUstawienia.getBoardHeight()));
-		oBoardHeightSlider.setValue(oUstawienia.getBoardHeight());
-		oPoziomTrudnosci.setValue(oUstawienia.getDifficultyLevel());
-		if (oUstawienia.getStraightLines() == true)
-			oShipsProsteLinie.setSelected(true);
+		oBoardWidth.setText(String.valueOf(oSettings.getBoardWidth()));
+		oBoardWidthSlider.setValue(oSettings.getBoardWidth());
+		oBoardHeight.setText(String.valueOf(oSettings.getBoardHeight()));
+		oBoardHeightSlider.setValue(oSettings.getBoardHeight());
+		oDifficultyLevel.setValue(oSettings.getDifficultyLevel());
+		if (oSettings.getStraightLines() == true)
+			oShipsStraightLines.setSelected(true);
 		else
-			oShipsProsteLinie.setSelected(false);
-		oListaStatkow.getListaStatkow().listaWyczysc();
-		int[] aShips = oUstawienia.getShips();
+			oShipsStraightLines.setSelected(false);
+		oShipList.getShipList().clearList();
+		int[] aShips = oSettings.getShips();
 		try
 			{
 			for (int iSize: aShips)
-				oListaStatkow.getListaStatkow().listaDodaj(iSize);
+				oShipList.getShipList().addList(iSize);
 			}
 		catch (ParameterException e)
 			{

@@ -30,14 +30,14 @@ public class JPanelShipListSettings
 	/**
 	 * Obiekt listy przechowujacy statki.
 	 */
-	private JListShipListSettings oListaStatkow;
+	private JListShipListSettings oShipList;
 	/**
 	 * Klasa prywatna realizujaca akcje dodania statku.
 	 */
-	private class ActionDodaj
+	private class ActionAdd
 		extends AbstractAction
 		{
-		public ActionDodaj()
+		public ActionAdd()
 			{
 			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.add.desc"));
 			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/ship/img/button-add.png");
@@ -53,7 +53,7 @@ public class JPanelShipListSettings
 			{
 			try
 				{
-				oListaStatkow.listaDodaj(1);
+				oShipList.addList(1);
 				}
 			catch (ParameterException e)
 				{
@@ -64,10 +64,10 @@ public class JPanelShipListSettings
 	/**
 	 * Klasa prywatna realizujaca akcje usuniecia zaznaczonych statkow.
 	 */
-	private class ActionUsun
+	private class ActionRemove
 		extends AbstractAction
 		{
-		public ActionUsun()
+		public ActionRemove()
 			{
 			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.delete.desc"));
 			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/ship/img/button-delete.png");
@@ -81,13 +81,13 @@ public class JPanelShipListSettings
 			}
 		public void actionPerformed(ActionEvent oEvent)
 			{
-			int[] aZaznaczone = oListaStatkow.getSelectedIndices();
-			if (aZaznaczone.length == 0)
+			int[] aChecked = oShipList.getSelectedIndices();
+			if (aChecked.length == 0)
 				JOptionPane.showMessageDialog(JPanelShipListSettings.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.settings.shipList.noShipSelected"));
 			try
 				{
-				for (int i = aZaznaczone.length - 1; i >= 0; --i)
-					oListaStatkow.listaUsun(aZaznaczone[i]);
+				for (int i = aChecked.length - 1; i >= 0; --i)
+					oShipList.deleteLista(aChecked[i]);
 				}
 			catch (ParameterException e)
 				{
@@ -98,10 +98,10 @@ public class JPanelShipListSettings
 	/**
 	 * Klasa prywatna realizujaca akcje powiekszenia Sizeu zaznaczonych statkow.
 	 */
-	private class ActionPowieksz
+	private class ActionEnlarge
 		extends AbstractAction
 		{
-		public ActionPowieksz()
+		public ActionEnlarge()
 			{
 			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.increase.desc"));
 			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/ship/img/button-up.png");
@@ -115,13 +115,13 @@ public class JPanelShipListSettings
 			}
 		public void actionPerformed(ActionEvent oEvent)
 			{
-			int[] aZaznaczone = oListaStatkow.getSelectedIndices();
-			if (aZaznaczone.length == 0)
+			int[] aChecked = oShipList.getSelectedIndices();
+			if (aChecked.length == 0)
 				JOptionPane.showMessageDialog(JPanelShipListSettings.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.settings.shipList.noShipSelected"));
 			try
 				{
-				for (int iZaznaczony: aZaznaczone)
-					oListaStatkow.listaPowieksz(iZaznaczony);
+				for (int iSelected: aChecked)
+					oShipList.zoomList(iSelected);
 				}
 			catch (ParameterException e)
 				{
@@ -132,10 +132,10 @@ public class JPanelShipListSettings
 	/**
 	 * Klasa prywatna realizujaca akcje pomniejszenia Sizeu zaznaczonych statkow.
 	 */
-	private class ActionPomniejsz
+	private class ActionZoomOut
 		extends AbstractAction
 		{
-		public ActionPomniejsz()
+		public ActionZoomOut()
 			{
 			//putValue(Action.NAME, "Pomniejsz zaznaczone");
 			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.decrease.desc"));
@@ -150,13 +150,13 @@ public class JPanelShipListSettings
 			}
 		public void actionPerformed(ActionEvent oEvent)
 			{
-			int[] aZaznaczone = oListaStatkow.getSelectedIndices();
-			if (aZaznaczone.length == 0)
+			int[] aChecked = oShipList.getSelectedIndices();
+			if (aChecked.length == 0)
 				JOptionPane.showMessageDialog(JPanelShipListSettings.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.settings.shipList.noShipSelected"));
 			try
 				{
-				for (int iZaznaczony: aZaznaczone)
-					oListaStatkow.listaPomniejsz(iZaznaczony);
+				for (int iSelected: aChecked)
+					oShipList.zoomOutList(iSelected);
 				}
 			catch (ParameterException e)
 				{
@@ -171,28 +171,28 @@ public class JPanelShipListSettings
 		{
 		setLayout(new BorderLayout());
 		
-		JLabel oListaStatkowLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.shipList.title"), JLabel.CENTER);
-		oListaStatkow = new JListShipListSettings();
-		JScrollPane oListaStatkowScroll = new JScrollPane(oListaStatkow);
+		JLabel oShipListLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.shipList.title"), JLabel.CENTER);
+		oShipList = new JListShipListSettings();
+		JScrollPane oShipListScroll = new JScrollPane(oShipList);
 		//panel przyciskow
-		JPanel oPanelPrzyciski = new JPanel();
-		oPanelPrzyciski.setLayout(new GridLayout(1, 4));
-		oPanelPrzyciski.add(new JButton(new ActionDodaj()));
-		oPanelPrzyciski.add(new JButton(new ActionUsun()));
-		oPanelPrzyciski.add(new JButton(new ActionPowieksz()));
-		oPanelPrzyciski.add(new JButton(new ActionPomniejsz()));
+		JPanel oButtonsPanel = new JPanel();
+		oButtonsPanel.setLayout(new GridLayout(1, 4));
+		oButtonsPanel.add(new JButton(new ActionAdd()));
+		oButtonsPanel.add(new JButton(new ActionRemove()));
+		oButtonsPanel.add(new JButton(new ActionEnlarge()));
+		oButtonsPanel.add(new JButton(new ActionZoomOut()));
 		
-		add(oListaStatkowLabel, BorderLayout.PAGE_START);
-		add(oListaStatkowScroll, BorderLayout.CENTER);
-		add(oPanelPrzyciski, BorderLayout.PAGE_END);
+		add(oShipListLabel, BorderLayout.PAGE_START);
+		add(oShipListScroll, BorderLayout.CENTER);
+		add(oButtonsPanel, BorderLayout.PAGE_END);
 		}
 	/**
 	 * Metoda zwracajaca obiekt listy statkow.
 	 * 
 	 * @return Lista statkow.
 	 */
-	public JListShipListSettings getListaStatkow()
+	public JListShipListSettings getShipList()
 		{
-		return oListaStatkow;
+		return oShipList;
 		}
 	}

@@ -43,7 +43,7 @@ public class Ship
 		this.oBoard = oBoard;
 		this.iSize = iSize;
 		aCoordenates = new Position[ iSize ];
-		//wypelnienie tablicy wspolrzednych wartosciami domyslnymi (-1, -1)
+		//wypelnienie tablicy wspolrzednych Valuesami domyslnymi (-1, -1)
 		for (int i = 0; i < iSize; ++i)
 			{
 			aCoordenates[i] = new Position(2);
@@ -213,7 +213,7 @@ public class Ship
 			}
 		}
 	/**
-	 * Metoda ustawia wspolrzedne wszystkich pol statku na poczatkowe wartosci domyslne (-1, -1).
+	 * Metoda ustawia wspolrzedne wszystkich pol statku na poczatkowe Values domyslne (-1, -1).
 	 */
 	public void resetFields()
 		{

@@ -34,7 +34,7 @@ public class JPanelMarkingShips
 	/**
 	 * Obiekt ustawien rozgrywki.
 	 */
-	private Settings oUstawienia;
+	private Settings oSettings;
 	/**
 	 * Board, na ktorej gracz zaznacza statki.
 	 */
@@ -46,31 +46,31 @@ public class JPanelMarkingShips
 	/**
 	 * Referencja do glownego okna gry.
 	 */
-	private JFrameGameWindowSettings oOkno;
+	private JFrameGameWindowSettings oWindow;
 	/**
 	 * Komponent, na ktorym wyswietlana jest plansza.
 	 */
-	private JComponentBoard oComponentPlansza;
+	private JComponentBoard oBoardComponent;
 	/**
 	 * Panel wyswietlajacy informacje na temat ilosci statkow poszczegolnych Sizeow,
 	 * ktore nalezy umiescic na planszy.
 	 */
-	private JPanelMarkingShipsOnList oListaStatkowInfo;
+	private JPanelMarkingShipsOnList oShipListInfo;
 	/**
 	 * Panel zawierajacy informacje o wymaganych statkach oraz przyciski akcji.
 	 */
-	private JPanel oPanelPrawy;
+	private JPanel oPanelRight;
 	/**
 	 * Obiekt obslugi akcji klikniecia myszki na planszy.
 	 */
-	private ZaznaczanieStatkowMouseListener oMouseListener;
+	private SelectingShipsMouseListener oMouseListener;
 	/**
 	 * Klasa prywatna zawierajaca obsluge akcji wcisniecia przycisku zatwierdzajacego rozmieszczenie statkow na planszy.
 	 */
-	private class ActionZatwierdzStatki
+	private class ActionAproveShips
 		extends AbstractAction
 		{
-		public ActionZatwierdzStatki()
+		public ActionAproveShips()
 			{
 			putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.shipPlacement.accept"));
 			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.shipPlacement.accept.desc"));
@@ -81,12 +81,12 @@ public class JPanelMarkingShips
 			oShips = oGenerator.generateShips();
 			boolean bOK = true;
 			//sprawdzenie, kolejnych warunkow rozmieszczenia statkow
-			if (oShips.getNumberOfShips() != oUstawienia.getNumbeOfShips())
+			if (oShips.getNumberOfShips() != oSettings.getNumbeOfShips())
 				bOK = false;
 			for (int i = oShips.getMaxShipSize(); i >= 1; --i)
-				if (oShips.getNumberOfShips(i) != oUstawienia.getNumberOfShips(i))
+				if (oShips.getNumberOfShips(i) != oSettings.getNumberOfShips(i))
 					bOK = false;
-			if (oShips.verifyApplication(oUstawienia.getStraightLines()) == false)
+			if (oShips.verifyApplication(oSettings.getStraightLines()) == false)
 				bOK = false;
 			//commit
 			if (bOK == false)
@@ -95,16 +95,16 @@ public class JPanelMarkingShips
 				oShips = null;
 				}
 			else
-				oOkno.rozpocznijRozgrywke();
+				oWindow.startGameplay();
 			}
 		}
 	/**
 	 * Klasa prywatna zawierajaca obsluge akcji wcisniecia przycisku usuwajacego wszystkie statki z planszy.
 	 */
-	private class ActionWyczysc
+	private class ActionClear
 		extends AbstractAction
 		{
-		public ActionWyczysc()
+		public ActionClear()
 			{
 			putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.shipPlacement.clear"));
 			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.shipPlacement.clear.desc"));
@@ -128,10 +128,10 @@ public class JPanelMarkingShips
 	/**
 	 * Klasa prywatna zawierajaca obsluge wcisniecia przycisku rozmieszczajacego statki gracza losowo na planszy.
 	 */
-	private class ActionRozmiescLosowoShipsGracza
+	private class ActionRandomlyPlacePlayersShips
 		extends AbstractAction
 		{
-		public ActionRozmiescLosowoShipsGracza()
+		public ActionRandomlyPlacePlayersShips()
 			{
 			putValue(Action.NAME, JFrameGameWindowSettings.LANG.getProperty("action.shipPlacement.random"));
 			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.shipPlacement.random.desc"));
@@ -144,12 +144,12 @@ public class JPanelMarkingShips
 					for (int j = 0; j < oBoard.getHeight(); ++j)
 						if (oBoard.getField(i, j) == FieldTypeBoard.SHIP_BOARD)
 							oBoard.setField(i, j, FieldTypeBoard.BOARD_FIELD_EMPTY);
-				ShipIterator oKontener = new ShipIterator(oBoard);
-				int[] aShips = oUstawienia.getShips();
+				ShipIterator oContainer = new ShipIterator(oBoard);
+				int[] aShips = oSettings.getShips();
 				for (int iSize: aShips)
-					oKontener.addAShip(iSize);
-				ShipPositioner oPozycjoner = new ShipPositioner();
-				if (oPozycjoner.shipSpaces(oKontener, oUstawienia.getStraightLines()) == false)
+					oContainer.addAShip(iSize);
+				ShipPositioner oPositioner = new ShipPositioner();
+				if (oPositioner.shipSpaces(oContainer, oSettings.getStraightLines()) == false)
 					JOptionPane.showMessageDialog(JPanelMarkingShips.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.shipPlacement.randomShipPlacementFail"));
 				}
 			catch (ParameterException e)
@@ -162,43 +162,43 @@ public class JPanelMarkingShips
 	/**
 	 * Klasa prywatna zawierajaca obsluge klikniecia gracza na planszy (zaznaczanie/odznaczanie pol statkow).
 	 */
-	private class ZaznaczanieStatkowMouseListener
+	private class SelectingShipsMouseListener
 		extends MouseAdapter
 		{
-		public ZaznaczanieStatkowMouseListener()
+		public SelectingShipsMouseListener()
 			{
 			}
 		@Override public void mousePressed(MouseEvent event)
 			{
 			int iBoardWidth = oBoard.getWidth();
 			int iBoardHeight = oBoard.getHeight();
-			int iKomponentWidth = oComponentPlansza.getWidth();
-			int iKomponentHeight = oComponentPlansza.getHeight();
+			int iComponentWidth = oBoardComponent.getWidth();
+			int iComponentHeight = oBoardComponent.getHeight();
 			int iClickX = event.getX();
 			int iClickY = event.getY();
-			Position oKliknietePole;
-			oKliknietePole = DrawingCoordinatesOnBoard.pixToField(iKomponentWidth, iKomponentHeight, iBoardWidth, iBoardHeight, iClickX, iClickY);
+			Position oClickedField;
+			oClickedField = DrawingCoordinatesOnBoard.pixToField(iComponentWidth, iComponentHeight, iBoardWidth, iBoardHeight, iClickX, iClickY);
 			try
 				{
-				if (oKliknietePole.getX() >= 0 && oKliknietePole.getX() < iBoardWidth
-					&& oKliknietePole.getY() >= 0 && oKliknietePole.getY() < iBoardHeight
+				if (oClickedField.getX() >= 0 && oClickedField.getX() < iBoardWidth
+					&& oClickedField.getY() >= 0 && oClickedField.getY() < iBoardHeight
 					)
 					{
-					if (oBoard.getField(oKliknietePole.getX(), oKliknietePole.getY()) == FieldTypeBoard.BOARD_FIELD_EMPTY)
+					if (oBoard.getField(oClickedField.getX(), oClickedField.getY()) == FieldTypeBoard.BOARD_FIELD_EMPTY)
 						{
-						oBoard.setField(oKliknietePole.getX(), oKliknietePole.getY(), FieldTypeBoard.SHIP_BOARD);
-//						oComponentPlansza.activateHighlight(oKliknietePole.getX(), oKliknietePole.getY());
+						oBoard.setField(oClickedField.getX(), oClickedField.getY(), FieldTypeBoard.SHIP_BOARD);
+//						oBoardComponent.activateHighlight(oClickedField.getX(), oClickedField.getY());
 						}
-					else if (oBoard.getField(oKliknietePole.getX(), oKliknietePole.getY()) == FieldTypeBoard.SHIP_BOARD)
+					else if (oBoard.getField(oClickedField.getX(), oClickedField.getY()) == FieldTypeBoard.SHIP_BOARD)
 						{
-						oBoard.setField(oKliknietePole.getX(), oKliknietePole.getY(), FieldTypeBoard.BOARD_FIELD_EMPTY);
-//						oComponentPlansza.activateHighlight(oKliknietePole.getX(), oKliknietePole.getY());
+						oBoard.setField(oClickedField.getX(), oClickedField.getY(), FieldTypeBoard.BOARD_FIELD_EMPTY);
+//						oBoardComponent.activateHighlight(oClickedField.getX(), oClickedField.getY());
 						}
 					Position oWspTopLeft;
 					Position oWspBottomRight;
-					oWspTopLeft = DrawingCoordinatesOnBoard.fieldToPixTopLeft(iKomponentWidth, iKomponentHeight, iBoardWidth, iBoardHeight, oKliknietePole.getX(), oKliknietePole.getY());
-					oWspBottomRight = DrawingCoordinatesOnBoard.fieldToPixBottomRight(iKomponentWidth, iKomponentHeight, iBoardWidth, iBoardHeight, oKliknietePole.getX(), oKliknietePole.getY());
-					oComponentPlansza.repaint(oWspTopLeft.getX(), oWspTopLeft.getY(), oWspBottomRight.getX()-oWspTopLeft.getX(), oWspBottomRight.getY() - oWspTopLeft.getY());
+					oWspTopLeft = DrawingCoordinatesOnBoard.fieldToPixTopLeft(iComponentWidth, iComponentHeight, iBoardWidth, iBoardHeight, oClickedField.getX(), oClickedField.getY());
+					oWspBottomRight = DrawingCoordinatesOnBoard.fieldToPixBottomRight(iComponentWidth, iComponentHeight, iBoardWidth, iBoardHeight, oClickedField.getX(), oClickedField.getY());
+					oBoardComponent.repaint(oWspTopLeft.getX(), oWspTopLeft.getY(), oWspBottomRight.getX()-oWspTopLeft.getX(), oWspBottomRight.getY() - oWspTopLeft.getY());
 					}
 				}
 			catch (ParameterException e)
@@ -210,43 +210,43 @@ public class JPanelMarkingShips
 	/**
 	 * Konstruktor.
 	 * 
-	 * @param oUstawienia Glowne ustawienia gry.
-	 * @param oOkno Glowne okno gry.
+	 * @param oSettings Glowne ustawienia gry.
+	 * @param oWindow Glowne Window gry.
 	 */
-	public JPanelMarkingShips(Settings oUstawienia, JFrameGameWindowSettings oOkno)
+	public JPanelMarkingShips(Settings oSettings, JFrameGameWindowSettings oWindow)
 		{
 		setLayout(new GridLayout(1, 2));
-		this.oUstawienia = oUstawienia;
-		this.oOkno = oOkno;
-		oBoard = new Board(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
+		this.oSettings = oSettings;
+		this.oWindow = oWindow;
+		oBoard = new Board(oSettings.getBoardWidth(), oSettings.getBoardHeight());
 		oShips = null;
-		oComponentPlansza = new JComponentBoard(oBoard);
-		oMouseListener = new ZaznaczanieStatkowMouseListener();
+		oBoardComponent = new JComponentBoard(oBoard);
+		oMouseListener = new SelectingShipsMouseListener();
 		
 		addMouseListener(oMouseListener);
 		
 		//lewa polowka
-		oComponentPlansza = new JComponentBoard(oBoard);
-		add(oComponentPlansza);
+		oBoardComponent = new JComponentBoard(oBoard);
+		add(oBoardComponent);
 		
 		//prawa polowka
-		oPanelPrawy = new JPanel();
-		oPanelPrawy.setLayout(new BorderLayout());
-		oListaStatkowInfo = new JPanelMarkingShipsOnList(oUstawienia);
-		JScrollPane oListaStatkowInfoScroll = new JScrollPane(oListaStatkowInfo);
-		oListaStatkowInfoScroll.setBorder(null);
+		oPanelRight = new JPanel();
+		oPanelRight.setLayout(new BorderLayout());
+		oShipListInfo = new JPanelMarkingShipsOnList(oSettings);
+		JScrollPane oShipListInfoScroll = new JScrollPane(oShipListInfo);
+		oShipListInfoScroll.setBorder(null);
 		
 		JPanel oButtonContainer = new JPanel();
 		oButtonContainer.setLayout(new GridLayout(1,3));
-		JButton oButtonZatwierdz = new JButton(new ActionZatwierdzStatki());
-		JButton oButtonWyczysc = new JButton(new ActionWyczysc());
-		JButton oButtonLosuj = new JButton(new ActionRozmiescLosowoShipsGracza());
+		JButton oButtonZatwierdz = new JButton(new ActionAproveShips());
+		JButton oButtonClear = new JButton(new ActionClear());
+		JButton oButtonLosuj = new JButton(new ActionRandomlyPlacePlayersShips());
 		oButtonContainer.add(oButtonZatwierdz);
 		oButtonContainer.add(oButtonLosuj);
-		oButtonContainer.add(oButtonWyczysc);
-		oPanelPrawy.add(oButtonContainer, BorderLayout.PAGE_END);
-		oPanelPrawy.add(oListaStatkowInfoScroll, BorderLayout.CENTER);
-		add(oPanelPrawy);
+		oButtonContainer.add(oButtonClear);
+		oPanelRight.add(oButtonContainer, BorderLayout.PAGE_END);
+		oPanelRight.add(oShipListInfoScroll, BorderLayout.CENTER);
+		add(oPanelRight);
 		}
 	/**
 	 * Metoda zwraca plansze, na ktorej zaznaczane sa statki.
@@ -264,14 +264,14 @@ public class JPanelMarkingShips
 	 * 
 	 * @return Kontener statkow gracza.
 	 */
-	public ShipIterator getStatki()
+	public ShipIterator getShips()
 		{
 		return oShips;
 		}
 	/**
 	 * Metoda usuwa wszystkie statki umieszczone na planszy.
 	 */
-	public void wyczyscPlansze()
+	public void ClearBoard()
 		{
 		oBoard.clean();
 		}
@@ -280,13 +280,13 @@ public class JPanelMarkingShips
 	 * 
 	 * Wywolywana po zmianie ustawien rozgrywki.
 	 */
-	public void resetujPlansze()
+	public void resetBoard()
 		{
-		//oBoard = new Board(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
+		//oBoard = new Board(oSettings.getBoardWidth(), oSettings.getBoardHeight());
 		try
 			{
-			if (oUstawienia.getBoardWidth() != oBoard.getWidth() || oUstawienia.getBoardHeight() != oBoard.getHeight())
-				oBoard.zmienSize(oUstawienia.getBoardWidth(), oUstawienia.getBoardHeight());
+			if (oSettings.getBoardWidth() != oBoard.getWidth() || oSettings.getBoardHeight() != oBoard.getHeight())
+				oBoard.zmienSize(oSettings.getBoardWidth(), oSettings.getBoardHeight());
 			}
 		catch (ParameterException e)
 			{
@@ -296,8 +296,8 @@ public class JPanelMarkingShips
 	/**
 	 * Metoda aktualizuje panel z informacjami na temat ilosci wymaganych do umieszczenia statkow na planszy. 
 	 */
-	public void resetujOpis()
+	public void resetDescription()
 		{
-		oListaStatkowInfo.odswiez();
+		oShipListInfo.refresh();
 		}
 	}

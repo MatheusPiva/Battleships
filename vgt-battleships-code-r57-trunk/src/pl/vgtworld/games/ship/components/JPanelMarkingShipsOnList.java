@@ -19,11 +19,11 @@ public class JPanelMarkingShipsOnList
 	/**
 	 * Obiekt ustawien, z ktorego sa wczytywane informacje na temat wymaganych statkow.
 	 */
-	private Settings oUstawienia;
+	private Settings oSettings;
 	/**
 	 * Kontener etykiet.
 	 */
-	private ArrayList<JLabel> oEtykiety;
+	private ArrayList<JLabel> oLabels;
 	/**
 	 * Kolor czcionki wyswietlanych informacji.
 	 */
@@ -31,63 +31,63 @@ public class JPanelMarkingShipsOnList
 	/**
 	 * Konstruktor.
 	 * 
-	 * @param oUstawienia Obiekt ustawien glownych gry.
+	 * @param oSettings Obiekt ustawien glownych gry.
 	 */
-	public JPanelMarkingShipsOnList(Settings oUstawienia)
+	public JPanelMarkingShipsOnList(Settings oSettings)
 		{
 		setBackground(Color.BLACK);
 		oTextColor = new Color(230, 230, 230);
-		this.oUstawienia = oUstawienia;
-		oEtykiety = new ArrayList<JLabel>();
+		this.oSettings = oSettings;
+		oLabels = new ArrayList<JLabel>();
 		BoxLayout oLay = new BoxLayout(this, BoxLayout.Y_AXIS);
 		setLayout(oLay);
 		
-		odswiez();
+		refresh();
 		}
 	/**
-	 * Metoda odswieza wyswietlane informacje wczytujac je na nowo z obiektu ustawien.
+	 * Metoda refresha wyswietlane informacje wczytujac je na nowo z obiektu ustawien.
 	 */
-	public void odswiez()
+	public void refresh()
 		{
 		//utworzenie etykiet
-		if (oEtykiety.size() == 0)
+		if (oLabels.size() == 0)
 			{
-			JLabel oEtykieta = new JLabel(JFrameGameWindowSettings.LANG.getProperty("shipPlacement.list.header"));
-			oEtykieta.setForeground(oTextColor);
-			oEtykieta.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-			oEtykiety.add(oEtykieta);
+			JLabel oLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("shipPlacement.list.header"));
+			oLabel.setForeground(oTextColor);
+			oLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+			oLabels.add(oLabel);
 			}
-		int iMaxSize = oUstawienia.getMaxShipSize();
-		int iLinieTekstu = 1;
+		int iMaxSize = oSettings.getMaxShipSize();
+		int iTextLines = 1;
 		int iQuantity;
 		String sText;
 		for (int i = iMaxSize; i >= 1; --i)
 			{
-			iQuantity = oUstawienia.getNumberOfShips(i);
+			iQuantity = oSettings.getNumberOfShips(i);
 			if (iQuantity > 0)
 				{
-				int iKlasaStatku = i > 5 ? 5 : i;
+				int iShipClass = i > 5 ? 5 : i;
 				if (i == 1)
 					sText = JFrameGameWindowSettings.LANG.getProperty("shipPlacement.list.prefix") + " " + JFrameGameWindowSettings.LANG.getProperty("shipName.size1.plural") + " (" + JFrameGameWindowSettings.LANG.getProperty("shipPlacement.list.size") +" 1): ";
 				else
-					sText = JFrameGameWindowSettings.LANG.getProperty("shipPlacement.list.prefix") + " " + JFrameGameWindowSettings.LANG.getProperty("shipName.size" + iKlasaStatku + ".plural") + " (" + JFrameGameWindowSettings.LANG.getProperty("shipPlacement.list.size") + " " + i + "): ";
-				++iLinieTekstu;
-				if (oEtykiety.size() < iLinieTekstu)
+					sText = JFrameGameWindowSettings.LANG.getProperty("shipPlacement.list.prefix") + " " + JFrameGameWindowSettings.LANG.getProperty("shipName.size" + iShipClass + ".plural") + " (" + JFrameGameWindowSettings.LANG.getProperty("shipPlacement.list.size") + " " + i + "): ";
+				++iTextLines;
+				if (oLabels.size() < iTextLines)
 					{
-					JLabel oEtykieta = new JLabel(sText + iQuantity);
-					oEtykieta.setForeground(oTextColor);
-					oEtykieta.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-					oEtykiety.add(oEtykieta);
+					JLabel oLabel = new JLabel(sText + iQuantity);
+					oLabel.setForeground(oTextColor);
+					oLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+					oLabels.add(oLabel);
 					}
 				else
-					oEtykiety.get(iLinieTekstu - 1).setText(sText + iQuantity);
+					oLabels.get(iTextLines - 1).setText(sText + iQuantity);
 				}
 			}
 		
 		//wrzucenie etykiet w panel
 		removeAll();
-		for (int i = 0; i < iLinieTekstu; ++i)
-			add(oEtykiety.get(i));
+		for (int i = 0; i < iTextLines; ++i)
+			add(oLabels.get(i));
 		
 		validate();
 		repaint();

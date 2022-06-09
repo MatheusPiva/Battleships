@@ -5,7 +5,7 @@ import pl.vgtworld.games.ship.ShipIterator;
 /**
  * Najprostrza mozliwa implementacja Ai.<br />
  * 
- * Strzela zawsze w losowo wybrane pole na planszy niezaleznie od tego, czy sa jakies trafione, niezatopione statki.
+ * Strzela zawsze w losowo wybrane pole na board niezaleznie from tego, czy sa jakies trafione, niezatopione statki.
  * 
  * @author VGT
  * @version 1.1

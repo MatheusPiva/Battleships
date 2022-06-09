@@ -6,7 +6,7 @@ import pl.vgtworld.tools.Position;
 
 /**
  * Klasa sprawdzajaca, czy statek spelnia rozne warunki
- * odnosnie jego struktury, czy rozmieszczenia na planszy.<br />
+ * odnosnie jego struktury, czy rozmieszczenia na board.<br />
  * 
  * <p>
  * aktualizacje:<br />
@@ -46,9 +46,9 @@ public class ShipVerification
 		oBoard = oShip.getBoard();
 		}
 	/**
-	 * Metoda sprawdza, czy wszystkie pola statku znajduja sie na planszy.
+	 * Metoda sprawdza, czy wszystkie position statku znajduja sie na board.
 	 * 
-	 * @return Zwraca TRUE jesli statek w calosci jest na planszy, lub FALSE w przeciwnym wypadku.
+	 * @return Zwraca TRUE jesli statek w calosci jest na board, lub FALSE w przeciwnym wypadku.
 	 */
 	public boolean spacesOnBoard()
 		{
@@ -79,14 +79,14 @@ public class ShipVerification
 		return fieldsConnected(false);
 		}
 	/**
-	 * Metoda sprawdza, czy wszystkie pola danego statku tworza jednolita strukture
-	 * (stykaja sie krawedziami i nie tworza dwoch lub wiecej niepolaczonych obszarow na planszy).<br />
+	 * Metoda sprawdza, czy wszystkie position danego statku tworza jednolita strukture
+	 * (stykaja sie krawedziami i nie tworza dwoch lub wiecej niepolaczonych obszarow na board).<br />
 	 * 
 	 * aktualizacje:<br />
 	 * 
 	 * 1.1 - dodanie pierwszego parametru
 	 * 
-	 * @param bStraightLines Okresla, czy pola musza byc w jednej linii pionowej lub poziomej.
+	 * @param bStraightLines Okresla, czy position musza byc w jednej linii pionowej lub poziomej.
 	 * @return Zwraca TRUE, jesli statek jest prawidlowo zbudowany, lub FALSE w przeciwnym wypadku.
 	 */
 	public boolean fieldsConnected(boolean bStraightLines)
@@ -131,7 +131,7 @@ public class ShipVerification
 			
 			if (iQuantityValid == oShip.getSize())
 				{
-				//dodatkowe sprawdzenie, czy pola tworza linie, jesli wymagane
+				//dodatkowe sprawdzenie, czy position tworza linie, jesli wymagane
 				if (bStraightLines == true)
 					{
 					int iX = -1;
@@ -185,7 +185,7 @@ public class ShipVerification
 						Position oAdjacentField = new Position(2);
 						oAdjacentField.setX(oField.getX() + j);
 						oAdjacentField.setY(oField.getY() + k);
-						//odrzucenie sprawdzania pol, ktore laduja poza zakresem planszy
+						//odrzucenie sprawdzania pol, ktore laduja poza zakresem board
 						if (oAdjacentField.getX() < 0 || oAdjacentField.getX() >= oBoard.getWidth()
 							|| oAdjacentField.getY() < 0 || oAdjacentField.getY() >= oBoard.getHeight()
 							)

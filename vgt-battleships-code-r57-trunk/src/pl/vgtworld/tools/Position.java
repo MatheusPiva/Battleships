@@ -27,7 +27,7 @@ public class Position
 	 */
 	int iNumberOfDimensions;
 	/**
-	 * Przechowuje wspolrzedne poszczegolnych wymiarow.
+	 * Przechowuje co-ordinates poszczegolnych wymiarow.
 	 */
 	int[] aDimensions;
 	/**
@@ -59,7 +59,7 @@ public class Position
 	/**
 	 * Metoda zwraca pozycje zapisana na podanym w parametrze wymiarze.
 	 * 
-	 * @param iDimensionNumber Numer wymiaru, dla ktorego ma byc zwrocona Position (liczone od 1).
+	 * @param iDimensionNumber Numer wymiaru, dla ktorego ma byc zwrocona Position (counted from 1).
 	 * @return Zwraca Position obiektu na danym wymiarze.
 	 * @throws ParameterException Wyrzuca wyjatek, jesli przekazany numer wymiaru jest poza zakresem.
 	 */
@@ -121,7 +121,7 @@ public class Position
 	/**
 	 * Metoda zapisuje pozycje w podanym wymiarze.
 	 * 
-	 * @param iDimensionNumber Numer wymiaru, dla ktorego ma byc zapisana Position (liczone od 1).
+	 * @param iDimensionNumber Numer wymiaru, dla ktorego ma byc zapisana Position (counted from 1).
 	 * @param iPosition Position obiektu w danym wymiarze, na ktora ma byc ustawiony.
 	 * @throws ParameterException Wyrzuca wyjatek, jesli przekazany numer wymiaru jest poza zakresem.
 	 */
@@ -183,7 +183,7 @@ public class Position
 	/**
 	 * Metoda przesuwa pozycje na danym wymiarze o dana wartosc.
 	 * 
-	 * @param iDimensionNumber Numer wymiaru, ktorego Position ma byc przesunieta (liczone od 1).
+	 * @param iDimensionNumber Numer wymiaru, ktorego Position ma byc przesunieta (counted from 1).
 	 * @param iOffsetValue Wartosc przesuniecia danego wymiaru.
 	 * @throws ParameterException Wyrzuca wyjatek, jesli numer wymiaru jest poza zakresem.
 	 */

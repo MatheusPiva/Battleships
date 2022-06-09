@@ -18,7 +18,7 @@ import pl.vgtworld.games.ship.FieldTypeBoard;
 import pl.vgtworld.tools.Position;
 
 /**
- * Komponent obslugujacy wyswietlanie planszy.
+ * Komponent obslugujacy wyswietlanie board.
  * 
  * @author VGT
  * @version 1.0
@@ -32,15 +32,15 @@ public class JComponentBoard
 	 */
 	private Board oBoard;
 	/**
-	 * Wlasciwosc przechowujaca informacje, czy na planszy maja byc takze wyswietlane nietrafione pola statkow.
+	 * Wlasciwosc przechowujaca informacje, czy na board maja byc takze wyswietlane nietrafione position statkow.
 	 */
 	private boolean bViewShips;
 	/**
-	 * Kolor pola statku.
+	 * Kolor position statku.
 	 */
 	private Color oShipColor;
 	/**
-	 * Kolor pola po shote niecelnym.
+	 * Kolor position po shote niecelnym.
 	 */
 	private Color oCustomShotColor;
 	/**
@@ -48,7 +48,7 @@ public class JComponentBoard
 	 */
 	private Color oOutOfTargetColor;
 	/**
-	 * Kolor linii siatki rozdzielajacej pola.
+	 * Kolor linii siatki rozdzielajacej position.
 	 */
 	private Color oGridColor;
 	/**
@@ -68,15 +68,15 @@ public class JComponentBoard
 	 */
 	private int iHighlightColorNumber;
 	/**
-	 * Wspolrzedne pola wyswietlanego, jako wyroznione.
+	 * co-ordinates position wyswietlanego, jako wyroznione.
 	 */
 	private Position oHighlightedField;
 	/**
-	 * Obrazek tla planszy.
+	 * Obrazek tla board.
 	 */
 	private static Image oBackgroundImg;
 	/**
-	 * Timer do obslugi animacji wyroznienia pola.
+	 * Timer do obslugi animacji wyroznienia position.
 	 */
 	private Timer oTimer;
 	static
@@ -86,7 +86,7 @@ public class JComponentBoard
 	/**
 	 * Konstruktor.
 	 * 
-	 * @param oBoard Board, ktora ma byc wyswietlona na panelu.
+	 * @param oBoard Board, ktora ma byc wyswietlona na panel.
 	 */
 	public JComponentBoard(Board oBoard)
 		{
@@ -135,9 +135,9 @@ public class JComponentBoard
 		//setPreferredSize(new Dimension(iWidth, iHeight));
 		}
 	/**
-	 * Metoda umozliwia okreslenie, czy panel ma wyswietlac takze nietrafione pola statkow.
+	 * Metoda umozliwia okreslenie, czy panel ma wyswietlac takze nietrafione position statkow.
 	 * 
-	 * @param bStan Jesli TRUE, panel wyswietli nietrafione pola statkow.
+	 * @param bStan Jesli TRUE, panel wyswietli nietrafione position statkow.
 	 */
 	public void setViewShips(boolean bStan)
 		{
@@ -168,7 +168,7 @@ public class JComponentBoard
 		repaint();
 		}
 	/**
-	 * Przeciazona metoda drawaca zawartosc panelu.
+	 * Przeciazona metoda drawaca zawartosc panel.
 	 */
 	@Override public void paintComponent(Graphics g)
 		{
@@ -235,7 +235,7 @@ public class JComponentBoard
 					g.drawLine(oCross2.getX() - iCrossSize, oCross2.getY(), oCross2.getX() + iCrossSize, oCross2.getY());
 					g.drawLine(oCross2.getX(), oCross2.getY() - iCrossSize, oCross2.getX(), oCross2.getY() + iCrossSize);
 					}
-				//zawartosc pola
+				//zawartosc position
 				try
 					{
 					FieldTypeBoard eTyp = oBoard.getField(i, j);
@@ -261,7 +261,7 @@ public class JComponentBoard
 						{
 						g.fillRect(iPositionX, iPositionY, iPositionWidth, iPositionHeight);
 						}
-					//wyroznienie pola
+					//wyroznienie position
 					if (iHighlightColorNumber > 0 && oHighlightedField.getX() == i && oHighlightedField.getY() == j)
 						{
 						if (oBoard.getField(i, j) == FieldTypeBoard.SHIP_BOARD || oBoard.getField(i, j) == FieldTypeBoard.CUSTOMS_SHOT_BOARD)

@@ -15,7 +15,7 @@ abstract public class AiFactory
 	 * 
 	 * @param iDifficultyLevel Liczba z zakresu 1-100 informujaca o oczekiwanym poziomie trudnosci gracza komputerowego.
 	 * @param bStraightLines Okresla, czy statki moga byc tylko pionowymi/poziomymi liniami.
-	 * Informacja jest zapisywana w tworzonym obiekcie Ai, gdyz jest niezbedna przy pozniejszym wyszukiwaniu pol do oshotu.
+	 * Informacja jest zapisywana w tworzonym obiekcie Ai, gdyz jest niezbedna by pozniejszym wyszukiwaniu pol do oshotu.
 	 * @param oShips Kontener statkow nalezacy do generowanego gracza komputerowego.
 	 * @return Zwraca obiekt Ai zawierajacy sztuczna inteligencje gracza komputerowego.
 	 */

@@ -5,7 +5,7 @@ import pl.vgtworld.exceptions.DeveloperException;
 import pl.vgtworld.tools.Position;
 
 /**
- * Klasa zajmujaca sie utworzeniem obiektu kontenera statkow na podstawie dostarczonej planszy z zaznaczonymi polami statkow.
+ * Klasa zajmujaca sie utworzeniem obiektu kontenera statkow na podstawie dostarczonej board z zaznaczonymi positionmi statkow.
  * 
  * @author VGT
  * @version 1.0
@@ -19,11 +19,11 @@ public class ShipGenerator
 	 */
 	private Board oBoard;
 	/**
-	 * Kontener statkow, ktory zostanie utworzony na podstawie dostarczonej planszy.
+	 * Kontener statkow, ktory zostanie utworzony na podstawie dostarczonej board.
 	 */
 	private ShipIterator oShips;
 	/**
-	 * Tablica pomocnicza wczytujaca pozycje wszystkich zaznaczonych pol na planszy.
+	 * Tablica pomocnicza wczytujaca pozycje wszystkich zaznaczonych pol na board.
 	 */
 	private Position[] aShipSpaces;
 	/**
@@ -43,7 +43,7 @@ public class ShipGenerator
 		iNumberOfShipsField = 0;
 		}
 	/**
-	 * Glowna metoda rozpoczynajaca proces tworzenia kontenera statkow na podstawie planszy dostarczonej w konstruktorze.
+	 * Glowna metoda rozpoczynajaca proces tworzenia kontenera statkow na podstawie board dostarczonej w konstruktorze.
 	 * 
 	 * @return Zwraca stworzony kontener statkow.
 	 */
@@ -51,7 +51,7 @@ public class ShipGenerator
 		{
 		try
 			{
-			//wyszukanie na planszy oznaczonych pol i wyczyszczenie planszy
+			//wyszukanie na board oznaczonych pol i wyczyszczenie board
 			findField();
 			//utworzenie kontenera statkow
 			oShips = new ShipIterator(oBoard);
@@ -74,7 +74,7 @@ public class ShipGenerator
 			}
 		}
 	/**
-	 * Metoda wyszukuje na planszy pola statkow.<br />
+	 * Metoda wyszukuje na board position statkow.<br />
 	 * 
 	 * Liste ich pozycji zapisuje do tablicy aShipSpaces, a ilosc pol do iNumberOfShipsField.
 	 * Na koniec czysci takze plansze z oznaczonych pol, aby przygotowac ja do dzialania w ramach tworzonego obiektu kontenera statkow.
@@ -101,7 +101,7 @@ public class ShipGenerator
 						++iNumberOfShipsField;
 						aShipSpaces = aNewList;
 						}
-			//zamazanie pol na planszy
+			//zamazanie pol na board
 			for (int i = 0; i < aShipSpaces.length; ++i)
 				oBoard.setField(aShipSpaces[i].getX(), aShipSpaces[i].getY(), FieldTypeBoard.BOARD_FIELD_EMPTY);
 			}
@@ -111,9 +111,9 @@ public class ShipGenerator
 			}
 		}
 	/**
-	 * Metoda pobiera i usuwa pola z tablicy aShipSpaces starajac sie wygenerowac liste pol pojedynczego statku.<br />
+	 * Metoda pobiera i usuwa position z tablicy aShipSpaces starajac sie wygenerowac liste pol pojedynczego statku.<br />
 	 * 
-	 * Po pobraniu pierwszego pola skanuje liste pozostalych tak dlugo, az uzyska tablice zawierajaca wszystkie polaczone ze soba pola.
+	 * Po pobraniu pierwszego position skanuje liste pozostalych tak dlugo, az uzyska tablice zawierajaca wszystkie positionczone ze soba position.
 	 * 
 	 * @return Zwraca tablice zawierajaca liste pol dla jednego statku.
 	 */
@@ -123,13 +123,13 @@ public class ShipGenerator
 			throw new DeveloperException("No fields on the list");
 		try
 			{
-			//utworzenie tablicy mogacej przechowac liste wszystkich pol aktualnie znajdujacych sie na planszy
+			//utworzenie tablicy mogacej przechowac liste wszystkich pol aktualnie znajdujacych sie na board
 			//(w przyszlosci mozna przerobic na kontener)
 			int iSize = 0;
 			Position[] aField = new Position[ aShipSpaces.length ];
-			//pobranie pierwszego pola z planszy
+			//pobranie pierwszego position z board
 			aField[ iSize++ ] =  getField(0);
-			//petla pobierajaca kolejne pola dopoki jakies sasiadujace sa znajdowane
+			//petla pobierajaca kolejne position dopoki jakies sasiadujace sa znajdowane
 			boolean bNewNeighbor = true;
 			while (bNewNeighbor == true)
 				{
@@ -159,11 +159,11 @@ public class ShipGenerator
 	 * Metoda sprawdza, czy na liscie pol jest pole sasiadujace z przekazanym w parametrze.<br />
 	 * 
 	 * Jesli tak, zwraca jego index w tablicy aShipSpaces.
-	 * Jesli wystepuje wiecej takich pol, zwrocony zostanie index pierwszego znalezionego pola.
-	 * Jesli podane pola nie ma sasiadow, zostanie zwrocona wartosc -1.
+	 * Jesli wystepuje wiecej takich pol, zwrocony zostanie index pierwszego znalezionego position.
+	 * Jesli podane position nie ma sasiadow, zostanie zwrocona wartosc -1.
 	 * 
-	 * @param oPosition Wspolrzedne pola, dla ktorego nalezy szukac sasiadow.
-	 * @return Zwraca index pola sasiadujacego, lub -1, jesli nie znaleziono zadnego.
+	 * @param oPosition co-ordinates position, dla ktorego nalezy szukac sasiadow.
+	 * @return Zwraca index position sasiadujacego, lub -1, jesli nie znaleziono zadnego.
 	 */
 	private int findNeighbor(Position oPosition)
 		{
@@ -182,7 +182,7 @@ public class ShipGenerator
 	/**
 	 * Metoda usuwa z listy pol w aShipSpaces element o podanym indexie i zwraca go.
 	 * 
-	 * @param iIndex Index pola do usuniecia.
+	 * @param iIndex Index position do usuniecia.
 	 * @return Zwraca usuniete pole.
 	 * @throws ParameterException Wyrzuca wyjatek, jesli index znajduje sie poza dostepnym zakresem pol.
 	 */

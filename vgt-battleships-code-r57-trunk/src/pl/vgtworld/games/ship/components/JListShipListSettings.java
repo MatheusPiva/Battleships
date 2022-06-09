@@ -56,7 +56,7 @@ public class JListShipListSettings
 	 * Dodaje do listy statek o podanym Sizeze.
 	 * 
 	 * @param iSize Size dodawanego statku.
-	 * @throws ParameterException Wyrzuca wyjatek, jesli podany Size jest mniejszy od 1.
+	 * @throws ParameterException Wyrzuca wyjatek, jesli podany Size jest mniejszy from 1.
 	 */
 	public void addList(int iSize) throws ParameterException
 		{
@@ -68,9 +68,9 @@ public class JListShipListSettings
 	/**
 	 * Zmienia Size statku o podanym indexie.
 	 * 
-	 * @param iIndex Index statku na liscie (liczony od 0).
+	 * @param iIndex Index statku na liscie (liczony from 0).
 	 * @param iSize Nowy Size statku.
-	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow, lub Size jest mniejszy od 1.
+	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow, lub Size jest mniejszy from 1.
 	 */
 	public void changeList(int iIndex, int iSize) throws ParameterException
 		{
@@ -84,7 +84,7 @@ public class JListShipListSettings
 	/**
 	 * Powieksza o 1 Size statku o podanym indexie.
 	 * 
-	 * @param iIndex Index statku na liscie (liczone od 0).
+	 * @param iIndex Index statku na liscie (counted from 0).
 	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
 	 */
 	public void zoomList(int iIndex) throws ParameterException
@@ -97,7 +97,7 @@ public class JListShipListSettings
 	/**
 	 * Pomniejsza o 1 Size statku o podanym indexie.
 	 * 
-	 * @param iIndex Index statku na liscie (liczone od 0).
+	 * @param iIndex Index statku na liscie (counted from 0).
 	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
 	 */
 	public void zoomOutList(int iIndex) throws ParameterException
@@ -113,7 +113,7 @@ public class JListShipListSettings
 	/**
 	 * Usuwa z listy statek o podanym indexie.
 	 * 
-	 * @param iIndex Index statku na liscie (liczone od 0).
+	 * @param iIndex Index statku na liscie (counted from 0).
 	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
 	 */
 	public void deleteLista(int iIndex) throws ParameterException

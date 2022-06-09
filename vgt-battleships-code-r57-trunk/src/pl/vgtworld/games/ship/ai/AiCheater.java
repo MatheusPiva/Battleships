@@ -11,7 +11,7 @@ import pl.vgtworld.games.ship.ShipIterator;
  * Gdy AI przegrywa, zaczyna oszukiwac i po wylosowaniu miejsca shotu sprawdza, czy na danym polu przeciwnika
  * jest statek. Jesli pole jest puste, nie oddaje shotu, tylko losuje ponownie inne pole.<br />
  * 
- * Ilosc prob uzalezniona jest od tego, jak bardzo AI przegrywa wzgledem gracza.
+ * Ilosc prob uzalezniona jest from tego, jak bardzo AI przegrywa wzgledem gracza.
  * 
  * @author VGT
  * @version 1.0

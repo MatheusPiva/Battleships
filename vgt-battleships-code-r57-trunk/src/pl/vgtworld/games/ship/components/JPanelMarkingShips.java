@@ -23,7 +23,7 @@ import pl.vgtworld.games.ship.Settings;
 import pl.vgtworld.tools.Position;
 
 /**
- * Panel wykorzystywany do obslugi rozmieszczenia statkow na planszy przez gracza.
+ * Panel wykorzystywany do obslugi rozmieszczenia statkow na board przez gracza.
  * 
  * @author VGT
  * @version 1.0
@@ -53,7 +53,7 @@ public class JPanelMarkingShips
 	private JComponentBoard oBoardComponent;
 	/**
 	 * Panel wyswietlajacy informacje na temat ilosci statkow poszczegolnych Sizeow,
-	 * ktore nalezy umiescic na planszy.
+	 * ktore nalezy umiescic na board.
 	 */
 	private JPanelMarkingShipsOnList oShipListInfo;
 	/**
@@ -61,11 +61,11 @@ public class JPanelMarkingShips
 	 */
 	private JPanel oPanelRight;
 	/**
-	 * Obiekt obslugi akcji klikniecia myszki na planszy.
+	 * Obiekt obslugi akcji klikniecia myszki na board.
 	 */
 	private SelectingShipsMouseListener oMouseListener;
 	/**
-	 * Klasa prywatna zawierajaca obsluge akcji wcisniecia przycisku zatwierdzajacego rozmieszczenie statkow na planszy.
+	 * Klasa prywatna zawierajaca obsluge akcji wcisniecia przycisku zatwierdzajacego rozmieszczenie statkow na board.
 	 */
 	private class ActionAproveShips
 		extends AbstractAction
@@ -99,7 +99,7 @@ public class JPanelMarkingShips
 			}
 		}
 	/**
-	 * Klasa prywatna zawierajaca obsluge akcji wcisniecia przycisku usuwajacego wszystkie statki z planszy.
+	 * Klasa prywatna zawierajaca obsluge akcji wcisniecia przycisku usuwajacego wszystkie statki z board.
 	 */
 	private class ActionClear
 		extends AbstractAction
@@ -126,7 +126,7 @@ public class JPanelMarkingShips
 			}
 		}
 	/**
-	 * Klasa prywatna zawierajaca obsluge wcisniecia przycisku rozmieszczajacego statki gracza losowo na planszy.
+	 * Klasa prywatna zawierajaca obsluge wcisniecia przycisku rozmieszczajacego statki gracza losowo na board.
 	 */
 	private class ActionRandomlyPlacePlayersShips
 		extends AbstractAction
@@ -160,7 +160,7 @@ public class JPanelMarkingShips
 			}
 		}
 	/**
-	 * Klasa prywatna zawierajaca obsluge klikniecia gracza na planszy (zaznaczanie/odznaczanie pol statkow).
+	 * Klasa prywatna zawierajaca obsluge klikniecia gracza na board (zaznaczanie/odznaczanie pol statkow).
 	 */
 	private class SelectingShipsMouseListener
 		extends MouseAdapter
@@ -269,14 +269,14 @@ public class JPanelMarkingShips
 		return oShips;
 		}
 	/**
-	 * Metoda usuwa wszystkie statki umieszczone na planszy.
+	 * Metoda usuwa wszystkie statki umieszczone na board.
 	 */
 	public void ClearBoard()
 		{
 		oBoard.clean();
 		}
 	/**
-	 * Metoda zmienia Size planszy na podstawie aktualnego stanu obiektu ustawien.<br />
+	 * Metoda zmienia Size board na podstawie aktualnego stanu obiektu ustawien.<br />
 	 * 
 	 * Wywolywana po zmianie ustawien rozgrywki.
 	 */
@@ -294,7 +294,7 @@ public class JPanelMarkingShips
 			}
 		}
 	/**
-	 * Metoda aktualizuje panel z informacjami na temat ilosci wymaganych do umieszczenia statkow na planszy. 
+	 * Metoda aktualizuje panel z informacjami na temat ilosci wymaganych do umieszczenia statkow na board. 
 	 */
 	public void resetDescription()
 		{

@@ -106,7 +106,7 @@ public class JFrameGameWindowSettings
 	 */
 	private JPanel oButtonsPanel;
 	/**
-	 * Komponent wyswietlany w gornej czesci okna prezentujacy komunikaty na temat wydarzen na planszy poszczegolnych graczy.
+	 * Komponent wyswietlany w gornej czesci okna prezentujacy komunikaty na temat wydarzen na board poszczegolnych graczy.
 	 */
 	private JComponentEvents oEventsComponent;
 	/**
@@ -354,8 +354,8 @@ public class JFrameGameWindowSettings
 	 * 
 	 * @param oGameStatus Obiekt przechowujacy informacje na temat aktualnego statusu gry.
 	 * @param oSettings Obiekt przechowujacy ustawienia dotyczace rozgrywki.
-	 * @param iWidth Width Window gry w pixelach.
-	 * @param iHeight Height okna gry w pixelach.
+	 * @param iWidth Width Window gry w pixel.
+	 * @param iHeight Height okna gry w pixel.
 	 */
 	public JFrameGameWindowSettings(GameStatus oGameStatus, Settings oSettings, int iWidth, int iHeight)
 		{
@@ -487,7 +487,7 @@ public class JFrameGameWindowSettings
 	 * Metoda dodaje do kontenera plansz przekazana w parametrze plansze.
 	 * 
 	 * @param oBoard Board, ktora ma byc wyswietlana w kontenerze plansz.
-	 * @param bViewShips Zmienna okreslajaca, czy na planszy maja byc wyswietlane takze nietrafione pola statkow.
+	 * @param bViewShips Zmienna okreslajaca, czy na board maja byc wyswietlane takze nietrafione position statkow.
 	 */
 	public void addBoards(Board oBoard, boolean bViewShips)
 		{
@@ -499,8 +499,8 @@ public class JFrameGameWindowSettings
 	 * Wersja przeciazona, ktora dodatkowo pozwala przekazac listener klikniec na plansze.
 	 * 
 	 * @param oBoard Board, ktora ma byc wyswietlana w kontenerze plansz.
-	 * @param bViewShips Zmienna okreslajaca, czy na planszy maja byc wyswietlane takze nietrafione pola statkow.
-	 * @param oMouseListener Obiekt obslugi zdarzen klikniec dla dodawanej planszy.
+	 * @param bViewShips Zmienna okreslajaca, czy na board maja byc wyswietlane takze nietrafione position statkow.
+	 * @param oMouseListener Obiekt obslugi zdarzen klikniec dla dodawanej board.
 	 */
 	public void addBoards(Board oBoard, boolean bViewShips, GameplayMouseListener oMouseListener)
 		{
@@ -566,7 +566,7 @@ public class JFrameGameWindowSettings
 		}
 	/**
 	 * Metoda wywolywana przez Window ustawien w przypadku zmian w ustawieniach rozgrywki
-	 * (zmiana Sizei planszy, ilosci i/lub Sizei statkow, poziomu trudnosci).<br />
+	 * (zmiana Sizei board, ilosci i/lub Sizei statkow, poziomu trudnosci).<br />
 	 * 
 	 * Koryguje wymagane obiekty, aby dopasowac je do nowych ustawien i jesli byla rozpoczeta gra, anuluje ja i rozpoczyna nowa.
 	 */
@@ -585,7 +585,7 @@ public class JFrameGameWindowSettings
 	/**
 	 * Metoda tworzy nowa plansze i nowy kontener zawierajacy statki dla gracza i zwraca obiekt kontenera.<br />
 	 * 
-	 * Size planszy, ilosc i Size statkow sa ustalane na podstawie ustawien gry przekazanych w parametrze.
+	 * Size board, ilosc i Size statkow sa ustalane na podstawie ustawien gry przekazanych w parametrze.
 	 * 
 	 * @param oSettings Settings glowne gry.
 	 * @return Zwraca kontener statkow gracza.

@@ -101,7 +101,7 @@ This are the tech stack and tools utilized to develop this project:
 This are the main classes and its funcionalities to the project
 
 </br>
-ships - Consists in the mai functional side od the project
+ships - Consists in the mai functional side of the project
 
 ships.ai - This is the class that cares about the oponnents AI
 

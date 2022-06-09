@@ -7,7 +7,7 @@ import pl.vgtworld.games.ship.ShipIterator;
  * 
  * Strzela w losowo wybrane pole, dopoki nie trafi w statek.
  * Po trafieniu w statek, jesli ma on wiecej pol,
- * sa ostrzeliwane sasiednie pola az do zatopienia statku.
+ * sa ostrzeliwane sasiednie position az do zatopienia statku.
  *  
  * @author VGT
  * @version 1.0

@@ -25,13 +25,13 @@ public abstract class AiGeneric
 	{
 	/**
 	 * Kontener statkow nalezacych do gracza sterowanego przez komputer
-	 * (uzyteczne w bardziej rozbudowanych wersjach AI do ustalania, jak daleko od potencjalnej przegranej jest komputer).
+	 * (uzyteczne w bardziej rozbudowanych wersjach AI do ustalania, jak daleko from potencjalnej przegranej jest komputer).
 	 */
 	protected ShipIterator oShips;
 	/**
-	 * Przechowuje wspolrzedne ostatniego celnego shotu.<br />
+	 * Przechowuje co-ordinates ostatniego celnego shotu.<br />
 	 * 
-	 * Wartosc tego pola nalezy uzupelniac we wszystkich metodach oddajacych shot na plansze przeciwnika.
+	 * Wartosc tego position nalezy uzupelniac we wszystkich metodach oddajacych shot na plansze przeciwnika.
 	 */
 	protected Position oLastHit;
 	/**
@@ -41,7 +41,7 @@ public abstract class AiGeneric
 	 */
 	protected ArrayList<Position> oUsefulHits;
 	/**
-	 * Wlasciwosc okresla, czy statki na planszy moga byc tylko pionowymi/poziomymi liniami (TRUE),
+	 * Wlasciwosc okresla, czy statki na board moga byc tylko pionowymi/poziomymi liniami (TRUE),
 	 * czy tez moga miec dowolne ksztalty (FALSE, domyslnie).
 	 */
 	protected boolean bStraightLines;
@@ -75,7 +75,7 @@ public abstract class AiGeneric
 		bStraightLines = bValue;
 		}
 	/**
-	 * Najprostrza mozliwa implementacja wyboru pola do ostrzelania. Metoda wyszukuje wszystkie pola, na ktore mozna oddac shot
+	 * Najprostrza mozliwa implementacja wyboru position do ostrzelania. Metoda wyszukuje wszystkie position, na ktore mozna oddac shot
 	 * i losowo wybiera jedno z nich.<br />
 	 * 
 	 * Informacje na temat wspolrzednych oddanego shotu sa przekazywane do metody shot() kontenera
@@ -118,16 +118,16 @@ public abstract class AiGeneric
 		{
 		//przygotowanie kontenera przechowujacego do 4 sasiednich pol, ktore nadaja sie do kolejnego shotu
 		ArrayList<Position> oNeighboringFields = new ArrayList<Position>(4);
-		//petla wyszukujaca we wczesniejszych Hitsch pola do oddania kolejnego shotu
+		//petla wyszukujaca we wczesniejszych Hitsch position do oddania kolejnego shotu
 		while (oUsefulHits.size() > 0)
 			{
-			//wylosowanie pola do przetestowania
+			//wylosowanie position do przetestowania
 			int iRandomField = oRand.nextInt(oUsefulHits.size());
 			Position oSelectedField = oUsefulHits.get(iRandomField);
 			
 			try
 				{
-				//wczytanie wspolrzednych 4 sasiadow i sprawdzenie, czy sa to pola puste, lub zawierajace statek
+				//wczytanie wspolrzednych 4 sasiadow i sprawdzenie, czy sa to position puste, lub zawierajace statek
 				for (int i = -1; i <= 1; ++i)
 					for (int j = -1; j <= 1; ++j)
 						if (
@@ -186,9 +186,9 @@ public abstract class AiGeneric
 				
 				if (!oNeighboringFields.isEmpty())
 					{
-					//sa pola prawidlowe do oddania kolejnego shotu
+					//sa position prawidlowe do oddania kolejnego shotu
 					int iRandomlyDrawnNeighbor = oRand.nextInt(oNeighboringFields.size());
-					//oddanie shotu na wspolrzedne weybranego pola
+					//oddanie shotu na co-ordinates weybranego position
 					boolean bshot;
 					bshot = oOpponentShip.shot(oNeighboringFields.get(iRandomlyDrawnNeighbor).getX(), oNeighboringFields.get(iRandomlyDrawnNeighbor).getY());
 					if (bshot == true)
@@ -216,18 +216,18 @@ public abstract class AiGeneric
 		return shotRandom(oOpponentShip);
 		}
 	/**
-	 * Metoda wyszukuje losowo na planszy pole do oddania shotu, jednak jesli wylosowane pole nie zawiera statku,
-	 * nastepuje ponowne losowanie w celu znalezienia lepszego pola do shotu. Dozwolona ilosc powtorzen okresla
+	 * Metoda wyszukuje losowo na board pole do oddania shotu, jednak jesli wylosowane pole nie zawiera statku,
+	 * nastepuje ponowne losowanie w celu znalezienia lepszego position do shotu. Dozwolona ilosc powtorzen okresla
 	 * drugi parametr.<br />
 	 * 
-	 * Jesli w ktorejkolwiek iteracji nastapi wylosowanie pola zawierajacego statek, shot uznaje sie za trafiony
+	 * Jesli w ktorejkolwiek iteracji nastapi wylosowanie position zawierajacego statek, shot uznaje sie za trafiony
 	 * i nie sa wykonywane kolejne iteracje petli.<br />
 	 * 
 	 * Jesli w ostatniej iteracji takze zostanie wylosowane pole puste,
-	 * wspolrzedne tego pola zostaje uznane za wykonany shot i jest on niecelny.
+	 * co-ordinates tego position zostaje uznane za wykonany shot i jest on niecelny.
 	 * 
 	 * @param oOpponentShip Kontener statkow przeciwnika.
-	 * @param iRepeatQuantity Dozwolona ilosc powtorzen losowania pola do oshotu.
+	 * @param iRepeatQuantity Dozwolona ilosc powtorzen losowania position do oshotu.
 	 * @return Zwraca TRUE, w przypadku Hits statku, lub FALSE, jesli shot byl niecelny.
 	 */
 	protected boolean multipleShot(ShipIterator oOpponentShip, int iRepeatQuantity)
@@ -263,10 +263,10 @@ public abstract class AiGeneric
 		throw new DeveloperException();
 		}
 	/**
-	 * Metoda wybiera losowe pole dostepne do ostrzelania na planszy przeciwnika i zwraca obiekt typu Position zawierajacy te wspolrzedne.
+	 * Metoda wybiera losowe pole dostepne do ostrzelania na board przeciwnika i zwraca obiekt typu Position zawierajacy te co-ordinates.
 	 * 
 	 * @param oOpponentBoard Board przeciwnika, na ktora ma byc oddany shot.
-	 * @return Wspolrzedne wylosowanego pola do ostrzelania.
+	 * @return co-ordinates wylosowanego position do ostrzelania.
 	 */
 	private Position drawField(Board oOpponentBoard)
 		{
@@ -274,7 +274,7 @@ public abstract class AiGeneric
 			{
 			Position oRandomlyDrawnField = new Position(2);
 			int iRandomlyDrawnField = oRand.nextInt( oOpponentBoard.getUnknownQuantity() ) + 1;
-			//obliczenie x i y dla wylosowanego pola
+			//obliczenie x i y dla wylosowanego position
 			int iX = 0;
 			int iY = 0;
 			while (iRandomlyDrawnField > 0)

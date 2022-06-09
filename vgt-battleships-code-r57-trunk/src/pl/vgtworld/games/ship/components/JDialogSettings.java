@@ -46,11 +46,11 @@ public class JDialogSettings
 	 */
 	private Settings oSettings;
 	/**
-	 * Slider pozwalajacy ustawic Width planszy.
+	 * Slider pozwalajacy ustawic Width board.
 	 */
 	private JSlider oBoardWidthSlider;
 	/**
-	 * Slider pozwalajacy ustawic Height planszy.
+	 * Slider pozwalajacy ustawic Height board.
 	 */
 	private JSlider oBoardHeightSlider;
 	/**
@@ -58,11 +58,11 @@ public class JDialogSettings
 	 */
 	private JSlider oDifficultyLevel;
 	/**
-	 * Pole Textowe przechowujace Width planszy.
+	 * Pole Textowe przechowujace Width board.
 	 */
 	private JTextField oBoardWidth;
 	/**
-	 * Pole Textowe przechowujace Height planszy.
+	 * Pole Textowe przechowujace Height board.
 	 */
 	private JTextField oBoardHeight;
 	/**
@@ -86,7 +86,7 @@ public class JDialogSettings
 	 */
 	private JCheckBox oSaveSettings;
 	/**
-	 * Klasa prywatna zawierajaca obsluge akcji przesuniecia slidera okreslajacego Width planszy.
+	 * Klasa prywatna zawierajaca obsluge akcji przesuniecia slidera okreslajacego Width board.
 	 */
 	private class ActionWidthSlider
 		implements ChangeListener
@@ -98,7 +98,7 @@ public class JDialogSettings
 			}
 		}
 	/**
-	 * Klasa prywatna zawierajaca obsluge akcji przesuniecia slidera okreslajacego Height planszy.
+	 * Klasa prywatna zawierajaca obsluge akcji przesuniecia slidera okreslajacego Height board.
 	 */
 	private class ActionHeightSlider
 		implements ChangeListener
@@ -196,14 +196,14 @@ public class JDialogSettings
 		super(oMainWindow, true);
 		this.oMainWindow = oMainWindow;
 		this.oSettings = oSettings;
-		//Width planszy
+		//Width board
 		JLabel oBoardWidthLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardWidth"), JLabel.CENTER);
 		oBoardWidthSlider = new JSlider(5, 25, oSettings.getBoardWidth());
 		oBoardWidthSlider.addChangeListener(new ActionWidthSlider());
 		oBoardWidth = new JTextField(5);
 		oBoardWidth.setHorizontalAlignment(JTextField.RIGHT);
 		oBoardWidth.setText(String.valueOf(oBoardWidthSlider.getValue()));
-		//Height planszy
+		//Height board
 		JLabel oBoardHeightLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardHeight"), JLabel.CENTER);
 		oBoardHeightSlider = new JSlider(5, 25, oSettings.getBoardHeight());
 		oBoardHeightSlider.addChangeListener(new ActionHeightSlider());

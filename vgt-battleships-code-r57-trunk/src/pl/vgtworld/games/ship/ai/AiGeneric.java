@@ -221,7 +221,7 @@ public abstract class AiGeneric
 	 * drugi parametr.<br />
 	 * 
 	 * Jesli w ktorejkolwiek iteracji nastapi wylosowanie position zawierajacego statek, shot uznaje sie za trafiony
-	 * i nie sa wykonywane kolejne iteracje petli.<br />
+	 * i nie sa performed kolejne iteracje petli.<br />
 	 * 
 	 * Jesli w ostatniej iteracji takze zostanie wylosowane pole puste,
 	 * co-ordinates tego position zostaje uznane za wykonany shot i jest on niecelny.

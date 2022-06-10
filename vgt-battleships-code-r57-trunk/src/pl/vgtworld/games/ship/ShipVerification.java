@@ -5,30 +5,31 @@ import pl.vgtworld.exceptions.DeveloperException;
 import pl.vgtworld.tools.Position;
 
 /**
- * Klasa sprawdzajaca, czy statek spelnia rozne warunki
- * odnosnie jego struktury, czy rozmieszczenia na board.<br />
- * 
+ * A class that checks whether a ship meets various conditions
+ * regarding its structure or placement on the board. <br />
+ *
  * <p>
- * aktualizacje:<br />
- * 1.1<br />
- * - dodanie parametru bStraightLines do metody {@link #fieldsConnected(boolean)}.<br />
+ * updates: <br />
+ * 1.1 <br />
+ * - added bStraightLines parameter to {@link #fieldsConnected (boolean)} method. <br />
  * </p>
- * 
+ *
  * @author VGT
  * @version 1.1
  */
 public class ShipVerification
 	{
 	/**
-	 * Obiekt statku, ktory bedzie weryfikowany.
+	 * Ship facility to be verified.
 	 */
 	private Ship oShip;
 	/**
-	 * Board, na ktorej znajduje sie weryfikowany statek.
+	 * Board on which the ship has been verified.
+
 	 */
 	private Board oBoard;
 	/**
-	 * Konstruktor domyslny.
+	 * Default constructor.
 	 */
 	public ShipVerification()
 		{
@@ -36,9 +37,9 @@ public class ShipVerification
 		oBoard = null;
 		}
 	/**
-	 * Import statku, dla ktorego maja byc wykonywane testy.
+	 * Import of the vessel for which the tests are to be performed.
 	 * 
-	 * @param oShip Obiekt statku do testow.
+	 * @param oShip Ship facility for testing.
 	 */
 	public void importShip(Ship oShip)
 		{
@@ -46,9 +47,9 @@ public class ShipVerification
 		oBoard = oShip.getBoard();
 		}
 	/**
-	 * Metoda sprawdza, czy wszystkie position statku znajduja sie na board.
+	 * The method checks if all of the ship's positions are on the board.
 	 * 
-	 * @return Zwraca TRUE jesli statek w calosci jest na board, lub FALSE w przeciwnym wypadku.
+	 * @return Returns TRUE if the ship is fully boarded, FALSE otherwise.
 	 */
 	public boolean spacesOnBoard()
 		{
@@ -79,15 +80,15 @@ public class ShipVerification
 		return fieldsConnected(false);
 		}
 	/**
-	 * Metoda sprawdza, czy wszystkie position danego statku tworza jednolita strukture
-	 * (stykaja sie krawedziami i nie tworza dwoch lub wiecej niepolaczonych obszarow na board).<br />
-	 * 
-	 * aktualizacje:<br />
-	 * 
-	 * 1.1 - dodanie pierwszego parametru
-	 * 
-	 * @param bStraightLines Okresla, czy position musza byc w jednej linii pionowej lub poziomej.
-	 * @return Zwraca TRUE, jesli statek jest prawidlowo zbudowany, lub FALSE w przeciwnym wypadku.
+	 * The method checks if all positions of a given vessel form a uniform structure
+	 * (they touch the edges and do not form two or more unconnected areas on the board) <br />
+	 *
+	 * updates: <br />
+	 *
+	 * 1.1 - adding the first parameter
+	 *
+	 * @param bStraightLines Specifies whether positions must be on a single vertical or horizontal line.
+	 * @return Returns TRUE if the ship is properly constructed, FALSE otherwise.
 	 */
 	public boolean fieldsConnected(boolean bStraightLines)
 		{
@@ -99,11 +100,11 @@ public class ShipVerification
 			boolean[] aCorrect = new boolean[ oShip.getSize() ];
 			for (int i = 0; i < oShip.getSize(); ++i)
 				aCorrect[i] = false;
-			//pierwsze pole statku prawidlowe z automatu
+			// the first field of the ship valid from the automat
 			++iQuantityValid;
 			aCorrect[0] = true;
 			boolean bChanges = true;
-			//petla wykonujaca sie dopoki nastepuja jakies zmiany w ilosci prawidlowych pol
+			// loop running until there are any changes to the number of valid fields
 			while (bChanges == true)
 				{
 				bChanges = false;
@@ -131,7 +132,7 @@ public class ShipVerification
 			
 			if (iQuantityValid == oShip.getSize())
 				{
-				//dodatkowe sprawdzenie, czy position tworza linie, jesli wymagane
+				// further checking if position is making lines if required
 				if (bStraightLines == true)
 					{
 					int iX = -1;
@@ -166,9 +167,9 @@ public class ShipVerification
 			}
 		}
 	/**
-	 * Metoda sprawdza, czy ktorekolwiek pole statku styka sie z innym statkiem.
+	 * The method checks if any of a ship's square is in contact with another ship.
 	 * 
-	 * @return Zwraca FALSE, jesli wystapilo zetkniecie z innym statkiem, lub TRUE w przeciwnym wypadku. 
+	 * @return Returns FALSE if there is a contact with another ship, or TRUE otherwise.
 	 */
 	public boolean NoNeighbors()
 		{
@@ -185,7 +186,7 @@ public class ShipVerification
 						Position oAdjacentField = new Position(2);
 						oAdjacentField.setX(oField.getX() + j);
 						oAdjacentField.setY(oField.getY() + k);
-						//odrzucenie sprawdzania pol, ktore laduja poza zakresem board
+						// reject checking any fields that are loading outside the scope board
 						if (oAdjacentField.getX() < 0 || oAdjacentField.getX() >= oBoard.getWidth()
 							|| oAdjacentField.getY() < 0 || oAdjacentField.getY() >= oBoard.getHeight()
 							)

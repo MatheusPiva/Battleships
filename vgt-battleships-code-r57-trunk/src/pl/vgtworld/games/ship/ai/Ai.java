@@ -3,7 +3,7 @@ package pl.vgtworld.games.ship.ai;
 import pl.vgtworld.games.ship.ShipIterator;
 
 /**
- * Interface zawierajacy metody wymagane dla klas AI.
+ * Interface containing methods required for AI classes.
  * 
  * @author VGT
  * @version 1.0
@@ -11,10 +11,10 @@ import pl.vgtworld.games.ship.ShipIterator;
 public interface Ai
 	{
 	/**
-	 * Glowna metoda obslugujaca shot na plansze przeciwnika.
+	 * The main method of handling shots on the opponent's board.
 	 * 
-	 * @param oOpponentShip Kontener statkow przeciwnika.
-	 * @return Zwraca TRUE w przypadku trafenia statku, lub FALSE, jesli shot byl niecelny.
+	 * @param oOpponentShip Enemy ships container.
+	 * @return Returns TRUE if the ship is hit, FALSE if the shot was missed.
 	 */
 	public boolean shot(ShipIterator oOpponentShip);
 	}

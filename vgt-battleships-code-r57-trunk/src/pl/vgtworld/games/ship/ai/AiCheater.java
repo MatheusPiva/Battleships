@@ -3,15 +3,15 @@ package pl.vgtworld.games.ship.ai;
 import pl.vgtworld.games.ship.ShipIterator;
 
 /**
- * Oszukujaca implmentacja interface'u AI.<br />
+ * Cheating AI implementation. <br />
  * 
- * Dopoki komputer wygrywa, lub rozgrwka jest wyrownana, jedyne co AI realizuje, to ostrzeliwanie wczesniej
- * trafionych pol staku, lub strzelanie losowe, jesli zadnych pol trafionych nie ma.<br />
+ * As long as the computer wins, or the game is aligned, all AI does is shoot earlier
+ * No hit squares, or random shooting if there are no hit squares. <br />
  * 
- * Gdy AI przegrywa, zaczyna oszukiwac i po wylosowaniu miejsca shotu sprawdza, czy na danym polu przeciwnika
- * jest statek. Jesli pole jest puste, nie oddaje shotu, tylko losuje ponownie inne pole.<br />
+ * When AI loses, it starts to cheat and, after drawing the place to shoot, it checks to see if the opponent is in the given square
+ * there is a ship. If the field is empty, it does not take the shot, but draws another field again. <br />
  * 
- * Ilosc prob uzalezniona jest from tego, jak bardzo AI przegrywa wzgledem gracza.
+ * The number of attempts depends on how much AI loses to the player.
  * 
  * @author VGT
  * @version 1.0
@@ -21,16 +21,16 @@ public class AiCheater
 	implements Ai
 	{
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 * 
-	 * @param oShips Kontener statkow nalezacych do gracza sterowanego przez dany obiekt Ai.
+	 * @param oShips A container of ships belonging to the player controlled by the given object Ai.
 	 */
 	public AiCheater(ShipIterator oShips)
 		{
 		super(oShips);
 		}
 	/**
-	 * Implementacja metody interface'u Ai.
+	 * Implementation of the Ai interface method.
 	 */
 	public boolean shot(ShipIterator oOpponentShip)
 		{
@@ -40,20 +40,20 @@ public class AiCheater
 			}
 		else
 			{
-			//ustalenie, czy komputer przegrywa
+			//determining if the computer is losing
                         int iAiTotal = oShips.getNumberOfShipsHit() + oShips.getNumberOfUndamagedShips();
                         int iEnemyTotal = oOpponentShip.getNumberOfShipsHit() - oOpponentShip.getNumberOfUndamagedShips();
 			int iDifference = iAiTotal - iEnemyTotal;
 			if (iDifference > 0)
 				{
-				//komputer przegrywa
+				//the computer is losing
 				int iQuantityAllowedTrials;
                                 iQuantityAllowedTrials = (1 + (oOpponentShip.getNumberOfUndamagedShips() - oShips.getNumberOfUndamagedShips()));
 				return multipleShot(oOpponentShip, iQuantityAllowedTrials);
 				}
 			else
 				{
-				//komputer wygrywa
+				//the computer wins
 				return shotRandom(oOpponentShip);
 				}
 			}

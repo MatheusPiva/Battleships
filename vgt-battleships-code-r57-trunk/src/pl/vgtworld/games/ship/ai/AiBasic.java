@@ -3,9 +3,9 @@ package pl.vgtworld.games.ship.ai;
 import pl.vgtworld.games.ship.ShipIterator;
 
 /**
- * Najprostrza mozliwa implementacja Ai.<br />
+ * The simplest possible implementation of Ai. <br />
  * 
- * Strzela zawsze w losowo wybrane pole na board niezaleznie from tego, czy sa jakies trafione, niezatopione statki.
+ * It always shoots a randomly selected space on the board, regardless of whether there are any hit or sunken ships.
  * 
  * @author VGT
  * @version 1.1
@@ -15,16 +15,16 @@ public class AiBasic
 	implements Ai
 	{
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 * 
-	 * @param oShips Kontener statkow nalezacych do gracza sterowanego przez dany obiekt AI.
+	 * @param oShips A container of ships belonging to the player controlled by the given AI object.
 	 */
 	public AiBasic(ShipIterator oShips)
 		{
 		super(oShips);
 		}
 	/**
-	 * Implementacja metody interface'u Ai.
+	 * Implementation of the Ai interface method.
 	 */
 	public boolean shot(ShipIterator oOpponentShip)
 		{

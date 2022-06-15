@@ -6,7 +6,7 @@ import javax.swing.JList;
 import pl.vgtworld.exceptions.ParameterException;
 
 /**
- * Obiekt listy wykorzystany w oknie ustawien do prezentacji listy zdefiniowanych statkow.
+ * List object used in the settings window to present a list of defined ships.
  * 
  * @author VGT
  * @version 1.0
@@ -15,15 +15,15 @@ public class JListShipListSettings
 	extends JList
 	{
 	/**
-	 * Tablica przechowujaca Sizey statkow.
+	 * An array that holds Sizey of ships.
 	 */
 	private ArrayList<Integer> oListInt;
 	/**
-	 * Model listy przechowujacy Sizey statkow.
+	 * List model storing Sizey of ships.
 	 */
 	private DefaultListModel oJListList;
 	/**
-	 * Konstruktor domyslny.
+	 * Constructor default.
 	 */
 	public JListShipListSettings()
 		{
@@ -32,18 +32,18 @@ public class JListShipListSettings
 		setModel(oJListList);
 		}
 	/**
-	 * Zwraca ilosc statkow przechowywana na liscie.
+	 * Returns the number of ships stored in the list.
 	 * 
-	 * @return Ilosc statkow na liscie.
+	 * @return Number of ships on the list.
 	 */
 	public int getNumberOfShips()
 		{
 		return oListInt.size();
 		}
 	/**
-	 * Zwraca tablice int zawierajaca Size wszystkich statkow przechowywanych w liscie.
+	 * Returns an int array containing the Size of all the ships stored in the list.
 	 * 
-	 * @return Tablica z Sizeami statkow przechowywanych w liscie.
+	 * @return An array of the sizes of the ships stored in the list.
 	 */
 	public int[] getShipList()
 		{
@@ -53,10 +53,10 @@ public class JListShipListSettings
 		return aLista;
 		}
 	/**
-	 * Dodaje do listy statek o podanym Sizeze.
+	 * Adds a ship with the given Sizeze to the list.
 	 * 
-	 * @param iSize Size dodawanego statku.
-	 * @throws ParameterException Wyrzuca wyjatek, jesli podany Size jest mniejszy from 1.
+	 * @param iSize The size of the added vessel.
+	 * @throws ParameterException Throws an exception if the supplied Size is less than from 1.
 	 */
 	public void addList(int iSize) throws ParameterException
 		{
@@ -66,11 +66,11 @@ public class JListShipListSettings
 		oJListList.addElement(JListShipListSettings.shipName(iSize));
 		}
 	/**
-	 * Zmienia Size statku o podanym indexie.
+	 * Changes the size of a ship with the given index.
 	 * 
-	 * @param iIndex Index statku na liscie (liczony from 0).
-	 * @param iSize Nowy Size statku.
-	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow, lub Size jest mniejszy from 1.
+	 * @param iIndexShip index on the list (counted from 0).
+	 * @param iSize New Ship Size.
+	 * @throws ParameterException Throws an exception if index is outside the range of the existing ship list, or Size is less from 1.
 	 */
 	public void changeList(int iIndex, int iSize) throws ParameterException
 		{
@@ -82,10 +82,10 @@ public class JListShipListSettings
 		oJListList.set(iIndex, JListShipListSettings.shipName(iSize));
 		}
 	/**
-	 * Powieksza o 1 Size statku o podanym indexie.
+	 * Increases by 1 the Size of the ship of the given index.
 	 * 
-	 * @param iIndex Index statku na liscie (counted from 0).
-	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
+	 * @param iIndex Ship index in the list (counted from 0).
+	 * @throws ParameterException Throws an exception if index is outside the range of the existing ship list.
 	 */
 	public void zoomList(int iIndex) throws ParameterException
 		{
@@ -95,10 +95,10 @@ public class JListShipListSettings
 		oJListList.set(iIndex, JListShipListSettings.shipName(oListInt.get(iIndex)));
 		}
 	/**
-	 * Pomniejsza o 1 Size statku o podanym indexie.
+	 * Reduces by 1 the Size of the ship of the given index.
 	 * 
-	 * @param iIndex Index statku na liscie (counted from 0).
-	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
+	 * @param iIndex Ship index in the list (counted from 0).
+	 * @throws ParameterException Throws an exception if index is outside the range of the existing ship list.
 	 */
 	public void zoomOutList(int iIndex) throws ParameterException
 		{
@@ -111,10 +111,10 @@ public class JListShipListSettings
 			}
 		}
 	/**
-	 * Usuwa z listy statek o podanym indexie.
+	 * Removes a ship with the given index from the list.
 	 * 
-	 * @param iIndex Index statku na liscie (counted from 0).
-	 * @throws ParameterException Wyrzuca wyjatek, jesli index jest poza zakresem istniejacej listy statkow.
+	 * @param iIndex Ship index in the list (counted from 0).
+	 * @throws ParameterException Throws an exception if index is outside the range of the existing ship list.
 	 */
 	public void deleteLista(int iIndex) throws ParameterException
 		{
@@ -124,7 +124,7 @@ public class JListShipListSettings
 		oJListList.remove(iIndex);
 		}
 	/**
-	 * Usuwa z listy wszystkie statki.
+	 * Removes all ships from the list.
 	 */
 	public void clearList()
 		{
@@ -132,10 +132,10 @@ public class JListShipListSettings
 		oJListList.clear();
 		}
 	/**
-	 * Metoda generujaca nazwe statku do wyswietlania na liscie na podstawie podanego Sizeu.
+	 * Method generating the name of the ship to be displayed in the list based on the given Size.
 	 * 
-	 * @param iSize Size statku.
-	 * @return Nazwa statku.
+	 * @param iSize Ship size.
+	 * @return Ship name.
 	 */
 	private static String shipName(int iSize) throws ParameterException
 		{

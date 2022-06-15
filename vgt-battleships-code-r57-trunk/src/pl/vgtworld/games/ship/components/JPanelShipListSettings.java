@@ -19,7 +19,7 @@ import pl.vgtworld.exceptions.DeveloperException;
 
 
 /**
- * Panel zawierajacy narzedzia do zarzadzania lista statkow w ustawieniach.
+ * The panel containing the tools for managing the list of ships in the settings.
  * 
  * @author VGT
  * @version 1.0
@@ -28,11 +28,11 @@ public class JPanelShipListSettings
 	extends JPanel
 	{
 	/**
-	 * Obiekt listy przechowujacy statki.
+	 * List object holding ships.
 	 */
 	private JListShipListSettings oShipList;
 	/**
-	 * Klasa prywatna realizujaca akcje dodania statku.
+	 * A private class that performs the action of adding a ship.
 	 */
 	private class ActionAdd
 		extends AbstractAction
@@ -62,7 +62,7 @@ public class JPanelShipListSettings
 			}
 		}
 	/**
-	 * Klasa prywatna realizujaca akcje usuniecia zaznaczonych statkow.
+	 * A private class that carries out the action of removing the selected ships.
 	 */
 	private class ActionRemove
 		extends AbstractAction
@@ -96,7 +96,7 @@ public class JPanelShipListSettings
 			}
 		}
 	/**
-	 * Klasa prywatna realizujaca akcje powiekszenia Sizeu zaznaczonych statkow.
+	 * A private class that performs the action of increasing the Size of selected ships.
 	 */
 	private class ActionEnlarge
 		extends AbstractAction
@@ -130,14 +130,14 @@ public class JPanelShipListSettings
 			}
 		}
 	/**
-	 * Klasa prywatna realizujaca akcje pomniejszenia Sizeu zaznaczonych statkow.
+	 * Private class carrying out actions to reduce the Size of selected ships.
 	 */
 	private class ActionZoomOut
 		extends AbstractAction
 		{
 		public ActionZoomOut()
 			{
-			//putValue(Action.NAME, "Pomniejsz zaznaczone");
+			//putValue(Action.NAME, "Zoom out selected");
 			putValue(Action.SHORT_DESCRIPTION, JFrameGameWindowSettings.LANG.getProperty("action.settings.shipList.decrease.desc"));
 			URL oImgUrl = getClass().getResource("/pl/vgtworld/games/ship/img/button-down.png");
 			if (oImgUrl == null)
@@ -165,7 +165,7 @@ public class JPanelShipListSettings
 			}
 		}
 	/**
-	 * Konstruktor domyslny.
+	 * The default constructor.
 	 */
 	public JPanelShipListSettings()
 		{
@@ -174,7 +174,7 @@ public class JPanelShipListSettings
 		JLabel oShipListLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.shipList.title"), JLabel.CENTER);
 		oShipList = new JListShipListSettings();
 		JScrollPane oShipListScroll = new JScrollPane(oShipList);
-		//panel przyciskow
+		// button panel
 		JPanel oButtonsPanel = new JPanel();
 		oButtonsPanel.setLayout(new GridLayout(1, 4));
 		oButtonsPanel.add(new JButton(new ActionAdd()));
@@ -187,9 +187,9 @@ public class JPanelShipListSettings
 		add(oButtonsPanel, BorderLayout.PAGE_END);
 		}
 	/**
-	 * Metoda zwracajaca obiekt listy statkow.
+	 * A method that returns a ship list object.
 	 * 
-	 * @return Lista statkow.
+	 * @return Ship list
 	 */
 	public JListShipListSettings getShipList()
 		{

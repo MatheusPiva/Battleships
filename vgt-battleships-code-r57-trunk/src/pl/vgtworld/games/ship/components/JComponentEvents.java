@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 /**
- * Komponent wyswietlajacy informacje o Hitsch i zatopieniach statkow poszczegolnych graczy.
+ * Component that displays information about Hitsch and ship sinks of individual players.
  * 
  * @author VGT
  * @version 1.0
@@ -26,51 +26,51 @@ public class JComponentEvents
 	extends JComponent
 	{
 	/**
-	 * Minimalna i preferowana Width komponentu.
+	 * The minimum and preferred Width of the component.
 	 */
 	private static final int Width = 40;
 	/**
-	 * Minimalna i preferowana Height komponentu.
+	 * The minimum and preferred Height of the component.
 	 */
 	private static final int Height = 40;
 	/**
-	 * Size czcionki wyswietlanych komunikatow.
+	 * Font size of displayed messages.
 	 */
 	private static final int FONT_Size = 30;
 	/**
-	 * Kolor tla komponentu.
+	 * The background color of the component.
 	 */
 	private Color oColorBackground;
 	/**
-	 * Kolor czcionki komunikatow komponentu.
+	 * The color of the component's message font.
 	 */
 	private Color oColorFont;
 	/**
-	 * Obiekt czcionki komunikatow.
+	 * Message font object.
 	 */
 	private Font oFont;
 	/**
-	 * Obiekt komunikatow gracza lewego.
+	 * The left player's messaging object.
 	 */
 	private JLabel oLeftPlayer;
 	/**
-	 * Obiekt komunikatow gracza prawego.
+	 * The right player's messaging object.
 	 */
 	private JLabel oRightPlayer;
 	/**
-	 * Timer ukrywajacy komunikat gracza lewego.
+	 * Timer hiding the message of the left player.
 	 */
 	private Timer oTimerLeft;
 	/**
-	 * Timer ukrywajacy komunikat gracza prawego.
+	 * Timer hiding the message of the right player.
 	 */
 	private Timer oTimerRight;
 	/**
-	 * Tlo graficzne komponentu.
+	 * Component graphic background.
 	 */
 	private Image oBackgroundImg;
 	/**
-	 * Klasa prywatna obslugujaca akcje ukrywania komunikatu dla lewego gracza.
+	 * Private class that handles the action of hiding the message for the left player.
 	 */
 	private class ActionClearLeft
 		extends AbstractAction
@@ -82,7 +82,7 @@ public class JComponentEvents
 			}
 		}
 	/**
-	 * Klasa prywatna obslugujaca akcje ukrywania komunikatu dla prawego gracza.
+	 * Private class that supports the actions of hiding the message for the right player.
 	 */
 	private class ActionClearRight
 		extends AbstractAction
@@ -94,11 +94,11 @@ public class JComponentEvents
 			}
 		}
 	/**
-	 * Konstruktor domyslny.
+	 * Default constructor.
 	 */
 	public JComponentEvents()
 		{
-		//tlo img
+		//background img
 		URL oImgUrl = getClass().getResource("/pl/vgtworld/games/ship/img/events-bg.png");
 		if (oImgUrl != null)
 			{
@@ -143,9 +143,9 @@ public class JComponentEvents
 		add(oRightPlayerContainer);
 		}
 	/**
-	 * Metoda wyswietla komunikat dla lewego gracza i wywoluje timer ukrywajacy komunikat po jednej sekundzie.
+	 * The method displays a message to the left player and triggers a timer to hide the message after one second.
 	 * 
-	 * @param sText Tresc wyswietlanego komunikatu.
+	 * @param sText The content of the displayed message.
 	 */
 	public void setLeftMessage(String sText)
 		{
@@ -153,9 +153,9 @@ public class JComponentEvents
 		oTimerLeft.start();
 		}
 	/**
-	 * Metoda wyswietla komunikat dla prawego gracza i wywoluje timer ukrywajacy komunikat po jednej sekundzie.
+	 * The method displays a message to the right player and triggers a timer to hide the message after one second.
 	 * 
-	 * @param sText Tresc wyswietlanego komunikatu.
+	 * @param sText The content of the displayed message.
 	 */
 	public void setRightMessage(String sText)
 		{
@@ -163,7 +163,7 @@ public class JComponentEvents
 		oTimerRight.start();
 		}
 	/**
-	 * Przeciazona metoda drawaca komponent.
+	 * Overloaded drawac method component.
 	 */
 	@Override public void paintComponent(Graphics g)
 		{

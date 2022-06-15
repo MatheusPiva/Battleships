@@ -31,14 +31,14 @@ public class Position
 	 */
 	int[] aDimensions;
 	/**
-	 * Konstruktor domyslny. Tworzy obiekt o dwoch wymiarach.
+	 * Constructor domyslny. Tworzy obiekt o dwoch wymiarach.
 	 */
 	public Position()
 		{
 		this(2);
 		}
 	/**
-	 * Konstruktor przeciazony pozwalajacy okreslic ilosc wymiarow obiektu.
+	 * Constructor przeciazony pozwalajacy okreslic ilosc wymiarow obiektu.
 	 * 
 	 * @param iNumberOfDimensions Ilosc wymiarow obiektu.
 	 */

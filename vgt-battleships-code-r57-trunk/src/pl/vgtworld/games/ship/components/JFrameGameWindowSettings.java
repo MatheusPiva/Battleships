@@ -48,7 +48,7 @@ import pl.vgtworld.tools.Position;
 //import sun.audio.AudioStream;
 
 /**
- * Glowne Window gry.
+ * Main game Window .
  * 
  * @author VGT
  * @version 1.0
@@ -57,83 +57,83 @@ public class JFrameGameWindowSettings
 	extends JFrame
 	{
 	/**
-	 * Zmienna przechowujaca wersje programu odczytana z Fileu.
+	 * Variable storing the version of the program read from File.
 	 */
 	public static String sVersion;
 	/**
-	 * Stala przechowujaca minimalna Width okna glownego gry.
+	 * Constant that stores the minimum Width of the main game window.
 	 */
 	public static final int MIN_WIDTH = 640;
 	/**
-	 * Stala przechowujaca minimalna Height okna glownego gry.
+	 * Constant that stores the minimum Height of the main game window.
 	 */
 	public static final int MIN_Height = 480;
 	/**
-	 * File jezykowy.
+	 * Language file.
 	 */
 	public static Properties LANG;
 	/**
-	 * Obiekt statusu gry.
+	 * Game status object.
 	 */
 	private GameStatus oGameStatus;
 	/**
-	 * Obiekt ustawien rozgrywki.
+	 * Game setting object.
 	 */
 	private Settings oSettings;
 	/**
-	 * Window ustawien rozgrywki.
+	 * Game settings window.
 	 */
 	private JDialogSettings oWindowSettings;
 	/**
-	 * Window informacji o autorze.
+	 * Author information window.
 	 */
 	private JDialogAbout oWindowAbout;
 	/**
-	 * Menu glownego okna gry.
+	 * Main game window menu.
 	 */
 	private JMenuBar oMenu;
 	/**
-	 * Panel przechowujacy plansze wyswietlany w trakcie gry.
+	 * Panel storing boards displayed during the game.
 	 */
 	private JPanel oBoardPanelContainer;
 	/**
-	 * Panel wyswietlany po rozpoczeciu nowej gry. Realizuje obsluge rozmieszczenia statkow przez gracza.
+	 * The panel displayed after starting a new game. Performs the handling of the deployment of ships by the player.
 	 */
 	private JPanelMarkingShips oShipSelectionPanel;
 	/**
-	 * Panel startowy wyswietlany po uruchomieniu programu zawierajacy przyciski do uruchomienia gry,
-	 * zmiany ustawien i zakonczenia rozgrywki.
+	 * The start panel displayed after starting the program with buttons to start the game,
+	 * change settings and end the game.
 	 */
 	private JPanel oButtonsPanel;
 	/**
-	 * Komponent wyswietlany w gornej czesci okna prezentujacy komunikaty na temat wydarzen na planszy poszczegolnych graczy.
+	 * Component displayed at the top of the window presenting messages about board events of individual players.
 	 */
 	private JComponentEvents oEventsComponent;
 	/**
-	 * Komponent wyswietlany w dolnej czesci okna prezentujacy informacje na temat stanu aktualnej rozgrywki.
+	 * Component displayed at the bottom of the window that presents information about the current game state.
 	 */
 	private JComponentGameStatus oGameStatusComponent;
 	/**
-	 * Kontener statkow gracza.
+	 * The player's ship container.
 	 */
 	private ShipIterator oPlayerShips;
 	/**
-	 * Kontener statkow komputera.
+	 * Computer vessel container.
 	 */
 	private ShipIterator oComputerShips;
 	/**
-	 * Sztuczna inteligencja komputera.
+	 * Artificial computer intelligence.
 	 */
 	private Ai oAi;
 	/**
-	 * Zmienna okreslajaca, czy jest kolej gracza na oddanie shotu.<br />
-	 * 
-	 * Wykorzystywana w celu zablokowania oddania shotu, gdy jest kolej komputera, lub gra zakonczyla sie
-	 * zwyciestwem ktoregos gracza.
+	 * Variable whether it is the player's turn to take the shot. <br />
+	 *
+	 * Used to prevent a shot from being taken when it is the computer's turn or the game is over
+	 * victory of some player.
 	 */
 	private boolean bPlayerTurn;
 	/**
-	 * Klasa prywatna zawierajaca obsluge akcji rozpoczecia nowej rozgrywki.
+	 * A private class containing action handlers to start a new game.
 	 */
 	private class ActionNewGame
 		extends AbstractAction
@@ -155,7 +155,7 @@ public class JFrameGameWindowSettings
 			}
 		}
 	/**
-	 * Klasa prywatna zawierajaca obsluge akcji wywolania okna ustawien rozgrywki.
+	 * Private class that handles the action of calling the game settings window.
 	 */
 	private class ActionSettings
 		extends AbstractAction
@@ -172,7 +172,7 @@ public class JFrameGameWindowSettings
 			}
 		}
 	/**
-	 * Klasa prywatna zawierajaca obsluge akcji zakonczenia programu.
+	 * Private class containing the program termination action handler.
 	 */
 	private class ActionFinish
 		extends AbstractAction
@@ -188,7 +188,7 @@ public class JFrameGameWindowSettings
 			}
 		}
 	/**
-	 * Klasa prywatna zawierajaca obsluge akcji wyswietlenia okna informacji o autorze.
+	 * Private class that handles the display of the author info window.
 	 */
 	private class ActionAbout
 		extends AbstractAction
@@ -205,10 +205,10 @@ public class JFrameGameWindowSettings
 			}
 		}
 	/**
-	 * Klasa prywatna obslugujaca przebieg pojedynczego cyklu rozgrywki.<br />
+	 * A private class that supports the course of a single game cycle. <br />
 	 * 
-	 * - oddanie shotu przez gracza poprzez klikniecie na plansze komputera realizowane przez metode mousePressed().<br />
-	 * - oddanie shotu przez komputer na plansze gracza wywolywane z metody actionPerformed() za pomoca timera.
+	 * - giving the shot by the player by clicking on the computer board performed by the mousePressed () method. <br />
+	 * - sending a shot by the computer to the player's board called by the actionPerformed () method using a timer.
 	 */
 	private class GameplayMouseListener
 		extends MouseAdapter
@@ -258,12 +258,12 @@ public class JFrameGameWindowSettings
 					bPlayerTurn = false;
 					int iQuantitySunkenBeforeShot = oComputerShips.getNumberOfUndamagedShips();
 					
-					//shot na plansze komputera
+					//shot on a computer board
 					boolean bHit;
 					bHit = oComputerShips.shot(oClickedField.getX(), oClickedField.getY());
 					JComponentBoard oBoardComponent = (JComponentBoard)oBoardPanelContainer.getComponent(1);
 					oBoardComponent.activateHighlight(oClickedField);
-					//obsluga sprawdzania, czy koniec gry
+					//support for checking if game over
 					if (bHit == true && oComputerShips.getNumberOfShips() == oComputerShips.getNumberOfUndamagedShips())
 						{
 						oGameStatus.playerVictory();
@@ -305,11 +305,11 @@ public class JFrameGameWindowSettings
 		public void actionPerformed(ActionEvent oEvent)
 			{
 			int iQuantitySunkenBeforeShot = oPlayerShips.getNumberOfUndamagedShips();
-			//shot na plansze gracza
+			// shot on the player's board
 			boolean bHit = oAi.shot(oPlayerShips);
 			JComponentBoard oBoardComponent = (JComponentBoard)oBoardPanelContainer.getComponent(0);
 			oBoardComponent.activateHighlight(oPlayerShips.getLastShot());
-			//obsluga sprawdzania, czy koniec gry
+			// handle checking if game over
 			if (bHit == true && oPlayerShips.getNumberOfShips() == oPlayerShips.getNumberOfUndamagedShips())
 				{
 				oGameStatus.computerVictory();
@@ -340,22 +340,22 @@ public class JFrameGameWindowSettings
 			}
 		}
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 * 
-	 * @param oGameStatus Obiekt przechowujacy informacje na temat aktualnego statusu gry.
-	 * @param oSettings Obiekt przechowujacy ustawienia dotyczace rozgrywki.
+	 * @param oGameStatus Object that stores information about the current status of the game.
+	 * @param oSettings Object that stores game settings.
 	 */
 	public JFrameGameWindowSettings(GameStatus oGameStatus, Settings oSettings)
 		{
 		this(oGameStatus, oSettings, MIN_WIDTH, MIN_Height);
 		}
 	/**
-	 * konstruktor przeciazaony pozwalajacy zdefiniowac Size okna gry.
+	 * Overloaded constructor allowing to define the Size of the game window.
 	 * 
-	 * @param oGameStatus Obiekt przechowujacy informacje na temat aktualnego statusu gry.
-	 * @param oSettings Obiekt przechowujacy ustawienia dotyczace rozgrywki.
-	 * @param iWidth Width Window gry w pixelach.
-	 * @param iHeight Height okna gry w pixelach.
+	 * @param oGameStatus Object that stores information about the current status of the game.
+	 * @param oSettings Object that stores game settings.
+	 * @param iWidth Width Window games w pixel.
+	 * @param iHeight Height okna games w pixel.
 	 */
 	public JFrameGameWindowSettings(GameStatus oGameStatus, Settings oSettings, int iWidth, int iHeight)
 		{
@@ -414,23 +414,23 @@ public class JFrameGameWindowSettings
 			oWindowAbout.rebuild();
 			}
 		
-		//panel z planszami graczy
+		//panel with player boards
 		oBoardPanelContainer = new JPanel();
 		oBoardPanelContainer.setLayout(new GridLayout());
 		if (oGameStatus.getGameLaunched() == true && oGameStatus.getShipsArranged() == true)
 			add(oBoardPanelContainer, BorderLayout.CENTER);
 		
-		//panel z plansza do zaznaczania statkow po rozpoczeciu gry
+		//panel with the board for selecting ships after the start of the game
 		oShipSelectionPanel = new JPanelMarkingShips(oSettings, this);
 		if (oGameStatus.getGameLaunched() == true && oGameStatus.getShipsArranged() == false)
 			add(oShipSelectionPanel, BorderLayout.CENTER);
 		
-		//obiekty akcji
+		//action objects
 		ActionNewGame oActionNewGame = new ActionNewGame();
 		ActionFinish oActionFinish = new ActionFinish();
 		ActionSettings oActionSettings = new ActionSettings();
 		
-		//panel zastepujacy plansze przed rozpoczeciem rozgrywki
+		//panel replacing the board before the game starts
 		oButtonsPanel = new JPanel();
 		oButtonsPanel.setBackground(Color.BLACK);
 		//oButtonsPanel.setLayout(new GridLayout());
@@ -443,11 +443,11 @@ public class JFrameGameWindowSettings
 		if (oGameStatus.getGameLaunched() == false)
 			add(oButtonsPanel, BorderLayout.CENTER);
 		
-		//obszar rysowania wydarzen
+		//event draw area
 		oEventsComponent = new JComponentEvents();
 		add(oEventsComponent, BorderLayout.PAGE_START);
 		
-		//obszar rysowania statusu gry
+		//game status drawing area
 		oGameStatusComponent = new JComponentGameStatus(this.oGameStatus);
 		add(oGameStatusComponent, BorderLayout.PAGE_END);
 		
@@ -455,7 +455,7 @@ public class JFrameGameWindowSettings
 		oMenu = new JMenuBar();
 		setJMenuBar(oMenu);
 		
-		//menu "statki"
+		//menu "ships"
 		JMenu oShipsMenu = new JMenu(JFrameGameWindowSettings.LANG.getProperty("menu.game"));
 		JMenuItem oShipsMenuNew = new JMenuItem(oActionNewGame);
 		JMenuItem oShipsMenuClose = new JMenuItem(oActionFinish);
@@ -463,7 +463,7 @@ public class JFrameGameWindowSettings
 		oShipsMenu.add(oShipsMenuClose);
 		oMenu.add(oShipsMenu);
 
-		//menu "opcje"
+		//menu "options"
 		JMenu oOptionsMenu = new JMenu(JFrameGameWindowSettings.LANG.getProperty("menu.options"));
 		JMenuItem oOptionsMenuConf = new JMenuItem(oActionSettings);
 		oOptionsMenu.add(oOptionsMenuConf);
@@ -475,32 +475,32 @@ public class JFrameGameWindowSettings
 		oHelpMenu.add(oHelpMenuAbout);
 		oMenu.add(oHelpMenu);
 		
-		//mapa wejsc
+		//map enter
 		InputMap oIMap = oButtonsPanel.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 		oIMap.put(KeyStroke.getKeyStroke("F2"), "action.NewGame");
 		
-		//mapa akcji
+		//map share
 		ActionMap oAMap = oButtonsPanel.getActionMap();
 		oAMap.put("action.NewGame", oActionNewGame);
 		}
 	/**
-	 * Metoda dodaje do kontenera plansz przekazana w parametrze plansze.
+	 * The method adds charts provided in the charts parameter to the container.
 	 * 
-	 * @param oBoard Board, ktora ma byc wyswietlana w kontenerze plansz.
-	 * @param bViewShips Zmienna okreslajaca, czy na planszy maja byc wyswietlane takze nietrafione pola statkow.
+	 * @param oBoard Board to be displayed in the board container.
+	 * @param bViewShips Variable whether or not missed ship positions are to be displayed on board.
 	 */
 	public void addBoards(Board oBoard, boolean bViewShips)
 		{
 		addBoards(oBoard, bViewShips, null);
 		}
 	/**
-	 * Metoda dodaje do kontenera plansz przekazana w parametrze plansze.<br />
+	 * The method adds the boards passed in the boards parameter to the container. <br />
 	 * 
-	 * Wersja przeciazona, ktora dodatkowo pozwala przekazac listener klikniec na plansze.
+	 * The overloaded version, which additionally allows you to pass the listener of clicks to the board.
 	 * 
-	 * @param oBoard Board, ktora ma byc wyswietlana w kontenerze plansz.
-	 * @param bViewShips Zmienna okreslajaca, czy na planszy maja byc wyswietlane takze nietrafione pola statkow.
-	 * @param oMouseListener Obiekt obslugi zdarzen klikniec dla dodawanej planszy.
+	 * @param oBoard Board to be displayed in the board container.
+	 * @param bViewShips Variable whether or not missed ship positions are to be displayed on board.
+	 * @param oMouseListener Click event handler object for the added board.
 	 */
 	public void addBoards(Board oBoard, boolean bViewShips, GameplayMouseListener oMouseListener)
 		{
@@ -515,7 +515,7 @@ public class JFrameGameWindowSettings
 		oBoardPanelContainer.add(oBoardComponent);
 		}
 	/**
-	 * Metoda wywolywana przez panel rozmieszczania statkow, po tym jak zostanie zatwierdzone prawidlowe rozmieszczenie statkow gracza.
+	 * Method called by the ship placement panel after the player has confirmed the correct placement of the player's ships.
 	 */
 	public void startGameplay()
 		{
@@ -565,10 +565,10 @@ public class JFrameGameWindowSettings
 			}
 		}
 	/**
-	 * Metoda wywolywana przez Window ustawien w przypadku zmian w ustawieniach rozgrywki
-	 * (zmiana Sizei planszy, ilosci i/lub Sizei statkow, poziomu trudnosci).<br />
-	 * 
-	 * Koryguje wymagane obiekty, aby dopasowac je do nowych ustawien i jesli byla rozpoczeta gra, anuluje ja i rozpoczyna nowa.
+	 * The method called by the Settings Window when there are changes to the game settings
+	 * (change of board size, number and / or size of ships, difficulty level) <br />
+	 *
+ 	 * Corrects the required objects to match the new settings and if a game was started, cancels it and starts a new one.
 	 */
 	public void changeSettings()
 		{
@@ -583,12 +583,12 @@ public class JFrameGameWindowSettings
 			}
 		}
 	/**
-	 * Metoda tworzy nowa plansze i nowy kontener zawierajacy statki dla gracza i zwraca obiekt kontenera.<br />
+	 * The method creates a new board and a new container containing the player's ships and returns the container object. <br />
+	 *
+	 * The size board, the number and the Size of the ships are determined by the game settings given in the parameter.
 	 * 
-	 * Size planszy, ilosc i Size statkow sa ustalane na podstawie ustawien gry przekazanych w parametrze.
-	 * 
-	 * @param oSettings Settings glowne gry.
-	 * @return Zwraca kontener statkow gracza.
+	 * @param oSettings Main game settings.
+	 * @return Returns the player's ship container.
 	 */
 	public static ShipIterator generatePlayer(Settings oSettings)
 		{

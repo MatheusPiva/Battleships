@@ -5,16 +5,16 @@ import pl.vgtworld.exceptions.ParameterException;
 import pl.vgtworld.exceptions.DeveloperException;
 
 /**
- * Klasa sluzaca do obslugi pozycji w n-wymiarowym zakresie wspolrzednych.<br />
- * 
+ * A class to handle positions in the n-dimensional coordinate range. <br />
+ *
  * <p>
- * aktualizacje:<br />
- * 1.2.1<br />
- * - poprawki w dokumentacji<br />
- * 1.2<br />
- * - dodanie metod {@link #getZ()}, {@link #setZ(int)}, {@link #przesunZ(int)}, {@link #clone()}<br />
- * 1.1<br />
- * - dodanie obslugi wyjatkow w przypadku odwolywania sie do wymiarow poza zakresem<br />
+ * updates: <br />
+ * 1.2.1 <br />
+ * - documentation fixes <br />
+ * 1.2 <br />
+ * - adding methods {@link #getZ ()}, {@link #setZ (int)}, {@link #przesunZ (int)}, {@link #clone ()} <br />
+ * 1.1 <br />
+ * - added support for exceptions when referencing dimensions outside the range <br />
  * </p>
  * 
  * @author VGT
@@ -23,24 +23,24 @@ import pl.vgtworld.exceptions.DeveloperException;
 public class Position
 	{
 	/**
-	 * Przechowuje informacje o ilosci wymiarow danej instancji obiektu.
+	 * It stores information about the number of dimensions of a given object instance.
 	 */
 	int iNumberOfDimensions;
 	/**
-	 * Przechowuje wspolrzedne poszczegolnych wymiarow.
+	 * It stores the co-ordinates of the various dimensions.
 	 */
 	int[] aDimensions;
 	/**
-	 * Konstruktor domyslny. Tworzy obiekt o dwoch wymiarach.
+	 * The default constructor. Creates an object with two dimensions.
 	 */
 	public Position()
 		{
 		this(2);
 		}
 	/**
-	 * Konstruktor przeciazony pozwalajacy okreslic ilosc wymiarow obiektu.
+	 * Constructor overloaded allowing to define the number of dimensions of the object.
 	 * 
-	 * @param iNumberOfDimensions Ilosc wymiarow obiektu.
+	 * @param iNumberOfDimensions The number of dimensions of the object.
 	 */
 	public Position(int iNumberOfDimensions)
 		{
@@ -50,18 +50,18 @@ public class Position
 			aDimensions[ i ] = 0;
 		}
 	/**
-	 * Przeslonieta wersja metody toString().
+	 * Obscured version of the toString () method.
 	 */
 	@Override public String toString()
 		{
 		return Arrays.toString(aDimensions);
 		}
 	/**
-	 * Metoda zwraca pozycje zapisana na podanym w parametrze wymiarze.
+	 * The method returns the position written on the dimension specified in the parameter.
 	 * 
-	 * @param iDimensionNumber Numer wymiaru, dla ktorego ma byc zwrocona Position (liczone od 1).
-	 * @return Zwraca Position obiektu na danym wymiarze.
-	 * @throws ParameterException Wyrzuca wyjatek, jesli przekazany numer wymiaru jest poza zakresem.
+	 * @param iDimensionNumber Number of the dimension on which to return Position (counted from 1).
+	 * @return Returns the Position of the object on the given dimension.
+	 * @throws ParameterException Throws an exception if the passed dimension number is out of range.
 	 */
 	public int getDimension(int iDimensionNumber) throws ParameterException
 		{
@@ -70,9 +70,9 @@ public class Position
 		return aDimensions[ iDimensionNumber - 1 ];
 		}
 	/**
-	 * Uproszczona wersja metody {@link #getDimension(int)} zwracajaca pozycje pierwszego wymiaru.
+	 * A simplified version of the {@link #getDimension (int)} method that returns the positions of the first dimension.
 	 * 
-	 * @return Zwraca pozycje pierwszego wymiaru.
+	 * @return Returns the positions of the first dimension.
 	 */
 	public int getX()
 		{
@@ -86,9 +86,9 @@ public class Position
 			}
 		}
 	/**
-	 * Uproszczona wersja metody {@link #getDimension(int)} zwracajaca pozycje drugiego wymiaru.
-	 * 
-	 * @return Zwraca pozycje drugiego wymiaru.
+	 * A simplified version of the {@link #getDimension (int)} method that returns the positions of the second dimension.
+	 *
+	 * @return Returns the positions of the second dimension.
 	 */
 	public int getY()
 		{
@@ -102,10 +102,10 @@ public class Position
 			}
 		}
 	/**
-	 * Uproszczona wersja metody {@link #getDimension(int)} zwracajaca pozycje trzeciego wymiaru.
+	 * A simplified version of the {@link #getDimension (int)} method that returns the items of the third dimension.
 	 * 
 	 * @since 1.2
-	 * @return Zwraca pozycje trzeciego wymiaru.
+	 * @return Returns the positions of the third dimension.
 	 */
 	public int getZ()
 		{
@@ -119,11 +119,11 @@ public class Position
 			}
 		}
 	/**
-	 * Metoda zapisuje pozycje w podanym wymiarze.
+	 * The method saves the items in the given dimension.
 	 * 
-	 * @param iDimensionNumber Numer wymiaru, dla ktorego ma byc zapisana Position (liczone od 1).
-	 * @param iPosition Position obiektu w danym wymiarze, na ktora ma byc ustawiony.
-	 * @throws ParameterException Wyrzuca wyjatek, jesli przekazany numer wymiaru jest poza zakresem.
+	 * @param iDimensionNumber Dimension number for which Position is to be written (counted from 1).
+	 * @param The iPosition Position of the object in the given dimension to which it should be positioned.
+	 * @throws ParameterException Throws an exception if the passed dimension number is out of range.
 	 */
 	public void setDimension(int iDimensionNumber, int iPosition) throws ParameterException
 		{
@@ -132,10 +132,8 @@ public class Position
 		aDimensions[ iDimensionNumber - 1 ] = iPosition;
 		}
 	/**
-	 * Uproszczona wersja metody {@link #setDimension(int, int)} ustawiajaca pozycje dla pierwszego wymiaru.
-	 * 
-	 * @param iPosition Position obiektu w pierwszym wymiarze.
-	 */
+	 * A simplified version of the {@link #setDimension (int, int)} method that sets positions for the first dimension.	 * 
+	 * @param iPosition Position of the object in the first dimension.	 */
 	public void setX(int iPosition)
 		{
 		try
@@ -148,9 +146,9 @@ public class Position
 			}
 		}
 	/**
-	 * Uproszczona wersja metody {@link #setDimension(int, int)} ustawiajaca pozycje dla drugiego wymiaru.
-	 * 
-	 * @param iPosition Position obiektu w drugim wymiarze.
+	* A simplified version of the {@link #setDimension (int, int)} method that sets positions for the second dimension.
+	*
+	* @param iPosition Position of the object in the second dimension.
 	 */
 	public void setY(int iPosition)
 		{
@@ -164,10 +162,10 @@ public class Position
 			}
 		}
 	/**
-	 * Uproszczona wersja metody {@link #setDimension(int, int)} ustawiajaca pozycje dla trzeciego wymiaru.
-	 * 
+	 * A simplified version of the {@link #setDimension (int, int)} method that sets positions for the third dimension.
+	 *
 	 * @since 1.2
-	 * @param iPosition Position obiektu w trzecim wymiarze.
+	 * @param iPosition Position of an object in the third dimension.
 	 */
 	public void setZ(int iPosition)
 		{
@@ -181,11 +179,11 @@ public class Position
 			}
 		}
 	/**
-	 * Metoda przesuwa pozycje na danym wymiarze o dana wartosc.
-	 * 
-	 * @param iDimensionNumber Numer wymiaru, ktorego Position ma byc przesunieta (liczone od 1).
-	 * @param iOffsetValue Wartosc przesuniecia danego wymiaru.
-	 * @throws ParameterException Wyrzuca wyjatek, jesli numer wymiaru jest poza zakresem.
+	 * The method moves positions on a given dimension by a given value.
+	 *
+	 * @param iDimensionNumber Number of the dimension whose Position is to be shifted (counted from 1).
+	 * @param iOffsetValue Value of the dimension's offset.
+	 * @throws ParameterException Throws an exception if the dimension number is out of range.
 	 */
 	public void shiftDimension(int iDimensionNumber, int iOffsetValue) throws ParameterException
 		{
@@ -194,9 +192,9 @@ public class Position
 		aDimensions[ iDimensionNumber - 1 ]+= iOffsetValue;
 		}
 	/**
-	 * Uproszczona wersja metody {@link #shiftDimension(int, int)} pozwalajaca przesunac pozycje obiektu na pierwszym wymiarze.
-	 * 
-	 * @param iOffsetValue Wartosc przesuniecia pozycji na pierwszym wymiarze.
+	 * A simplified version of the {@link #shiftDimension (int, int)} method that allows you to shift the position of the object on the first dimension.
+	 *
+	 * @param iOffsetValue Value to offset the position on the first dimension.
 	 */
 	public void shiftX(int iOffsetValue)
 		{
@@ -210,9 +208,9 @@ public class Position
 			}
 		}
 	/**
-	 * Uproszczona wersja metody {@link #shiftDimension(int, int)} pozwalajaca przesunac pozycje obiektu na drugim wymiarze.
-	 * 
-	 * @param iOffsetValue Wartosc przesuniecia pozycji na drugim wymiarze.
+	 * A simplified version of the {@link #shiftDimension (int, int)} method that allows you to shift the position of the object on the second dimension.
+ 	 *
+	 * @param iOffsetValue Value to offset the position on the second dimension.
 	 */
 	public void shiftY(int iOffsetValue)
 		{
@@ -226,10 +224,10 @@ public class Position
 			}
 		}
 	/**
-	 * Uproszczona wersja metody {@link #shiftDimension(int, int)} pozwalajaca przesunac pozycje obiektu na trzecim wymiarze.
-	 * 
+	 * A simplified version of the {@link #shiftDimension (int, int)} method that allows you to shift the position of an object on the third dimension.
+ 	 *
 	 * @since 1.2
-	 * @param iOffsetValue Wartosc przesuniecia pozycji na trzecim wymiarze.
+	 * @param iOffsetValue Value to offset the position on the third dimension.
 	 */
 	public void przesunZ(int iOffsetValue)
 		{
@@ -243,10 +241,10 @@ public class Position
 			}
 		}
 	/**
-	 * Przeslonieta wersja metody klasy Object tworzaca kopie obiektu.
-	 * 
+	 * Obscured version of the Object class method that creates a copy of the object.
+	 *
 	 * @since 1.2
-	 * @return Zwraca referencje do utworzonej kopii obiektu.
+	 * @return Returns a reference to the created copy of the object.
 	 */
 	@Override public Object clone()
 		{
@@ -263,11 +261,11 @@ public class Position
 		return oRef;
 		}
 	/**
-	 * Przeslonieta wersja metody klasy Object porownujaca dwa obiekty Position.
-	 * 
-	 * @param oObj Obiekt do porownania.
-	 * @return Zwraca TRUE, jesli obydwa obiekty sa tego samego typu, maja taka sama ilosc wymiarow
-	 * i takie same pozycje na wszystkich wymiarach, w przeciwnym wypadku zwraca FALSE. 
+	 * Obscured version of the Object class method that compares two Position objects.
+	 *
+	 * @param oObj Object to compare.
+	 * @return Returns TRUE if both objects are of the same type and have the same number of dimensions
+	 * and the same positions in all dimensions, otherwise returns FALSE. 
 	 */
 	@Override public boolean equals(Object oObj)
 		{

@@ -187,6 +187,7 @@ public class Board
 	 * @param iHeight The new height of the board.
 	 * @throws ParameterException Throws an exception if the given width and / or height is less than 1.
 	 */
+	 //TODO zmienSize
 	public void zmienSize(int iWidth, int iHeight) throws ParameterException
 		{
 		if (iWidth < 1)

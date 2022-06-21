@@ -17,7 +17,7 @@ import pl.vgtworld.games.ship.ShipIterator;
 import pl.vgtworld.games.ship.GameStatus;
 
 /**
- * Komponent wyswietlajacy aktualne statystyki rozgrywki pod planszami.
+ * Component that displays the current gameplay statistics under the boards.
  * 
  * @author VGT
  * @version 1.0
@@ -40,9 +40,9 @@ public class JComponentGameStatus
 	private JLabel oComputerPoints;
 	private Image oBackgroundImg;
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 * 
-	 * @param oGameStatus Obiekt zawierajacy informacje na temat aktualnego statusu gry.
+	 * @param oGameStatus Object containing information about the current status of the game.
 	 */
 	public JComponentGameStatus(GameStatus oGameStatus)
 		{
@@ -54,7 +54,7 @@ public class JComponentGameStatus
 		oComputerShips = null;
 		Font oFontLabels = new Font("Arial", Font.BOLD, FONT_SIZE_LABEL);
 		Font oFontValues = new Font("Arial", Font.BOLD, FONT_SIZE_VALUES);
-		//tlo img
+		//Background img
 		URL oImgUrl = getClass().getResource("/pl/vgtworld/games/ship/img/game-status-bg.png");
 		if (oImgUrl != null)
 			{
@@ -76,7 +76,7 @@ public class JComponentGameStatus
 		JLabel oComputerLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("gameStatus.AI"), JLabel.CENTER);
 		JLabel oLabelScore = new JLabel(JFrameGameWindowSettings.LANG.getProperty("gameStatus.points"), JLabel.CENTER);
 		JLabel oFleetLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("gameStatus.fleet"), JLabel.LEFT);
-		//kolory
+		//colors
 		oPlayerLabel.setForeground(COLOR_INFO);
 		oComputerLabel.setForeground(COLOR_INFO);
 		oLabelScore.setForeground(COLOR_INFO);
@@ -134,9 +134,9 @@ public class JComponentGameStatus
 		add(oPointsPanel, BorderLayout.WEST);
 		}
 	/**
-	 * Ustawienie obiektu kontenera statkow gracza.
+	 * Setting the player's ship container object.
 	 * 
-	 * @param oShips Kontener statkow gracza.
+	 * @param oShips The player's ship container.
 	 */
 	public void setPlayerShips(ShipIterator oShips)
 		{
@@ -144,9 +144,9 @@ public class JComponentGameStatus
 		oPlayerShipList.setShips(oShips);
 		}
 	/**
-	 * Ustawienie obiektu kontenera statkow komputera.
+	 * Setting up the computer's vessel container object.
 	 * 
-	 * @param oShips Kontener statkow komputera.
+	 * @param oShips Computer vessel container.
 	 */
 	public void setComputerShips(ShipIterator oShips)
 		{
@@ -154,7 +154,7 @@ public class JComponentGameStatus
 		oComputerShipList.setShips(oShips);
 		}
 	/**
-	 * refreshenie danych w komponencie na podstawie obiektu statusu gry.
+	 * data refreshes in a component based on the game status object.
 	 */
 	public void updateData()
 		{
@@ -178,7 +178,7 @@ public class JComponentGameStatus
 		repaint();
 		}
 	/**
-	 * Przeciazona metoda drawaca panel.
+	 * Overloaded drawac panel method.
 	 */
 	@Override public void paintComponent(Graphics g)
 		{

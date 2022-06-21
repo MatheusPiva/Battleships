@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import pl.vgtworld.games.ship.Settings;
 
 /**
- * Panel wyswietlajacy informacje na temat ilosci wymaganych statkow w poszczegolnych Sizeach.
+ * A panel displaying information on the number of required ships in each Size.
  * 
  * @author VGT
  * @version 1.0
@@ -17,21 +17,21 @@ public class JPanelMarkingShipsOnList
 	extends JPanel
 	{
 	/**
-	 * Obiekt ustawien, z ktorego sa wczytywane informacje na temat wymaganych statkow.
+	 * A setup object from which information on required ships is read.
 	 */
 	private Settings oSettings;
 	/**
-	 * Kontener etykiet.
+	 * Label container.
 	 */
 	private ArrayList<JLabel> oLabels;
 	/**
-	 * Kolor czcionki wyswietlanych informacji.
+	 * Font color of displayed information.
 	 */
 	private Color oTextColor;
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 * 
-	 * @param oSettings Obiekt ustawien glownych gry.
+	 * @param oSettings Main game settings object.
 	 */
 	public JPanelMarkingShipsOnList(Settings oSettings)
 		{
@@ -45,11 +45,11 @@ public class JPanelMarkingShipsOnList
 		refresh();
 		}
 	/**
-	 * Metoda refresha wyswietlane informacje wczytujac je na nowo z obiektu ustawien.
+	 * The refresh method displays the information by reloading it from the settings object.
 	 */
 	public void refresh()
 		{
-		//utworzenie etykiet
+		//creating labels
 		if (oLabels.size() == 0)
 			{
 			JLabel oLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("shipPlacement.list.header"));
@@ -84,7 +84,7 @@ public class JPanelMarkingShipsOnList
 				}
 			}
 		
-		//wrzucenie etykiet w panel
+		//inserting labels into the panel
 		removeAll();
 		for (int i = 0; i < iTextLines; ++i)
 			add(oLabels.get(i));

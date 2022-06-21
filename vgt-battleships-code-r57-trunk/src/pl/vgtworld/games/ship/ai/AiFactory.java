@@ -3,7 +3,7 @@ package pl.vgtworld.games.ship.ai;
 import pl.vgtworld.games.ship.ShipIterator;
 
 /**
- * Fabryka obiektow AI.
+ * Factory of AI objects.
  * 
  * @author VGT
  * @version 1.1
@@ -11,13 +11,13 @@ import pl.vgtworld.games.ship.ShipIterator;
 abstract public class AiFactory
 	{
 	/**
-	 * Metoda zwracajaca rozne obiekty AI na podstawie przekazanego w parametrze oczekiwanego poziomu trudnosci.
+	 * A method that returns various AI objects based on the expected difficulty level passed in the parameter.
 	 * 
-	 * @param iDifficultyLevel Liczba z zakresu 1-100 informujaca o oczekiwanym poziomie trudnosci gracza komputerowego.
-	 * @param bStraightLines Okresla, czy statki moga byc tylko pionowymi/poziomymi liniami.
-	 * Informacja jest zapisywana w tworzonym obiekcie Ai, gdyz jest niezbedna przy pozniejszym wyszukiwaniu pol do oshotu.
-	 * @param oShips Kontener statkow nalezacy do generowanego gracza komputerowego.
-	 * @return Zwraca obiekt Ai zawierajacy sztuczna inteligencje gracza komputerowego.
+	 * @param iDifficultyLevel A number from 1-100 informing about the expected level of difficulty of a computer player.
+	 * @param bStraightLines Determines if ships can only be vertical / horizontal lines.
+	 * The information is saved in the created Ai object as it is necessary for later searching for fields for oshotu.
+	 * @param oShips A ship container belonging to a generated computer player.
+	 * @return Returns an Ai object containing the artificial intelligence of the computer player.
 	 */
 	public static Ai getAi(int iDifficultyLevel, boolean bStraightLines, ShipIterator oShips)
 		{

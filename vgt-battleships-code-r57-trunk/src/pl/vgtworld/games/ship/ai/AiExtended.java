@@ -3,11 +3,11 @@ package pl.vgtworld.games.ship.ai;
 import pl.vgtworld.games.ship.ShipIterator;
 
 /**
- * Prosta implementacja interface'u Ai.<br />
+ * Simple Ai implementation. <br />
  * 
- * Strzela w losowo wybrane pole, dopoki nie trafi w statek.
- * Po trafieniu w statek, jesli ma on wiecej pol,
- * sa ostrzeliwane sasiednie pola az do zatopienia statku.
+ * Shoots a randomly selected field until it hits the ship.
+ * After hitting a ship, if it has more than half,
+ * are fired at adjacent positions until the ship is sunk.
  *  
  * @author VGT
  * @version 1.0
@@ -17,16 +17,16 @@ public class AiExtended
 	implements Ai
 	{
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 * 
-	 * @param oShips Kontener statkow nalezacych do gracza sterowanego przez dany obiekt Ai.
+	 * @param oShips A container of ships belonging to the player controlled by the given object Ai.
 	 */
 	public AiExtended(ShipIterator oShips)
 		{
 		super(oShips);
 		}
 	/**
-	 * Implementacja metody interface'u Ai.
+	 * Implementation of the Ai interface method.
 	 */
 	public boolean shot(ShipIterator oOpponentShip)
 		{

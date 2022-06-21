@@ -21,7 +21,7 @@ import pl.vgtworld.exceptions.DeveloperException;
 import pl.vgtworld.games.ship.Settings;
 
 /**
- * Window ustawien gry.
+ * Game settings window.
  * 
  * @author VGT
  * @version 1.0
@@ -30,63 +30,63 @@ public class JDialogSettings
 	extends JDialog
 	{
 	/**
-	 * Width okna ustawien.
+	 * Settings window width.
 	 */
 	public static final int Width = 600;
 	/**
-	 * Height okna ustawien.
+	 * Settings window height.
 	 */
 	public static final int Height = 450; 
 	/**
-	 * Referencja do glownego okna gry.
+	 * Reference to the main game window.
 	 */
 	private JFrameGameWindowSettings oMainWindow;
 	/**
-	 * Obiekt przechowujacy ustawienia rozgrywki.
+	 * Object that stores game settings.
 	 */
 	private Settings oSettings;
 	/**
-	 * Slider pozwalajacy ustawic Width planszy.
+	 * Slider that allows you to set the Width board.
 	 */
 	private JSlider oBoardWidthSlider;
 	/**
-	 * Slider pozwalajacy ustawic Height planszy.
+	 * Slider pozwalajacy ustawic Height board.
 	 */
 	private JSlider oBoardHeightSlider;
 	/**
-	 * Slider pozwalajacy ustawic poziom trudnosci komputera.
+	 * Slider that allows you to set the computer difficulty level.
 	 */
 	private JSlider oDifficultyLevel;
 	/**
-	 * Pole Textowe przechowujace Width planszy.
+	 * Text field storing Width board.
 	 */
 	private JTextField oBoardWidth;
 	/**
-	 * Pole Textowe przechowujace Height planszy.
+	 * Text field for the Height board.
 	 */
 	private JTextField oBoardHeight;
 	/**
-	 * Checkbox zawierajacy informacje, czy statki moga byc tylko prostymi liniami.
+	 * Checkbox with information if ships can only be straight lines.
 	 */
 	private JCheckBox oShipsStraightLines;
 	/**
-	 * Przycisk zapisujacy zmiany w ustawieniach.
+	 * Button for saving changes to settings.
 	 */
 	private JButton oButtonSave;
 	/**
-	 * Przycisk anulujacy zmiany w ustawieniach.
+	 * Button to cancel changes to the settings.
 	 */
 	private JButton oButtonCancel;
 	/**
-	 * Panel do obslugi tworzenia listy statkow.
+	 * Panel for creating a list of ships.
 	 */
 	private JPanelShipListSettings oShipList;
 	/**
-	 * Checkbox okreslajacy, czy zapisac aktualne ustawienia, jako domyslne.
+	 * A checkbox that determines whether to save the current settings as default.
 	 */
 	private JCheckBox oSaveSettings;
 	/**
-	 * Klasa prywatna zawierajaca obsluge akcji przesuniecia slidera okreslajacego Width planszy.
+	 * Private class handling the sliding action of the slider specifying Width board.
 	 */
 	private class ActionWidthSlider
 		implements ChangeListener
@@ -98,7 +98,7 @@ public class JDialogSettings
 			}
 		}
 	/**
-	 * Klasa prywatna zawierajaca obsluge akcji przesuniecia slidera okreslajacego Height planszy.
+	 * Klasa prywatna zawierajaca obsluge akcji przesuniecia slidera okreslajacego Height board.
 	 */
 	private class ActionHeightSlider
 		implements ChangeListener
@@ -110,7 +110,7 @@ public class JDialogSettings
 			}
 		}
 	/**
-	 * Klasa prywatna zawierajaca obsluge akcji wcisniecia przycisku anulujacego zmiany w ustawieniach. 
+	 * Private class containing handling of the action of pressing the button canceling changes in the settings.
 	 */
 	private class ActionCancel
 		extends AbstractAction
@@ -126,7 +126,7 @@ public class JDialogSettings
 			}
 		}
 	/**
-	 * Klasa prywatna zawierajaca obsluge akcji wcisniecia przycisku zatwierdzajacego zmiany w ustawieniach.
+	 * Private class containing handling of the action of pressing the button confirming changes in the settings.
 	 */
 	private class ActionSave
 		extends AbstractAction
@@ -140,7 +140,7 @@ public class JDialogSettings
 			{
 			try
 				{
-				//sprawdzenie blednych danych w Valuesach ustawien
+				// check for incorrect data in values ​​of settings
 				int iBoardWidth;
 				int iBoardHeight;
 				try
@@ -163,7 +163,7 @@ public class JDialogSettings
 					JOptionPane.showMessageDialog(JDialogSettings.this, JFrameGameWindowSettings.LANG.getProperty("errorMsg.settings.noShip"));
 					return;
 					}
-				//zapisanie ustawien
+				// save settings
 				oSettings.setBoardWidth(iBoardWidth);
 				oSettings.setBoardHeight(iBoardHeight);
 				oSettings.setDifficultyLevel(oDifficultyLevel.getValue());
@@ -189,36 +189,36 @@ public class JDialogSettings
 			}
 		}
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 */
 	public JDialogSettings(JFrameGameWindowSettings oMainWindow, Settings oSettings)
 		{
 		super(oMainWindow, true);
 		this.oMainWindow = oMainWindow;
 		this.oSettings = oSettings;
-		//Width planszy
+		//Width board
 		JLabel oBoardWidthLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardWidth"), JLabel.CENTER);
 		oBoardWidthSlider = new JSlider(5, 25, oSettings.getBoardWidth());
 		oBoardWidthSlider.addChangeListener(new ActionWidthSlider());
 		oBoardWidth = new JTextField(5);
 		oBoardWidth.setHorizontalAlignment(JTextField.RIGHT);
 		oBoardWidth.setText(String.valueOf(oBoardWidthSlider.getValue()));
-		//Height planszy
+		//Height board
 		JLabel oBoardHeightLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.boardHeight"), JLabel.CENTER);
 		oBoardHeightSlider = new JSlider(5, 25, oSettings.getBoardHeight());
 		oBoardHeightSlider.addChangeListener(new ActionHeightSlider());
 		oBoardHeight = new JTextField(5);
 		oBoardHeight.setHorizontalAlignment(JTextField.RIGHT);
 		oBoardHeight.setText(String.valueOf(oBoardHeightSlider.getValue()));
-		//poziom trudnosci
+		//difficulty level
 		JLabel oDifficultyLevelLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.difficulty"), JLabel.CENTER);
 		oDifficultyLevel = new JSlider(1, 100, oSettings.getDifficultyLevel());
-		//ksztalkt statkow
+		//shape of ships
 		JLabel oShipsStraightLinesLabel = new JLabel(JFrameGameWindowSettings.LANG.getProperty("settings.shipsShape"), JLabel.CENTER);
 		oShipsStraightLines = new JCheckBox(JFrameGameWindowSettings.LANG.getProperty("settings.shipsShapeCheckbox"));
 		if (oSettings.getStraightLines() == true)
 			oShipsStraightLines.setSelected(true);
-		//lista statkow
+		//ship list
 		oShipList = new JPanelShipListSettings();
 		int[] aShips = oSettings.getShips();
 		try
@@ -231,7 +231,7 @@ public class JDialogSettings
 			throw new DeveloperException(e);
 			}
 		
-		//wstawienie elementow do frame'a
+		// put elements into the frame
 		setLayout(new BorderLayout());
 		JPanel oPanelLeft = new JPanel();
 		oPanelLeft.setLayout(new GridLayout(4, 1));
@@ -306,22 +306,22 @@ public class JDialogSettings
 		add(oBottomOptionsPanel, BorderLayout.PAGE_END);
 		
 		
-		//pozostale ustawienia
+		// other settings
 		setMinimumSize(new Dimension(Width, Height));
 		setTitle(JFrameGameWindowSettings.LANG.getProperty("settingsWindow.title"));
 		setLocationRelativeTo(null);
 		setResizable(true);
 		}
 	/**
-	 * Metoda przywraca ustawienia wszystkich sliderow i pol Textowych na Values z obiektu ustawien.
+	 * The method restores the settings of all sliders and Text fields to Values ​​from the settings object.
 	 */
 	public void reset()
 		{
-		//rest pozycji okna
+		//window position restoration
 		int iPositionX = oMainWindow.getX() + (oMainWindow.getWidth() - Width) / 2;
 		int iPositionY = oMainWindow.getY() + (oMainWindow.getHeight() - Height) / 2;
 		setBounds(iPositionX, iPositionY, Width, Height);
-		//reset ustawien
+		//reset settings
 		oBoardWidth.setText(String.valueOf(oSettings.getBoardWidth()));
 		oBoardWidthSlider.setValue(oSettings.getBoardWidth());
 		oBoardHeight.setText(String.valueOf(oSettings.getBoardHeight()));

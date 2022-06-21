@@ -7,12 +7,12 @@ import pl.vgtworld.exceptions.DeveloperException;
 import pl.vgtworld.tools.Position;
 
 /**
- * Klasa zajmuje sie losowym rozmieszczeniem statkow na planszy.<br />
+ * A aula trata da colocação aleatória de naves no tabuleiro. <br />
  *
  * <p>
- * aktualizacje:<br />
- * 1.1<br />
- * - dodanie parametru bStraightLines do metody {@link #shipSpaces(Ship Iterator, boolean)}.<br />
+ * atualizações: <br />
+ * 1,1 <br />
+ * - adicionado o parâmetro bStraightLines ao método {@link #shipSpaces (Ship Iterator, boolean)}. <br />
  * </p>
  * 
  * @author VGT
@@ -21,20 +21,20 @@ import pl.vgtworld.tools.Position;
 public class ShipPositioner
 	{
 	/**
-	 * Kontener, ktorego statki maja byc rozmieszczone na planszy.
+	 * A container for which ships must be stowed on board.
 	 */
 	private ShipIterator oShips;
 	/**
-	 * Board nalezaca do danego kontenera statkow.
-	 */
+	* Plate belonging to a particular vessel vessel.
+	*/
 	private Board oBoard;
 	/**
-	 * Generator liczb losowych.
+	 * Random number generator.
 	 */
 	private Random oRand;
 	/**
-	 * Konstruktor domyslny.
-	 */
+	* Default constructor.
+	*/
 	public ShipPositioner()
 		{
 		oShips = null;
@@ -49,23 +49,23 @@ public class ShipPositioner
 		return shipSpaces(oShips, false);
 		}
 	/**
-	 * Glowna metoda rozpoczynajaca procedure rozmieszczania statkow na planszy.<br />
-	 * 
-	 * Udane rozmieszczenie statkow nie jest gwarantowane. Im mniej miejsca na planszy i/lub wiecej statkow, tym wieksze szanse
-	 * na blad podczas rozmieszczenie statkow. Jesli rozmieszczenie statkow jest niemozliwe do zrealizowania, metoda zwraca wartosc FALSE
-	 * i wszelkie czesciowe rozmieszczenie statkow jest zerowane.<br />
-	 * 
-	 * Dla standardowej gry (plansza 10x10 i 10 statkow o Sizeach od 1 do 4)
-	 * aktualna skutecznosc rozmieszczenia statkow jest na poziomie 99,93%.<br />
-	 * 
-	 * aktualizacje:<br />
-	 * 
-	 * 1.1 - dodanie drugiego parametru.
-	 * 
-	 * @param oShips Kontener z utworzonymi statkami, ktore maja byc rozmieszczone na planszy.
-	 * @param bStraightLines Okresla, czy statki maja byc tylko pionowymi / poziomymi liniami.
-	 * @return Zwraca TRUE, jesli statki zostaly prawidlowo rozmieszczone, lub FALSE jesli wystapil blad.
-	 * @throws ParameterException Wyrzuca wyjatek, jesli kontener nie zawiera zadnych statkow.
+	 * Main method for initiating the procedure for placing ships on board. <br />
+	 *
+	 * Successful ship placement is not guaranteed. The less space on board and/or the more ships, the better the chances
+	 * an error when preparing ships. If staging is not feasible, the method returns FALSE
+	 * and all partial ship positions are reset. <br />
+	 *
+	 * For standard game (board 10x10 and 10 ships with sizes 1 to 4)
+	 * Current ship placement efficiency is at 99.93% level. <br />
+	 *
+	 *updates: <br />
+	 *
+	 * 1.1 - adding a second parameter.
+	 *
+	 * @param oShips Container with ships configured to be stowed on board.
+	 * @param bStraightLines Defines whether ships should be vertical/horizontal lines only.
+	 * @return Returns TRUE if the ships were correctly spooled, or FALSE if there is an error.
+	 * @throws ParameterException It throws an exception if the container contains no ships.
 	 */
 	public boolean shipSpaces(ShipIterator oShips, boolean bStraightLines) throws ParameterException
 		{
@@ -75,18 +75,18 @@ public class ShipPositioner
 			{
 			importShips(oShips);
 			this.oShips.resetFields();
-			//ustalenie Sizeu najwieszego statku
+			// determine the Size of the largest ship
 			int iMaxSize = 0;
 			for (int i = 1; i <= this.oShips.getNumberOfShips(); ++i)
 				if (oShips.getShip(i).getSize() > iMaxSize)
 					iMaxSize = this.oShips.getShip(i).getSize();
-			//rozmieszczenie statkow rozpoczynajac od najwiekszych
+			// ship locations, starting with the largest
 			while (iMaxSize > 0)
 				{
 				for (int i = 1; i <= this.oShips.getNumberOfShips(); ++i)
 					if (oShips.getShip(i).getSize() == iMaxSize)
 						{
-						int iApproach = 1; // ktora proba umieszczenia statku na planszy
+						int iApproach = 1; // which attempt to put the ship on board
 						boolean bPlaced = false;
 						while (bPlaced == false)
 							{
@@ -115,9 +115,9 @@ public class ShipPositioner
 		return true;
 		}
 	/**
-	 * Zaladowanie obiektow statkow i planszy do lokalnych wlasciwosci obiektu.
+	 * Loading of ship and board facilities to the local properties of the facility.
 	 * 
-	 * @param oShips Kontener statkow wymagajacy rozmieszczenia statkow na planszy.
+	 * @param oShips Ship container requiring ships to be placed on board.
 	 */
 	private void importShips(ShipIterator oShips)
 		{
@@ -125,11 +125,10 @@ public class ShipPositioner
 		this.oBoard = oShips.getBoard();
 		}
 	/**
-	 * Losowo umieszcza pola przekazanego w obiekcie statku na planszy.
+	 * Randomly puts the position of the ship object passed on to the board.
 	 * 
-	 * @param oShip Ship, ktorego pola nalezy umiescic na planszy.
-	 * @throws ShipPositionerException Wyrzuca wyjatek, jesli umieszczenie statku na planszy zakonczylo sie niepowodzeniem.
-	 */
+	 * @param oShip Ship, whose position should be placed on the board.
+	@throws ShipPositionerException Throws an exception if the ship was not successfully placed on board.	 */
 	private void placeShipsOnTheBoard(Ship oShip, boolean bStraightLines) throws ShipPositionerException
 		{
 		try
@@ -138,14 +137,14 @@ public class ShipPositioner
 				{
 				if (i == 1)
 					{
-					//pierwsze pole
+					// the first field
 					Position oEmptyField = drawEmptyField();
 					oShip.setField(i, oEmptyField.getX(), oEmptyField.getY());
 					}
 				else
 					{
-					//kolejne pola
-					//tworzenie listy kandydatow na kolejne pola
+					// next position
+					// create a candidate list for the next position
 					int iCandidatesQuantity = 0;
 					ArrayList<Position> oCandidates = new ArrayList<Position>();
 					for (int j = 1; j < i; ++j)
@@ -170,13 +169,13 @@ public class ShipPositioner
 										}
 										
 						}
-					//jesli statki maja byc liniami, odrzucenie pol niepasujacych
+					// if ships are to be lines, discard mismatched fields
 					if (bStraightLines == true && i > 2)
 						{
-						//sprawdzenie, czy statek jest pionowy, czy poziomy i odrzucenie pol niepasujacych
+						// check if the ship is vertical or horizontal and discard mismatched fields
 						if (oShip.getField(1).getX() == oShip.getField(2).getX())
 							{
-							//wspolrzedne X musza byc takie same
+							// co-ordinates X must be the same
 							for (int j = oCandidates.size() - 1; j >= 0; --j)
 								if (oShip.getField(1).getX() != oCandidates.get(j).getX())
 									{
@@ -186,7 +185,7 @@ public class ShipPositioner
 							}
 						else if (oShip.getField(1).getY() == oShip.getField(2).getY())
 							{
-							//wspolrzedne Y musza byc takie same
+							// co-ordinates Y must be the same
 							for (int j = oCandidates.size() - 1; j >= 0; --j)
 								if (oShip.getField(1).getY() != oCandidates.get(j).getY())
 									{
@@ -199,9 +198,9 @@ public class ShipPositioner
 						}
 					if (iCandidatesQuantity == 0)
 						throw new ShipPositionerException();
-					//wylosowanie kandydata
+					// draw a candidate
 					int iLos = oRand.nextInt(iCandidatesQuantity);
-					//ustawienie pola statku na wylosowanym kandydacie
+					// set the ship's position on the drawn candidate
 					oShip.setField(i, oCandidates.get(iLos).getX(), oCandidates.get(iLos).getY());
 					}
 				}
@@ -212,17 +211,17 @@ public class ShipPositioner
 			}
 		}
 	/**
-	 * Metoda zwraca wspolrzedne losowo wybranego pustego pola na planszy,
-	 * ktore nadaje sie do rozpoczecia nowego statku (nie posiada zadnych sasiadow).
-	 * 
-	 * @return Zwraca losowe puste pole z planszy.
-	 */
+	* The method returns the co-ordinates of a randomly selected empty position on the board,
+	* which is suitable for starting a new ship (has no neighbors).
+	*
+	* @return Returns a random blank field from board.
+	*/
 	private Position drawEmptyField() throws ShipPositionerException
 		{
 		try
 			{
 			Position oCoordinates = new Position(2);
-			//policzenie pustych pol na planszy
+			// count empty fields on the board
 			int iEmptyQuantity = 0;
 			for (int i = 0; i < oBoard.getWidth(); ++i)
 				for (int j = 0; j < oBoard.getHeight(); ++j)
@@ -234,11 +233,11 @@ public class ShipPositioner
 						if (verifyCandidate(oCandidate, null))
 							++iEmptyQuantity;
 						}
-			//blad jesli pustych pol nie ma
+			// error if there are no empty fields
 			if (iEmptyQuantity == 0)
 				throw new ShipPositionerException();
 			int iRandomlyDrawnField = oRand.nextInt(iEmptyQuantity) + 1;
-			//ponowne przejscie po planszy i zwrocenie pustego pola o wylosowanym numerze
+			// go through the board again and return an empty position with the drawn number
 			for (int i = 0; i < oBoard.getWidth(); ++i)
 				for (int j = 0; j < oBoard.getHeight(); ++j)
 					if (oBoard.getField(i, j) == FieldTypeBoard.BOARD_FIELD_EMPTY)
@@ -255,7 +254,7 @@ public class ShipPositioner
 							return oCoordinates;
 							}
 						}
-			throw new DeveloperException("koniec planszy");
+			throw new DeveloperException("koniec board");
 			}
 		catch (ParameterException e)
 			{
@@ -263,13 +262,13 @@ public class ShipPositioner
 			}
 		}
 	/**
-	 * Metoda sprawdza, czy pole o podanych wspolrzednych nie posiada w sasiedztwie zadnych statkow.
-	 * 
-	 * @param oField Wspolrzedne pola do sprawdzenia.
-	 * @param oShip Jesli jest porzekazany obiekt statku, jest to informacja,
-	 * ze moga wystepowac pola tego statku i kandydat jest nadal prawidlowy.
-	 * @return Zwraca TRUE, jesli pole nie ma niechcianych sasiadow, lub false w przeciwnym wypadku.
-	 */
+	* The method checks if the field with the given coordinates has no ships in the vicinity.
+	*
+	* @param oField co-ordinates position to check.
+	* @param oShip If there is a donated ship facility, this is information
+	* that there may be a position of this ship and the candidate is still valid.
+	* @return Returns TRUE if the field has no unwanted neighbors, or false otherwise.
+	*/
 	private boolean verifyCandidate(Position oField, Ship oShip)
 		{
 		try
@@ -296,11 +295,11 @@ public class ShipPositioner
 	}
 
 /**
- * Wyjatek wyrzucany w przypadku wystapienia bledow podczas umieszczania statku na planszy.<br />
- * 
- * Jego wystapienie informuje glowna metode pozycjonujaca o tym, ze rozmieszczenie statkow zakonczylo sie
- * bledem, ktorego nie mozna rozwiazac.
- * 
+ * An exception is thrown when an error occurs while placing the ship on the board. <br />
+ *
+ * Its occurrence informs the main positioning method that the deployment of ships is over
+ * an error that cannot be resolved.
+ *
  * @author VGT
  * @version 1.0
  */

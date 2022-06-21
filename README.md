@@ -101,7 +101,7 @@ This are the tech stack and tools utilized to develop this project:
 This are the main classes and its funcionalities to the project
 
 </br>
-ships - Consists in the mai functional side od the project
+ships - Consists in the mai functional side of the project
 
 ships.ai - This is the class that cares about the oponnents AI
 
@@ -111,7 +111,7 @@ ships.ai - This is the class that cares about the oponnents AI
     📝 License 
 </h2>
 
-This project is under [LICENSE](https://github.com/FelipePardim/Battleships/blob/master/LICENSE) license.
+This project is under [GNU v3.0](https://github.com/FelipePardim/Battleships/blob/master/LICENSE) license.
 
 ---
 

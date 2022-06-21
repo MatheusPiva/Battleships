@@ -23,7 +23,7 @@ import pl.vgtworld.games.ship.Settings;
 import pl.vgtworld.tools.Position;
 
 /**
- * Panel wykorzystywany do obslugi rozmieszczenia statkow na planszy przez gracza.
+ * The panel used to support the placement of ships on board by the player.
  * 
  * @author VGT
  * @version 1.0
@@ -32,40 +32,40 @@ public class JPanelMarkingShips
 	extends JPanel
 	{
 	/**
-	 * Obiekt ustawien rozgrywki.
+	 * Game setting object.
 	 */
 	private Settings oSettings;
 	/**
-	 * Board, na ktorej gracz zaznacza statki.
+	 * The board where the player marks the ships.
 	 */
 	private Board oBoard;
 	/**
-	 * Kontener statkow tworzony dla gracza po zakonczeniu rozmieszczania statkow.
+	 * A ship container is created for the player after completing the ship placement.
 	 */
 	private ShipIterator oShips;
 	/**
-	 * Referencja do glownego okna gry.
+	 * Reference to the main game window.
 	 */
 	private JFrameGameWindowSettings oWindow;
 	/**
-	 * Komponent, na ktorym wyswietlana jest plansza.
+	 * Component on which the board is displayed.
 	 */
 	private JComponentBoard oBoardComponent;
 	/**
-	 * Panel wyswietlajacy informacje na temat ilosci statkow poszczegolnych Sizeow,
-	 * ktore nalezy umiescic na planszy.
+	 * Panel displaying information on the number of ships of particular sizes,
+	 * which should be placed on the board.
 	 */
 	private JPanelMarkingShipsOnList oShipListInfo;
 	/**
-	 * Panel zawierajacy informacje o wymaganych statkach oraz przyciski akcji.
+	 * A panel with information about the required ships and action buttons.
 	 */
 	private JPanel oPanelRight;
 	/**
-	 * Obiekt obslugi akcji klikniecia myszki na planszy.
+	 * Object handling the action of clicking the mouse on the board.
 	 */
 	private SelectingShipsMouseListener oMouseListener;
 	/**
-	 * Klasa prywatna zawierajaca obsluge akcji wcisniecia przycisku zatwierdzajacego rozmieszczenie statkow na planszy.
+	 * Private class that supports the action of pressing the button confirming the placement of ships on board.
 	 */
 	private class ActionAproveShips
 		extends AbstractAction
@@ -80,7 +80,7 @@ public class JPanelMarkingShips
 			ShipGenerator oGenerator = new ShipGenerator(oBoard);
 			oShips = oGenerator.generateShips();
 			boolean bOK = true;
-			//sprawdzenie, kolejnych warunkow rozmieszczenia statkow
+			// checking the successive conditions for the arrangement of ships
 			if (oShips.getNumberOfShips() != oSettings.getNumbeOfShips())
 				bOK = false;
 			for (int i = oShips.getMaxShipSize(); i >= 1; --i)
@@ -99,7 +99,7 @@ public class JPanelMarkingShips
 			}
 		}
 	/**
-	 * Klasa prywatna zawierajaca obsluge akcji wcisniecia przycisku usuwajacego wszystkie statki z planszy.
+	 * Private class that handles the action of pressing the button that removes all ships from the board.
 	 */
 	private class ActionClear
 		extends AbstractAction
@@ -126,7 +126,7 @@ public class JPanelMarkingShips
 			}
 		}
 	/**
-	 * Klasa prywatna zawierajaca obsluge wcisniecia przycisku rozmieszczajacego statki gracza losowo na planszy.
+	 * A private class that supports the pressing of a button that places the player's ships randomly on the board.
 	 */
 	private class ActionRandomlyPlacePlayersShips
 		extends AbstractAction
@@ -160,7 +160,7 @@ public class JPanelMarkingShips
 			}
 		}
 	/**
-	 * Klasa prywatna zawierajaca obsluge klikniecia gracza na planszy (zaznaczanie/odznaczanie pol statkow).
+	 * A private class that includes handling of clicking a player on a board (marking / unchecking half of the ships).
 	 */
 	private class SelectingShipsMouseListener
 		extends MouseAdapter
@@ -208,10 +208,10 @@ public class JPanelMarkingShips
 			}
 		}
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 * 
-	 * @param oSettings Glowne ustawienia gry.
-	 * @param oWindow Glowne Window gry.
+	 * @param oSettings Main game settings.
+	 * @param oWindow Game Window Glowne.
 	 */
 	public JPanelMarkingShips(Settings oSettings, JFrameGameWindowSettings oWindow)
 		{
@@ -225,11 +225,11 @@ public class JPanelMarkingShips
 		
 		addMouseListener(oMouseListener);
 		
-		//lewa polowka
+		// left half
 		oBoardComponent = new JComponentBoard(oBoard);
 		add(oBoardComponent);
 		
-		//prawa polowka
+		// right half
 		oPanelRight = new JPanel();
 		oPanelRight.setLayout(new BorderLayout());
 		oShipListInfo = new JPanelMarkingShipsOnList(oSettings);
@@ -249,36 +249,36 @@ public class JPanelMarkingShips
 		add(oPanelRight);
 		}
 	/**
-	 * Metoda zwraca plansze, na ktorej zaznaczane sa statki.
+	 * The method returns the board on which the ships are marked.
 	 * 
-	 * @return Board z zaznaczonymi statkami.
+	 * @return Board with marked ships.
 	 */
 	public Board getBoard()
 		{
 		return oBoard;
 		}
 	/**
-	 * Metoda zwraca obiekt kontenera statkow stworznych przez gracza.<br />
-	 * 
-	 * Jesli statki nie zostaly rozmieszczone, lub zostaly rozmieszczone nieprawidlowo, metoda zwroci pusta referencje.
-	 * 
-	 * @return Kontener statkow gracza.
+	 * The method returns a container object for player-created ships. <br />
+	 *
+ 	 * If the ships have not been deployed, or have been deployed incorrectly, the method will return a blank reference.
+	 *
+	 * @return The player's ship container.
 	 */
 	public ShipIterator getShips()
 		{
 		return oShips;
 		}
 	/**
-	 * Metoda usuwa wszystkie statki umieszczone na planszy.
+	 * The method removes all ships placed on board.
 	 */
 	public void ClearBoard()
 		{
 		oBoard.clean();
 		}
 	/**
-	 * Metoda zmienia Size planszy na podstawie aktualnego stanu obiektu ustawien.<br />
-	 * 
-	 * Wywolywana po zmianie ustawien rozgrywki.
+	 * The method changes the Size board based on the current state of the setting object. <br />
+	 *
+	 * Called when gameplay settings have been changed.
 	 */
 	public void resetBoard()
 		{
@@ -294,7 +294,7 @@ public class JPanelMarkingShips
 			}
 		}
 	/**
-	 * Metoda aktualizuje panel z informacjami na temat ilosci wymaganych do umieszczenia statkow na planszy. 
+	 * The method updates the panel with information about the quantities required to place ships on board.
 	 */
 	public void resetDescription()
 		{

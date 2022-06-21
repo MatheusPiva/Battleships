@@ -18,7 +18,7 @@ import pl.vgtworld.games.ship.FieldTypeBoard;
 import pl.vgtworld.tools.Position;
 
 /**
- * Komponent obslugujacy wyswietlanie planszy.
+ * Component that handles the display of board.
  * 
  * @author VGT
  * @version 1.0
@@ -28,19 +28,19 @@ public class JComponentBoard
 	implements ActionListener
 	{
 	/**
-	 * Board, ktora ma wyswietlic panel.
+	 * Board to display the panel.
 	 */
 	private Board oBoard;
 	/**
-	 * Wlasciwosc przechowujaca informacje, czy na planszy maja byc takze wyswietlane nietrafione pola statkow.
+	 * Property storing information whether missed ship positions are also to be displayed on board.
 	 */
 	private boolean bViewShips;
 	/**
-	 * Kolor pola statku.
+	 * Ship position color.
 	 */
 	private Color oShipColor;
 	/**
-	 * Kolor pola po shote niecelnym.
+	 * The color of the position after the shot was off target.
 	 */
 	private Color oCustomShotColor;
 	/**
@@ -48,35 +48,35 @@ public class JComponentBoard
 	 */
 	private Color oOutOfTargetColor;
 	/**
-	 * Kolor linii siatki rozdzielajacej pola.
+	 * The color of the line breaks the position.
 	 */
 	private Color oGridColor;
 	/**
-	 * Kolor tla (uzywany w przyadku niepowodzenia zaladowania tla graficznego).
+	 * Background color (used in case of failure to load graphic background).
 	 */
 	private Color oBackgroundColor;
 	/**
-	 * Tablica przechowujaca kolejne kolory animacji shotu na pole ze statkiem.
+	 * A board storing the colors of the animation of the shot on the field with the ship.
 	 */
 	private Color[] aHighlightColorOfShips;
 	/**
-	 * Tablica przechowujaca kolejne kolory animacji shotu na pole puste.
+	 * A board that stores the colors of the shot animation on the empty field.
 	 */
 	private Color[] aHighlightColorEmptyField;
 	/**
-	 * Index aktualnie wyswietlanego koloru wyroznienia.
+	 * The index of the currently displayed highlight color.
 	 */
 	private int iHighlightColorNumber;
 	/**
-	 * Wspolrzedne pola wyswietlanego, jako wyroznione.
+	 * co-ordinates position displayed highlighted.
 	 */
 	private Position oHighlightedField;
 	/**
-	 * Obrazek tla planszy.
+	 * Picture for background board.
 	 */
 	private static Image oBackgroundImg;
 	/**
-	 * Timer do obslugi animacji wyroznienia pola.
+	 * Timer to handle position highlight animation.
 	 */
 	private Timer oTimer;
 	static
@@ -84,9 +84,9 @@ public class JComponentBoard
 		JComponentBoard.oBackgroundImg = null;
 		}
 	/**
-	 * Konstruktor.
+	 * Constructor.
 	 * 
-	 * @param oBoard Board, ktora ma byc wyswietlona na panelu.
+	 * @param oBoard Board to be displayed on the panel.
 	 */
 	public JComponentBoard(Board oBoard)
 		{
@@ -131,13 +131,13 @@ public class JComponentBoard
 			}
 		oTimer = new Timer(1000, this);
 		oTimer.setRepeats(false);
-		//setMinimumSize(new Dimension(iWidth, iHeight));
-		//setPreferredSize(new Dimension(iWidth, iHeight));
+		// setMinimumSize (new Dimension (iWidth, iHeight));
+		// setPreferredSize (new Dimension (iWidth, iHeight));
 		}
 	/**
-	 * Metoda umozliwia okreslenie, czy panel ma wyswietlac takze nietrafione pola statkow.
+	 * The method allows you to define whether the panel should display also the wrong positions of the ships.
 	 * 
-	 * @param bStan Jesli TRUE, panel wyswietli nietrafione pola statkow.
+	 * @param bStan If TRUE, the panel will display missed ship positions.
 	 */
 	public void setViewShips(boolean bStan)
 		{
@@ -168,7 +168,7 @@ public class JComponentBoard
 		repaint();
 		}
 	/**
-	 * Przeciazona metoda drawaca zawartosc panelu.
+	 * Overloaded drawac method panel content.
 	 */
 	@Override public void paintComponent(Graphics g)
 		{
@@ -191,7 +191,7 @@ public class JComponentBoard
 			g.setColor(oBackgroundColor);
 			g.fillRect(iBoardXStart, iBoardYStart, iBoardXWidth, iBoardYWidth);
 			}
-		//przygotowanie zmiennych
+		//preparation of variables
 		Position oCross;
 		Position oCross2;
 		int iPositionX = 0;
@@ -203,14 +203,14 @@ public class JComponentBoard
 		for (int i = 0; i < oBoard.getWidth(); ++i)
 			for (int j = 0; j < oBoard.getHeight(); ++j)
 				{
-				//obliczenie niezbednych danych
+				// calculate the necessary data
 				oCross = fieldToPixTopLeft(iWidth, iHeight, oBoard.getWidth(), oBoard.getHeight(), i, j);
 				oCross2 = fieldToPixBottomRight(iWidth, iHeight, oBoard.getWidth(), oBoard.getHeight(), i, j);
 				iPositionX = oCross.getX() + 1;
 				iPositionY = oCross.getY() + 1;
 				iPositionWidth = oCross2.getX() - iPositionX;
 				iPositionHeight = oCross2.getY() - iPositionY;
-				//skrzyzowania pomiedzy polami
+				// intersections between fields
 				if (iCrossSize == 0)
 					{
 					iCrossSize = (int)((iPositionWidth + iPositionHeight) * 0.03);
@@ -235,7 +235,7 @@ public class JComponentBoard
 					g.drawLine(oCross2.getX() - iCrossSize, oCross2.getY(), oCross2.getX() + iCrossSize, oCross2.getY());
 					g.drawLine(oCross2.getX(), oCross2.getY() - iCrossSize, oCross2.getX(), oCross2.getY() + iCrossSize);
 					}
-				//zawartosc pola
+				// content of position
 				try
 					{
 					FieldTypeBoard eTyp = oBoard.getField(i, j);
@@ -261,7 +261,7 @@ public class JComponentBoard
 						{
 						g.fillRect(iPositionX, iPositionY, iPositionWidth, iPositionHeight);
 						}
-					//wyroznienie pola
+					// highlight position
 					if (iHighlightColorNumber > 0 && oHighlightedField.getX() == i && oHighlightedField.getY() == j)
 						{
 						if (oBoard.getField(i, j) == FieldTypeBoard.SHIP_BOARD || oBoard.getField(i, j) == FieldTypeBoard.CUSTOMS_SHOT_BOARD)

@@ -111,7 +111,7 @@ ships.ai - This is the class that cares about the oponnents AI
     📝 License 
 </h2>
 
-This project is under [LICENSE](https://github.com/FelipePardim/Battleships/blob/master/LICENSE) license.
+This project is under [GNU v3.0](https://github.com/FelipePardim/Battleships/blob/master/LICENSE) license.
 
 ---
 

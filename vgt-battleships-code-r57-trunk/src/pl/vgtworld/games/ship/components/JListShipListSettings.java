@@ -15,11 +15,11 @@ public class JListShipListSettings
 	extends JList
 	{
 	/**
-	 * An array that holds Sizey of ships.
+	 * An array that holds size of ships.
 	 */
 	private ArrayList<Integer> oListInt;
 	/**
-	 * List model storing Sizey of ships.
+	 * List model storing size of ships.
 	 */
 	private DefaultListModel oJListList;
 	/**

@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 /**
- * Component that displays information about Hitsch and ship sinks of individual players.
+ * Component that displays information about hits and ship sinks of individual players.
  * 
  * @author VGT
  * @version 1.0
@@ -163,7 +163,7 @@ public class JComponentEvents
 		oTimerRight.start();
 		}
 	/**
-	 * Overloaded drawac method component.
+	 * Overloaded drawing method component.
 	 */
 	@Override public void paintComponent(Graphics g)
 		{

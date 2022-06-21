@@ -48,7 +48,7 @@ import pl.vgtworld.tools.Position;
 //import sun.audio.AudioStream;
 
 /**
- * Game Window Glowne.
+ * Main game Window .
  * 
  * @author VGT
  * @version 1.0

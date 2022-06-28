@@ -94,7 +94,7 @@ The position number whose co-ordinates are to be returned (counted from 1).
 	 * @return Ship position number (counted from 1).
 	 * @throws ParameterException Throws an exception if the given co-ordinates is outside the range of the board.
 	 */
-	public int getNumerPosition(int iX, int iY) throws ParameterException
+	public int getNumberPosition(int iX, int iY) throws ParameterException
 		{
 		if (iX + 1 > oBoard.getWidth() || iX < 0)
 			throw new ParameterException("iX = " + iX);

@@ -282,7 +282,7 @@ public class ShipPositioner
 						{
 						if (oShip == null)
 							return false;
-						else if(oShip.getNumerPola(oField.getX() + i, oField.getY() + j) == 0)
+						else if(oShip.getNumberPosition(oField.getX() + i, oField.getY() + j) == 0)
 							return false;
 						}
 			return true;

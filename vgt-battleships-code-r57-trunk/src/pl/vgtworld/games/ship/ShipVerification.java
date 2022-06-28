@@ -119,7 +119,7 @@ public class ShipVerification
 									|| oValidField.getY() + k < 0 || oValidField.getY() + k >= oBoard.getHeight()
 									)
 									continue;
-								int iNumberFields = oShip.getNumerPola(oValidField.getX() + j, oValidField.getY() + k);
+								int iNumberFields = oShip.getNumberPosition(oValidField.getX() + j, oValidField.getY() + k);
 								if (iNumberFields > 0 && aCorrect[iNumberFields - 1] == false)
 									{
 									bChanges = true;
@@ -192,7 +192,7 @@ public class ShipVerification
 							)
 							continue;
 						if (oBoard.getField(oAdjacentField.getX(), oAdjacentField.getY()) == FieldTypeBoard.SHIP_BOARD
-							&& oShip.getNumerPola(oAdjacentField.getX(), oAdjacentField.getY()) == 0
+							&& oShip.getNumberPosition(oAdjacentField.getX(), oAdjacentField.getY()) == 0
 							)
 							return false;
 						}

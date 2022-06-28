@@ -65,8 +65,8 @@ shipName.size4.plural = Battleships
 shipName.size5 = Porta avioes
 shipName.size5.plural = Porta avioes
 
-message.hit1 = a hit!
-message.hit2 = a hit! Navio destruido!
+message.hit1 = acertou!
+message.hit2 = acertou! Navio destruido!
 message.win = Voce ganhou! Parabens.
 message.lose = Voce perdeu! tente novamente.
 

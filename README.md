@@ -93,11 +93,39 @@ This are the tech stack and tools utilized to develop this project:
 
 ---
 
+<!-- Tools used on this project development -->
+<h2 id="technologies">
+    📜 Code documentation
+</h2>
+
+This section explain classes, files and structure of this game.
+
+</br>
+
+📂 [components](vgt-battleships-code-r57-trunk/src/pl/vgtworld/components) - Mouse listener function (responsible to capture mouse input).
+
+📂 [tools](vgt-battleships-code-r57-trunk/src/pl/vgtworld/tools) - Position (Position the desired objects on screen ).
+
+📂 [exceptions](vgt-battleships-code-r57-trunk/src/pl/vgtworld/exceptions) - Exceptions and errors handlers functions.
+
+📂 [games/ships/ai](vgt-battleships-code-r57-trunk/src/pl/vgtworld/games/ship/ai) - Computer AI files (Each file describes the strategy of IA player)
+
+📂 [games/img](vgt-battleships-code-r57-trunk/src/pl/vgtworld/games/ship/img) - Folder for game assets
+
+📂 [games/lang](vgt-battleships-code-r57-trunk/src/pl/vgtworld/games/ship/lang) - Languages files (.lang)
+
+📂 [games/components](vgt-battleships-code-r57-trunk/src/pl/vgtworld/games/ship/components) - Games components and game events folder
+
+📝 [games/*](vgt-battleships-code-r57-trunk/src/pl/vgtworld/games/ship) (All files inside this root folder ) - Each file name auto-explain its pourpose
+
+
+---
+
 <h2 id="license">
     📝 License 
 </h2>
 
-This project is under [LICENSE](https://github.com/FelipePardim/Battleships/blob/master/LICENSE) license.
+This project is under [GNU v3.0](https://github.com/FelipePardim/Battleships/blob/master/LICENSE) license.
 
 ---
 

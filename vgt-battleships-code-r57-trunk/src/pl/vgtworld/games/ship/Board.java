@@ -135,7 +135,7 @@ public class Board
 	 * @throws ParameterException Throws an exception when the coordinates 
          * are out of range of the board.
 	 */
-	public FieldTypeBoard getPole(int iX, int iY) throws ParameterException
+	public FieldTypeBoard getField(int iX, int iY) throws ParameterException
 		{
 		if (iX >= iWidth || iX < 0)
 			throw new ParameterException("iX = " + iX);
@@ -153,7 +153,7 @@ public class Board
 	 * @param eType Type of the field, on which the field with the given coordinates is to be set.
 	 * @throws ParameterException Throws an exception when the coordinates are out of range of the board.
 	 */
-	public void setPole(int iX, int iY, FieldTypeBoard eType) throws ParameterException
+	public void setField(int iX, int iY, FieldTypeBoard eType) throws ParameterException
 		{
 		if (iX + 1 > iWidth)
 			throw new ParameterException("iX = " + iX);
@@ -187,7 +187,8 @@ public class Board
 	 * @param iHeight The new height of the board.
 	 * @throws ParameterException Throws an exception if the given width and / or height is less than 1.
 	 */
-	public void zmienRozmiar(int iWidth, int iHeight) throws ParameterException
+	 //TODO zmienSize
+	public void zmienSize(int iWidth, int iHeight) throws ParameterException
 		{
 		if (iWidth < 1)
 			throw new ParameterException("iWidth = " + iWidth);

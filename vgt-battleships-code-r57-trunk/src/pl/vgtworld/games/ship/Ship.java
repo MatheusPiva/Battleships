@@ -5,7 +5,7 @@ import pl.vgtworld.exceptions.DeveloperException;
 import pl.vgtworld.tools.Position;
 
 /**
- * Klasa reprezentujaca statek na planszy.
+ * A class representing a ship in board.
  * 
  * @author VGT
  * @version 1.0
@@ -13,214 +13,215 @@ import pl.vgtworld.tools.Position;
 public class Ship
 	{
 	/**
-	 * Referencja do obiektu planszy, na ktorej bedzie umieszczony statek.
+	 * Reference to the board object where the ship will be placed.
 	 */
-	private Board oPlansza;
+	private Board oBoard;
 	/**
-	 * Rozmiar statku podany w ilosci zajmowanych przez niego pol na planszy.
+	 * The size of the vessel is the number of halves it occupies on the board.
 	 */
-	private int iRozmiar;
+	private int iSize;
 	/**
-	 * Tablica zawierajaca wspolrzedne poszczegolnych pol statku.
+	 * A table containing the co-ordinates of the various fields of the ship.
 	 */
-	private Position[] aWspolrzedne;
+	private Position[] aCoordenates;
 	/**
-	 * Tablica przechowujaca informacje o tym, czy poszczegolne pola statku zostaly trafione.
+	 * A table storing information whether or not individual ship positions have been hit.
 	 */
-	private boolean[] aTrafienia;
+	private boolean[] aHits;
 	/**
-	 * Ilosc trafionych pol statku.
+	 * Number of hits hit by the ship.
 	 */
-	private int iIloscTrafien;
+	private int iHitsQuantity;
 	/**
-	 * Konstruktor domyslny - tworzy nowy statek o podanym rozmiarze.
+	 * Default constructor - creates a new ship with the given Sizeze.
 	 * 
-	 * @param iRozmiar Ilosc pol, ktore statek zajmuje na planszy.
-	 * @param oPlansza Referencja do obiektu planszy, na ktorej ma byc umieszczony statek.
+	 * @param iSize The number of spaces the ship takes on board.
+	 * @param oBoard A reference to the board object where the ship is to be placed.
 	 */
-	public Ship(int iRozmiar, Board oPlansza)
+	public Ship(int iSize, Board oBoard)
 		{
-		this.oPlansza = oPlansza;
-		this.iRozmiar = iRozmiar;
-		aWspolrzedne = new Position[ iRozmiar ];
-		//wypelnienie tablicy wspolrzednych wartosciami domyslnymi (-1, -1)
-		for (int i = 0; i < iRozmiar; ++i)
+		this.oBoard = oBoard;
+		this.iSize = iSize;
+		aCoordenates = new Position[ iSize ];
+		//padding the coordinate table with default values ​​(-1, -1)
+		for (int i = 0; i < iSize; ++i)
 			{
-			aWspolrzedne[i] = new Position(2);
-			aWspolrzedne[i].setX(-1);
-			aWspolrzedne[i].setY(-1);
+			aCoordenates[i] = new Position(2);
+			aCoordenates[i].setX(-1);
+			aCoordenates[i].setY(-1);
 			}
-		aTrafienia = new boolean[ iRozmiar ];
-		for (int i = 0; i < iRozmiar; ++i)
-			aTrafienia[i] = false;
-		iIloscTrafien = 0;
+		aHits = new boolean[ iSize ];
+		for (int i = 0; i < iSize; ++i)
+			aHits[i] = false;
+		iHitsQuantity = 0;
 		}
 	/**
-	 * Wyswietlenie informacji o statku na standardowym wyjsciu.
+	 * Display information about the ship on the standard exit.
 	 */
 	@Override public String toString()
 		{
-		String sReturn = "Statek\n";
-		sReturn+= "Rozmiar: " + iRozmiar + "\n";
-		sReturn+= "Pozycja:";
-		for(Position oObj: aWspolrzedne)
+		String sReturn = "Ship\n";
+		sReturn+= "Size: " + iSize + "\n";
+		sReturn+= "Position:";
+		for(Position oObj: aCoordenates)
 			sReturn+= " " + oObj;
-		sReturn+= "\nTrafienia: [";
-		for(boolean bTrafienie: aTrafienia)
-			sReturn+= " " + bTrafienie;
+		sReturn+= "\nHits: [";
+		for(boolean bHit: aHits)
+			sReturn+= " " + bHit;
 		sReturn+= " ]";
 		return sReturn;
 		}
 	/**
-	 * Zwraca obiekt zawierajacy wspolrzedne pola o podanym numerze.
+	 * Returns an object containing co-ordinates position with the given number.
 	 * 
-	 * @param iNumerPola Numer pola ktorego wspolrzedne maja byc zwrocone (liczone od 1).
-	 * @return Wspolrzedne pola o podanym numerze.
-	 * @throws ParameterException Wyrzuca wyjatek, jesli numer pola jest mniejszy od 1, lub wiekszy od rozmiaru statku. 
+	 * @param iNumberFields 
+The position number whose co-ordinates are to be returned (counted from 1).
+	 * @return co-ordinates position with the given number.
+	 * @throws ParameterException Throws an exception if the position number is less than 1 or greater from Ship Size. 
 	 */
-	public Position getPole(int iNumerPola) throws ParameterException
+	public Position getField(int iNumberFields) throws ParameterException
 		{
-		if (iNumerPola > iRozmiar || iNumerPola <= 0)
-			throw new ParameterException("iNumerPola = " + iNumerPola);
-		return aWspolrzedne[ iNumerPola - 1 ];
+		if (iNumberFields > iSize || iNumberFields <= 0)
+			throw new ParameterException("iNumberFields = " + iNumberFields);
+		return aCoordenates[ iNumberFields - 1 ];
 		}
 	/**
-	 * Jesli na podanych wspolrzednych znajduje sie pole statku, metoda zwraca jego numer,
-	 * w przeciwnym wypadku zwraca 0.
+	 * If there is a ship field in the given coordinates, the method returns its number,
+	 * otherwise it returns 0.
 	 * 
-	 * @param iX Wspolrzedna X na planszy.
-	 * @param iY Wspolrzedna Y outna planszy.
-	 * @return Numer pola statku (liczone od 1).
-	 * @throws ParameterException Wyrzuca wyjatek, jesli podane wspolrzedne znajduje sie poza zakresem planszy.
+	 * @param iX Coordinate X in board.
+	 * @param iY Coordinate Y in board.
+	 * @return Ship position number (counted from 1).
+	 * @throws ParameterException Throws an exception if the given co-ordinates is outside the range of the board.
 	 */
-	public int getNumerPola(int iX, int iY) throws ParameterException
+	public int getNumberPosition(int iX, int iY) throws ParameterException
 		{
-		if (iX + 1 > oPlansza.getWidth() || iX < 0)
+		if (iX + 1 > oBoard.getWidth() || iX < 0)
 			throw new ParameterException("iX = " + iX);
-		if (iY + 1 > oPlansza.getHeight() || iY < 0)
+		if (iY + 1 > oBoard.getHeight() || iY < 0)
 			throw new ParameterException("iY = " + iY);
-		for (int i = 0; i < iRozmiar; ++i)
-			if (aWspolrzedne[i].getX() == iX && aWspolrzedne[i].getY() == iY)
+		for (int i = 0; i < iSize; ++i)
+			if (aCoordenates[i].getX() == iX && aCoordenates[i].getY() == iY)
 				return (i + 1);
 		return 0;
 		}
 	/**
-	 * Metoda zwraca rozmiar statku.
+	 * The method returns the Ship Size.
 	 * 
-	 * @return rozmiar statku.
+	 * @return Ship size.
 	 */
-	public int getRozmiar()
+	public int getSize()
 		{
-		return iRozmiar;
+		return iSize;
 		}
 	/**
-	 * Metoda zwraca ilosc trafionych pol statku.
+	 * The method returns the number of ship halves hit.
 	 * 
-	 * @return Ilosc trafionych pol.
+	 * @return Number of poles hit.
 	 */
-	public int getIloscTrafien()
+	public int getNumberOfHits()
 		{
-		return iIloscTrafien;
+		return iHitsQuantity;
 		}
 	/**
-	 * Metoda zwraca informacje, czy statek nie otrzymal zadnych trafien.
+	 * The method returns whether the ship has not received any hits.
 	 * 
-	 * @return Zwraca TRUE, jesli zadne z pol statku nie zostalo trafione, lub FALSE,
-	 * jesli jest conajmniej jedno trafienie.
+	 * @return Returns TRUE if neither half of the ship has been hit, or FALSE.
+	 * if there is at least one hit.
 	 */
-	public boolean getNietkniety()
+	public boolean getUntouched()
 		{
-		if (iIloscTrafien == 0)
+		if (iHitsQuantity == 0)
 			return true;
 		else
 			return false;
 		}
 	/**
-	 * Metoda zwraca informacje, czy statek zostal chociaz raz trafiony.
+	 * The method returns information whether the ship has been hit at least once.
 	 * 
-	 * @return Zwraca TRUE, jesli statek ma conajmniej jedno trafione pole, lub FALSE,
-	 * jesli wszystkie pola sa nietkniete.
+	 * @return Returns TRUE if the ship has at least one hit square, or FALSE,
+	 * if all positions are intact.
 	 */
-	public boolean getTrafiony()
+	public boolean getHits()
 		{
-		if (iIloscTrafien > 0)
+		if (iHitsQuantity > 0)
 			return true;
 		else
 			return false;
 		}
 	/**
-	 * Metoda zwraca informacje, czy statek zostal zatopiony, czyli wszystkie jego pola zostaly trafione.
+	 * The method returns information whether the ship has been sunk, i.e. all its positions have been hit.
 	 * 
-	 * @return Zwraca TRUE, jesli wszystkie pola statku zostaly trafione, lub FALSE,
-	 * jesli choc jedno pole pozostaje nietrafione.
+	 * @return Returns TRUE if all ship positions are hit, or FALSE,
+	 * if at least one square is missed.
 	 */
-	public boolean getZatopiony()
+	public boolean getSunk()
 		{
-		if (iIloscTrafien > 0 && iIloscTrafien == iRozmiar)
+		if (iHitsQuantity > 0 && iHitsQuantity == iSize)
 			return true;
 		else
 			return false;
 		}
 	/**
-	 * Metoda zwraca referencja obiektu planszy, na ktorej sie znajduje.
+	 * The method returns a reference of the board object it is on.
 	 * 
-	 * @return Board, na ktorej umieszczony jest statek.
+	 * @return The board where the ship is placed.
 	 */
-	public Board getPlansza()
+	public Board getBoard()
 		{
-		return oPlansza;
+		return oBoard;
 		}
 	/**
-	 * Pozwala ustawic wspolrzedne pola o podanym numerze.<br />
+	 * Allows you to set co-ordinates position with the given number. <br />
 	 * 
-	 * Metoda dba takze o to, aby na planszy odpowiednio oznaczyc zajmowane przez statek miejsca.
+	 * The method also ensures that the spaces occupied by the ship are properly marked on the board.
 	 * 
-	 * @param iNumerPola Numer pola statku (liczone od 1).
-	 * @param iX Wspolrzedna X na planszy (liczone od 0).
-	 * @param iY Wspolrzedna Y na planszy (liczone od 0).
-	 * @throws ParameterException Wyrzuca wyjatek, jesli numer pola jest poza zakresem pol statku,
-	 * gdy wspolrzedne znajduja sie poza zakresem planszy, lub gdy na danym polu planszy nie mozna umiescic statku
+	 * @param iNumberFields Numer position statku (counted from 1).
+	 * @param iX Coordinate X na board (counted from 0).
+	 * @param iY Coordinate Y na board (counted from 0).
+	 * @throws ParameterException Throws an exception if the position number is outside the range of the ship half,
+	 * when co-ordinates are outside the scope of the board, or when it is not possible to place a ship on the given board space
 	 */
-	public void setPole(int iNumerPola, int iX, int iY) throws ParameterException
+	public void setField(int iNumberFields, int iX, int iY) throws ParameterException
 		{
-		if (iNumerPola > iRozmiar)
-			throw new ParameterException("iNumerPola = " + iNumerPola);
-		if (iX + 1 > oPlansza.getWidth() || iX < -1)
+		if (iNumberFields > iSize)
+			throw new ParameterException("iNumberFields = " + iNumberFields);
+		if (iX + 1 > oBoard.getWidth() || iX < -1)
 			throw new ParameterException("iX = " + iX);
-		if (iY + 1 > oPlansza.getHeight() || iY < -1)
+		if (iY + 1 > oBoard.getHeight() || iY < -1)
 			throw new ParameterException("iY = " + iY);
-		if (iX >= 0 && iY >= 0 && oPlansza.getPole(iX, iY) != FieldTypeBoard.BOARD_FIELD_EMPTY)
+		if (iX >= 0 && iY >= 0 && oBoard.getField(iX, iY) != FieldTypeBoard.BOARD_FIELD_EMPTY)
 			throw new ParameterException("iX, iY - pole niepuste");
-		if (aWspolrzedne[ iNumerPola - 1].getX() == -1 && aWspolrzedne[ iNumerPola - 1 ].getY() == -1)
+		if (aCoordenates[ iNumberFields - 1].getX() == -1 && aCoordenates[ iNumberFields - 1 ].getY() == -1)
 			{
-			//pierwsze ustawienie wspolrzednych
+			//first coordinate setting
 			if (iX >= 0 && iY >= 0)
 				{
-				aWspolrzedne[ iNumerPola - 1 ].setX(iX);
-				aWspolrzedne[ iNumerPola - 1 ].setY(iY);
-				oPlansza.setPole(iX, iY, FieldTypeBoard.SHIP_BOARD);
+				aCoordenates[ iNumberFields - 1 ].setX(iX);
+				aCoordenates[ iNumberFields - 1 ].setY(iY);
+				oBoard.setField(iX, iY, FieldTypeBoard.SHIP_BOARD);
 				}
 			}
 		else
 			{
-			//pole juz ma ustawione wspolrzedne
-			//zerowanie wspolrzednych
-			oPlansza.setPole(aWspolrzedne[ iNumerPola - 1 ].getX(), aWspolrzedne[ iNumerPola - 1 ].getY(), FieldTypeBoard.BOARD_FIELD_EMPTY);
-			aWspolrzedne[ iNumerPola - 1 ].setX(-1);
-			aWspolrzedne[ iNumerPola - 1 ].setY(-1);
-			//ponowne wywolanie metody
-			setPole(iNumerPola, iX, iY);
+			//the field already has co-ordinates set
+			//resetting the coordinates
+			oBoard.setField(aCoordenates[ iNumberFields - 1 ].getX(), aCoordenates[ iNumberFields - 1 ].getY(), FieldTypeBoard.BOARD_FIELD_EMPTY);
+			aCoordenates[ iNumberFields - 1 ].setX(-1);
+			aCoordenates[ iNumberFields - 1 ].setY(-1);
+			//resetting the coordinates
+			setField(iNumberFields, iX, iY);
 			}
 		}
 	/**
-	 * Metoda ustawia wspolrzedne wszystkich pol statku na poczatkowe wartosci domyslne (-1, -1).
+	 * The method sets the co-ordinates of all half of the ship to the initial default Values ​​(-1, -1).
 	 */
-	public void resetujPola()
+	public void resetFields()
 		{
 		try
 			{
-			for (int i = 1; i <= iRozmiar; ++i)
-				setPole(i, -1, -1);
+			for (int i = 1; i <= iSize; ++i)
+				setField(i, -1, -1);
 			}
 		catch (ParameterException e)
 			{
@@ -228,57 +229,57 @@ public class Ship
 			}
 		}
 	/**
-	 * Metoda sprawdza czy strzal na podane wspolrzedne jest celny.<br />
+	 * The method checks if the shot for the given co-ordinates is accurate. <br />
 	 * 
-	 * Jesli tak, oznacza pole statku, jako trafione i zwraca TRUE,
-	 * w przeciwnym wypadku zwraca FALSE.<br />
+	 * If so, marks the ship's space as hit and returns TRUE.
+	 * otherwise it returns FALSE. <br />
 	 * 
-	 * Metoda dba takze o prawidlowe oznaczenie ostrzeliwanych pol na planszy.<br />
+	 * The method also ensures the correct marking of the shot fields on the board. <br />
 	 * 
-	 * @param iX Wspolrzedna X strzalu.
-	 * @param iY Wspolrzedna Y strzalu.
-	 * @return Zwraca TRUE w przypadku trafienia, lub FALSE, jesli strzal byl niecelny.
-	 * @throws ParameterException Wyrzuca wyjatek, jesli podane wspolrzedne znajduja sie poza zakresem planszy.
+	 * @param iX Coordinate X shot.
+	 * @param iY Coordinate Y shot.
+	 * @return Returns TRUE for a hit, or FALSE if the shot was missed.
+	 * @throws ParameterException Throws an exception if the co-ordinates given are outside the scope of the board.
 	 */
-	public boolean strzal(int iX, int iY) throws ParameterException
+	public boolean shot(int iX, int iY) throws ParameterException
 		{
-		if (iX < 0 || iX >= oPlansza.getWidth())
+		if (iX < 0 || iX >= oBoard.getWidth())
 			throw new ParameterException("iX = " + iX);
-		if (iY < 0 || iY >= oPlansza.getHeight())
+		if (iY < 0 || iY >= oBoard.getHeight())
 			throw new ParameterException("iY = " + iY);
 		try
 			{
-			for (int i = 0; i < iRozmiar; ++i)
-				if (aWspolrzedne[i].getX() == iX && aWspolrzedne[i].getY() == iY && aTrafienia[i] == false)
+			for (int i = 0; i < iSize; ++i)
+				if (aCoordenates[i].getX() == iX && aCoordenates[i].getY() == iY && aHits[i] == false)
 					{
-					//nastapilo trafienie
-					aTrafienia[i] = true;
-					++iIloscTrafien;
-					oPlansza.setPole(iX, iY, FieldTypeBoard.CUSTOMS_SHOT_BOARD);
-					if (getZatopiony() == true)
+					//there was a hit
+					aHits[i] = true;
+					++iHitsQuantity;
+					oBoard.setField(iX, iY, FieldTypeBoard.CUSTOMS_SHOT_BOARD);
+					if (getSunk() == true)
 						{
-						//oznaczenie pol sasiadujacych ze statkiem jako niedostepne
-						for (int j = 1; j <= iRozmiar; ++j)
+						//marking the fields adjacent to the ship as unavailable
+						for (int j = 1; j <= iSize; ++j)
 							{
-							Position oPole = getPole(j);
+							Position oField = getField(j);
 							for (int k = -1; k <= 1; ++k)
 								for (int l = -1; l <= 1; ++l)
 									{
-									Position oSasiedniePole = new Position(2);
-									oSasiedniePole.setX(oPole.getX() + k);
-									oSasiedniePole.setY(oPole.getY() + l);
-									if (oSasiedniePole.getX() < 0 || oSasiedniePole.getX() >= oPlansza.getWidth()
-										|| oSasiedniePole.getY() < 0 || oSasiedniePole.getY() >= oPlansza.getHeight()
+									Position oAdjacentField = new Position(2);
+									oAdjacentField.setX(oField.getX() + k);
+									oAdjacentField.setY(oField.getY() + l);
+									if (oAdjacentField.getX() < 0 || oAdjacentField.getX() >= oBoard.getWidth()
+										|| oAdjacentField.getY() < 0 || oAdjacentField.getY() >= oBoard.getHeight()
 										)
 										continue;
-									if (oPlansza.getPole(oSasiedniePole.getX(), oSasiedniePole.getY()) == FieldTypeBoard.BOARD_FIELD_EMPTY)
-										oPlansza.setPole(oSasiedniePole.getX(), oSasiedniePole.getY(), FieldTypeBoard.BOARD_FIELD_UNAVAILABLE);
+									if (oBoard.getField(oAdjacentField.getX(), oAdjacentField.getY()) == FieldTypeBoard.BOARD_FIELD_EMPTY)
+										oBoard.setField(oAdjacentField.getX(), oAdjacentField.getY(), FieldTypeBoard.BOARD_FIELD_UNAVAILABLE);
 									}
 							}
 						}
 					return true;
 					}
-			oPlansza.setPole(iX, iY, FieldTypeBoard.BOARD_SHOT_FALSE);
+			oBoard.setField(iX, iY, FieldTypeBoard.BOARD_SHOT_FALSE);
 			return false;
 			}
 		catch (ParameterException e)
@@ -287,14 +288,14 @@ public class Ship
 			}
 		}
 	/**
-	 * metoda zwraca informacje, czy statek jest zatopiony
+	 * the method returns whether the ship is sunk
 	 * 
-	 * @deprecated zastapiana przez metode {@link #getZatopiony()}
-	 * @return zwraca TRUE, jesli statek jest zatopiony, lub FALSE w przeciwnym wypadku
+	 * @deprecated replaced by method {@link #getSunk()}
+	 * @return returns TRUE if the ship is sunk, FALSE otherwise
 	 */
-	public boolean czyZatopiony()
+	public boolean isSunken()
 		{
-		if (iRozmiar > iIloscTrafien)
+		if (iSize > iHitsQuantity)
 			return false;
 		else
 			return true;

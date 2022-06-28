@@ -5,62 +5,63 @@ import pl.vgtworld.exceptions.DeveloperException;
 import pl.vgtworld.tools.Position;
 
 /**
- * Klasa sprawdzajaca, czy statek spelnia rozne warunki
- * odnosnie jego struktury, czy rozmieszczenia na planszy.<br />
- * 
+ * A class that checks whether a ship meets various conditions
+ * regarding its structure or placement on the board. <br />
+ *
  * <p>
- * aktualizacje:<br />
- * 1.1<br />
- * - dodanie parametru bProsteLinie do metody {@link #polaPolaczone(boolean)}.<br />
+ * updates: <br />
+ * 1.1 <br />
+ * - added bStraightLines parameter to {@link #fieldsConnected (boolean)} method. <br />
  * </p>
- * 
+ *
  * @author VGT
  * @version 1.1
  */
 public class ShipVerification
 	{
 	/**
-	 * Obiekt statku, ktory bedzie weryfikowany.
+	 * Ship facility to be verified.
 	 */
-	private Ship oStatek;
+	private Ship oShip;
 	/**
-	 * Board, na ktorej znajduje sie weryfikowany statek.
+	 * Board on which the ship has been verified.
+
 	 */
-	private Board oPlansza;
+	private Board oBoard;
 	/**
-	 * Konstruktor domyslny.
+	 * Default constructor.
 	 */
 	public ShipVerification()
 		{
-		oStatek = null;
-		oPlansza = null;
+		oShip = null;
+		oBoard = null;
 		}
 	/**
-	 * Import statku, dla ktorego maja byc wykonywane testy.
+	 * Import of the vessel for which the tests are to be performed.
 	 * 
-	 * @param oStatek Obiekt statku do testow.
+	 * @param oShip Ship facility for testing.
 	 */
-	public void importujStatek(Ship oStatek)
+	public void importShip(Ship oShip)
 		{
-		this.oStatek = oStatek;
-		oPlansza = oStatek.getPlansza();
+		this.oShip = oShip;
+		oBoard = oShip.getBoard();
 		}
 	/**
-	 * Metoda sprawdza, czy wszystkie pola statku znajduja sie na planszy.
+	 * The method checks if all of the ship's positions are on the board.
 	 * 
-	 * @return Zwraca TRUE jesli statek w calosci jest na planszy, lub FALSE w przeciwnym wypadku.
+	 * @return Returns TRUE if the ship is fully boarded, FALSE otherwise.
 	 */
-	public boolean polaNaPlanszy()
+	public boolean spacesOnBoard()
 		{
-		if (oStatek == null)
-			throw new DeveloperException("obiekt statku niezaimportowany");
+		if (oShip == null)
+			throw new DeveloperException("Ship item not imported");
 		try
 			{
-			for (int i = 1; i <= oStatek.getRozmiar(); ++i)
+			for (int i = 1; i <= oShip.getSize(); ++i)
 				{
-				Position oPole = oStatek.getPole(i);
-				if (oPole.getX() == -1 || oPole.getX() >= oPlansza.getWidth()
-					|| oPole.getY() == -1 || oPole.getY() >= oPlansza.getHeight()
+				Position oField = oShip.getField(i);
+				if (oField.getX() == -1 || oField.getX() >= oBoard.getWidth()
+					|| oField.getY() == -1 || oField.getY() >= oBoard.getHeight()
 					)
 					return false;
 				}
@@ -74,82 +75,82 @@ public class ShipVerification
 	/**
 	 * @deprecated
 	 */
-	public boolean polaPolaczone()
+	public boolean fieldsConnected()
 		{
-		return polaPolaczone(false);
+		return fieldsConnected(false);
 		}
 	/**
-	 * Metoda sprawdza, czy wszystkie pola danego statku tworza jednolita strukture
-	 * (stykaja sie krawedziami i nie tworza dwoch lub wiecej niepolaczonych obszarow na planszy).<br />
-	 * 
-	 * aktualizacje:<br />
-	 * 
-	 * 1.1 - dodanie pierwszego parametru
-	 * 
-	 * @param bProsteLinie Okresla, czy pola musza byc w jednej linii pionowej lub poziomej.
-	 * @return Zwraca TRUE, jesli statek jest prawidlowo zbudowany, lub FALSE w przeciwnym wypadku.
+	 * The method checks if all positions of a given vessel form a uniform structure
+	 * (they touch the edges and do not form two or more unconnected areas on the board) <br />
+	 *
+	 * updates: <br />
+	 *
+	 * 1.1 - adding the first parameter
+	 *
+	 * @param bStraightLines Specifies whether positions must be on a single vertical or horizontal line.
+	 * @return Returns TRUE if the ship is properly constructed, FALSE otherwise.
 	 */
-	public boolean polaPolaczone(boolean bProsteLinie)
+	public boolean fieldsConnected(boolean bStraightLines)
 		{
-		if (oStatek == null)
-			throw new DeveloperException("obiekt statku niezaimportowany");
+		if (oShip == null)
+			throw new DeveloperException("Ship item not imported");
 		try
 			{
-			int iIloscPrawidlowych = 0;
-			boolean[] aPrawidlowe = new boolean[ oStatek.getRozmiar() ];
-			for (int i = 0; i < oStatek.getRozmiar(); ++i)
-				aPrawidlowe[i] = false;
-			//pierwsze pole statku prawidlowe z automatu
-			++iIloscPrawidlowych;
-			aPrawidlowe[0] = true;
-			boolean bZmiany = true;
-			//petla wykonujaca sie dopoki nastepuja jakies zmiany w ilosci prawidlowych pol
-			while (bZmiany == true)
+			int iQuantityValid = 0;
+			boolean[] aCorrect = new boolean[ oShip.getSize() ];
+			for (int i = 0; i < oShip.getSize(); ++i)
+				aCorrect[i] = false;
+			// the first field of the ship valid from the automat
+			++iQuantityValid;
+			aCorrect[0] = true;
+			boolean bChanges = true;
+			// loop running until there are any changes to the number of valid fields
+			while (bChanges == true)
 				{
-				bZmiany = false;
-				for (int i = 0; i < oStatek.getRozmiar(); ++i)
-					if (aPrawidlowe[i] == true)
+				bChanges = false;
+				for (int i = 0; i < oShip.getSize(); ++i)
+					if (aCorrect[i] == true)
 						{
-						Position oPolePrawidlowe = oStatek.getPole(i+1);
+						Position oValidField = oShip.getField(i+1);
 						for (int j = -1; j <= 1; ++j)
 							for (int k = -1; k <= 1; ++k)
 								{
-								if (oPolePrawidlowe.getX() + j < 0 || oPolePrawidlowe.getX() + j >= oPlansza.getWidth()
-									|| oPolePrawidlowe.getY() + k < 0 || oPolePrawidlowe.getY() + k >= oPlansza.getHeight()
+								if (oValidField.getX() + j < 0 || oValidField.getX() + j >= oBoard.getWidth()
+									|| oValidField.getY() + k < 0 || oValidField.getY() + k >= oBoard.getHeight()
 									)
 									continue;
-								int iNumerPola = oStatek.getNumerPola(oPolePrawidlowe.getX() + j, oPolePrawidlowe.getY() + k);
-								if (iNumerPola > 0 && aPrawidlowe[iNumerPola - 1] == false)
+								int iNumberFields = oShip.getNumberPosition(oValidField.getX() + j, oValidField.getY() + k);
+								if (iNumberFields > 0 && aCorrect[iNumberFields - 1] == false)
 									{
-									bZmiany = true;
-									++iIloscPrawidlowych;
-									aPrawidlowe[iNumerPola - 1] = true;
+									bChanges = true;
+									++iQuantityValid;
+									aCorrect[iNumberFields - 1] = true;
 									}
 								}
 						}
 				}
 			
-			if (iIloscPrawidlowych == oStatek.getRozmiar())
+			if (iQuantityValid == oShip.getSize())
 				{
-				//dodatkowe sprawdzenie, czy pola tworza linie, jesli wymagane
-				if (bProsteLinie == true)
+				// further checking if position is making lines if required
+				if (bStraightLines == true)
 					{
 					int iX = -1;
 					int iY = -1;
-					boolean bPoziom = true;
-					boolean bPion = true;
-					for (int i = 1; i <= iIloscPrawidlowych; ++i)
+					boolean bLevel = true;
+					boolean bVertical = true;
+					for (int i = 1; i <= iQuantityValid; ++i)
 						{
 						if (iX == -1)
-							iX = oStatek.getPole(i).getX();
-						else if (iX != oStatek.getPole(i).getX())
-							bPoziom = false;
+							iX = oShip.getField(i).getX();
+						else if (iX != oShip.getField(i).getX())
+							bLevel = false;
 						if (iY == -1)
-							iY = oStatek.getPole(i).getY();
-						else if (iY != oStatek.getPole(i).getY())
-							bPion = false;
+							iY = oShip.getField(i).getY();
+						else if (iY != oShip.getField(i).getY())
+							bVertical = false;
 						}
-					if (bPoziom == true || bPion == true)
+					if (bLevel == true || bVertical == true)
 						return true;
 					else
 						return false;
@@ -166,32 +167,32 @@ public class ShipVerification
 			}
 		}
 	/**
-	 * Metoda sprawdza, czy ktorekolwiek pole statku styka sie z innym statkiem.
+	 * The method checks if any of a ship's square is in contact with another ship.
 	 * 
-	 * @return Zwraca FALSE, jesli wystapilo zetkniecie z innym statkiem, lub TRUE w przeciwnym wypadku. 
+	 * @return Returns FALSE if there is a contact with another ship, or TRUE otherwise.
 	 */
-	public boolean brakSasiadow()
+	public boolean NoNeighbors()
 		{
-		if (oStatek == null)
-			throw new DeveloperException("obiekt statku niezaimportowany");
+		if (oShip == null)
+			throw new DeveloperException("Ship item not imported");
 		try
 			{
-			for (int i = 1; i <= oStatek.getRozmiar(); ++i)
+			for (int i = 1; i <= oShip.getSize(); ++i)
 				{
-				Position oPole = oStatek.getPole(i);
+				Position oField = oShip.getField(i);
 				for (int j = -1; j <= 1; ++j)
 					for (int k = -1; k <=1; ++k)
 						{
-						Position oSasiedniePole = new Position(2);
-						oSasiedniePole.setX(oPole.getX() + j);
-						oSasiedniePole.setY(oPole.getY() + k);
-						//odrzucenie sprawdzania pol, ktore laduja poza zakresem planszy
-						if (oSasiedniePole.getX() < 0 || oSasiedniePole.getX() >= oPlansza.getWidth()
-							|| oSasiedniePole.getY() < 0 || oSasiedniePole.getY() >= oPlansza.getHeight()
+						Position oAdjacentField = new Position(2);
+						oAdjacentField.setX(oField.getX() + j);
+						oAdjacentField.setY(oField.getY() + k);
+						// reject checking any fields that are loading outside the scope board
+						if (oAdjacentField.getX() < 0 || oAdjacentField.getX() >= oBoard.getWidth()
+							|| oAdjacentField.getY() < 0 || oAdjacentField.getY() >= oBoard.getHeight()
 							)
 							continue;
-						if (oPlansza.getPole(oSasiedniePole.getX(), oSasiedniePole.getY()) == FieldTypeBoard.SHIP_BOARD
-							&& oStatek.getNumerPola(oSasiedniePole.getX(), oSasiedniePole.getY()) == 0
+						if (oBoard.getField(oAdjacentField.getX(), oAdjacentField.getY()) == FieldTypeBoard.SHIP_BOARD
+							&& oShip.getNumberPosition(oAdjacentField.getX(), oAdjacentField.getY()) == 0
 							)
 							return false;
 						}

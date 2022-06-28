@@ -98,12 +98,26 @@ This are the tech stack and tools utilized to develop this project:
     📜 Code documentation
 </h2>
 
-This are the main classes and its funcionalities to the project
+This section explain classes, files and structure of this game.
 
 </br>
-ships - Consists in the mai functional side of the project
 
-ships.ai - This is the class that cares about the oponnents AI
+📂 [components](vgt-battleships-code-r57-trunk/src/pl/vgtworld/components) - Mouse listener function (responsible to capture mouse input).
+
+📂 [tools](vgt-battleships-code-r57-trunk/src/pl/vgtworld/tools) - Position (Position the desired objects on screen ).
+
+📂 [exceptions](vgt-battleships-code-r57-trunk/src/pl/vgtworld/exceptions) - Exceptions and errors handlers functions.
+
+📂 [games/ships/ai](vgt-battleships-code-r57-trunk/src/pl/vgtworld/games/ship/ai) - Computer AI files (Each file describes the strategy of IA player)
+
+📂 [games/img](vgt-battleships-code-r57-trunk/src/pl/vgtworld/games/ship/img) - Folder for game assets
+
+📂 [games/lang](vgt-battleships-code-r57-trunk/src/pl/vgtworld/games/ship/lang) - Languages files (.lang)
+
+📂 [games/components](vgt-battleships-code-r57-trunk/src/pl/vgtworld/games/ship/components) - Games components and game events folder
+
+📝 [games/*](vgt-battleships-code-r57-trunk/src/pl/vgtworld/games/ship) (All files inside this root folder ) - Each file name auto-explain its pourpose
+
 
 ---
 
